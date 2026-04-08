@@ -1,0 +1,27 @@
+/**
+ * Desktop project picker row arrow — hover/focus only (no layout shift).
+ * Scoped to CaseStudyRow; does not affect other site arrows.
+ */
+.caseRow {
+  /* Row anchor for :hover / :focus-visible arrow visibility */
+}
+
+.caseRowArrow {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity var(--motion-duration-02) var(--motion-easing-standard),
+    transform var(--motion-duration-02) var(--motion-easing-standard);
+}
+
+.caseRow:hover .caseRowArrow,
+.caseRow:focus-visible .caseRowArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
