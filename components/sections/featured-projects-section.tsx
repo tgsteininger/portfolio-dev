@@ -1,8 +1,11 @@
 "use client"
 
+import { useCallback, useState } from "react"
+import type { FocusEvent, MouseEvent } from "react"
 import { Section, Container, Grid } from "@/components/layout"
 import Link from "next/link"
 import { ArrowDown, ArrowUp } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 /**
  * Project data type for FeaturedProjectsSection
@@ -68,11 +71,54 @@ const featuredProjects: Project[] = [
   },
 ]
 
+/** Selected Work `article`: sole source of card surface motion (transform + shadow). */
+const CARD_SURFACE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
+const CARD_SURFACE_TRANSFORM_DURATION = "700ms"
+const CARD_SURFACE_SHADOW_DURATION = "760ms"
+
+/** Metric underline: fill animates on pointer hover only (independent of elevation / `isEmphasized`). */
+const METRIC_UNDERLINE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
+const METRIC_UNDERLINE_DURATION = "570ms"
+
+const SELECTED_WORK_CARD_SELECTOR = "[data-selected-work-card]"
+
+function pointerEnteredAnotherSelectedWorkCard(relatedTarget: EventTarget | null) {
+  return (
+    relatedTarget instanceof Element &&
+    relatedTarget.closest(SELECTED_WORK_CARD_SELECTOR) != null
+  )
+}
+
 /**
  * FeaturedProjectsSection - Grid of featured case studies.
  * Matches Figma design with hero images, tags, metrics, and structured layout.
  */
 export function FeaturedProjectsSection() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const resetToDefaultEmphasis = useCallback(() => {
+    setActiveIndex(0)
+  }, [])
+
+  /** When leaving a card: reset unless the pointer/focus moved onto another Selected Work card (any column / reflow). */
+  const handleCardLeaveForEmphasis = useCallback(
+    (e: MouseEvent<HTMLAnchorElement> | FocusEvent<HTMLAnchorElement>) => {
+      if (pointerEnteredAnotherSelectedWorkCard(e.relatedTarget)) return
+      resetToDefaultEmphasis()
+    },
+    [resetToDefaultEmphasis]
+  )
+
+  /** When the pointer leaves the whole grid (e.g. gap → outside), ensure emphasis returns to default. */
+  const handleGridMouseLeave = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const next = e.relatedTarget
+      if (next instanceof Node && e.currentTarget.contains(next)) return
+      resetToDefaultEmphasis()
+    },
+    [resetToDefaultEmphasis]
+  )
+
   return (
     <Section id="featured-projects">
       <Container>
@@ -90,9 +136,22 @@ export function FeaturedProjectsSection() {
         </h2>
 
         {/* Projects Grid - 3 columns on desktop, 2 on tablet, 1 on mobile */}
-        <Grid cols={3} gap="lg">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+        <Grid
+          cols={3}
+          gap="lg"
+          className="items-stretch"
+          onMouseLeave={handleGridMouseLeave}
+        >
+          {featuredProjects.map((project, index) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              isEmphasized={activeIndex === index}
+              isDefaultFeatured={index === 0}
+              onCardHover={() => setActiveIndex(index)}
+              onCardMouseLeave={handleCardLeaveForEmphasis}
+              onCardBlur={handleCardLeaveForEmphasis}
+            />
           ))}
         </Grid>
       </Container>
@@ -101,22 +160,77 @@ export function FeaturedProjectsSection() {
 }
 
 /**
- * ProjectCard - Individual project card component
+ * ProjectCard - Surfaced card; featured state from parent (default index 0) or hover.
  */
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  isEmphasized,
+  isDefaultFeatured,
+  onCardHover,
+  onCardMouseLeave,
+  onCardBlur,
+}: {
+  project: Project
+  isEmphasized: boolean
+  /** First card: lower resting elevation; full elevation + lift only while pointer is over this card. */
+  isDefaultFeatured: boolean
+  onCardHover: () => void
+  onCardMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => void
+  onCardBlur: (e: FocusEvent<HTMLAnchorElement>) => void
+}) {
+  const [isPointerOverCard, setIsPointerOverCard] = useState(false)
+
+  const isFeaturedResting =
+    isEmphasized && isDefaultFeatured && !isPointerOverCard
+
   return (
     <Link
       href={`/case-studies/${project.slug}`}
-      className="group block transition-fast focus-visible:focus-ring-standard outline-none rounded-[var(--radius-04)]"
+      data-selected-work-card
+      onMouseEnter={() => {
+        setIsPointerOverCard(true)
+        onCardHover()
+      }}
+      onMouseLeave={(e) => {
+        setIsPointerOverCard(false)
+        onCardMouseLeave(e)
+      }}
+      onFocus={onCardHover}
+      onBlur={onCardBlur}
+      className={cn(
+        "group block h-full min-h-0 outline-none rounded-[var(--radius-04)] focus-visible:focus-ring-standard",
+        isEmphasized && "relative z-[1]"
+      )}
     >
-      <article className="flex flex-col h-full">
-        {/* Hero Image with Overlay */}
-        <div 
-          className="relative overflow-hidden transition-standard group-hover:shadow-[var(--elevation-02)] group-hover:-translate-y-1 group-active:translate-y-0 group-active:shadow-[var(--elevation-01)]"
+      <article
+        className={cn(
+          "flex h-full min-h-0 flex-col overflow-hidden rounded-[var(--radius-04)]",
+          "border border-[var(--color-border-subtle)] bg-[var(--color-bg-surface)]",
+          "will-change-transform motion-reduce:will-change-auto"
+        )}
+        style={{
+          transform: !isEmphasized
+            ? "translateY(0px) scale(0.99)"
+            : isFeaturedResting
+              ? "translateY(0px) scale(1.015)"
+              : "translateY(-4px) scale(1.015)",
+          boxShadow: !isEmphasized
+            ? "var(--elevation-01)"
+            : isFeaturedResting
+              ? "var(--elevation-02)"
+              : "var(--elevation-03)",
+          transitionProperty: "transform, box-shadow",
+          transitionDuration: `${CARD_SURFACE_TRANSFORM_DURATION}, ${CARD_SURFACE_SHADOW_DURATION}`,
+          transitionTimingFunction: `${CARD_SURFACE_EASE}, ${CARD_SURFACE_EASE}`,
+        }}
+      >
+        {/* Hero: full-bleed to card edges; top radii match card (article overflow clips) */}
+        <div
+          className="relative w-full shrink-0 overflow-hidden"
           style={{
-            aspectRatio: "16 / 10",
-            borderRadius: "var(--radius-04)",
-            marginBottom: "var(--space-05)",
+            aspectRatio: "3 / 2",
+            borderTopLeftRadius: "var(--radius-04)",
+            borderTopRightRadius: "var(--radius-04)",
           }}
         >
           {/* Dark gradient background */}
@@ -219,25 +333,34 @@ function ProjectCard({ project }: { project: Project }) {
           </div>
         </div>
 
-        {/* Tags */}
-        <div 
-          className="flex flex-wrap"
+        <div
+          className="flex min-h-0 flex-1 flex-col"
           style={{
-            gap: "var(--space-02)",
-            marginBottom: "var(--space-04)",
+            paddingInline: "var(--space-06)",
+            paddingBlock: "var(--space-06)",
           }}
+        >
+        {/* Tags */}
+        <div
+          className="flex flex-wrap gap-[var(--space-03)]"
+          style={{ marginBottom: "var(--space-06)" }}
         >
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="clr-text-secondary"
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
                 fontSize: "var(--text-caption)",
                 fontFamily: "var(--font-ui)",
                 fontWeight: 500,
-                padding: "var(--space-02) var(--space-03)",
-                background: "var(--color-bg-surface-subtle)",
-                border: "var(--stroke-01) solid var(--color-border-subtle)",
+                lineHeight: "var(--leading-tight)",
+                paddingBlock: "var(--space-02)",
+                paddingInline: "var(--space-04)",
+                minHeight: "calc(1lh + var(--space-02) + var(--space-02))",
+                color: "var(--color-blue-grey-500)",
+                backgroundColor: "var(--color-neutral-100)",
                 borderRadius: "var(--radius-02)",
               }}
             >
@@ -247,13 +370,16 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
 
         {/* Project Title */}
-        <h3 
-          className="font-heading clr-text-primary transition-standard group-hover:clr-text-accent"
+        <h3
+          className="font-heading clr-text-primary group-hover:clr-text-accent motion-reduce:transition-none"
           style={{
             fontSize: "var(--text-heading-04)",
             fontWeight: 600,
             letterSpacing: "-0.01em",
-            marginBottom: "var(--space-02)",
+            marginBottom: "var(--space-01)",
+            transitionProperty: "color",
+            transitionDuration: CARD_SURFACE_TRANSFORM_DURATION,
+            transitionTimingFunction: CARD_SURFACE_EASE,
           }}
         >
           {project.projectTitle}
@@ -265,7 +391,7 @@ function ProjectCard({ project }: { project: Project }) {
           style={{
             fontSize: "var(--text-body-sm)",
             fontFamily: "var(--font-body)",
-            marginBottom: "var(--space-04)",
+            marginBottom: "var(--space-06)",
           }}
         >
           {project.company}
@@ -273,12 +399,12 @@ function ProjectCard({ project }: { project: Project }) {
 
         {/* Description */}
         <p 
-          className="clr-text-secondary"
+          className="clr-text-secondary min-w-0"
           style={{
             fontSize: "var(--text-body-sm)",
             fontFamily: "var(--font-body)",
-            lineHeight: 1.6,
-            marginBottom: "var(--space-05)",
+            lineHeight: "var(--leading-relaxed)",
+            marginBottom: 0,
           }}
         >
           Enterprise Survey & Benchmarking CMS for global bottling operations. 
@@ -286,81 +412,100 @@ function ProjectCard({ project }: { project: Project }) {
           content architecture and role-based governance.
         </p>
 
-        {/* Divider */}
-        <div 
-          style={{
-            width: "var(--space-08)",
-            height: "var(--stroke-02)",
-            background: "var(--color-border-default)",
-            marginBottom: "var(--space-04)",
-          }}
-        />
-
-        {/* Metrics */}
-        <div 
-          className="flex flex-col mt-auto"
-          style={{ gap: "var(--space-02)" }}
+        {/* Metric block: anchored toward card bottom; underline + metrics stay grouped */}
+        <div
+          className="mt-auto flex w-full min-w-0 flex-col"
+          style={{ paddingTop: "var(--space-07)" }}
         >
-          {project.metrics.map((metric, index) => (
-            <div 
-              key={index}
-              className="flex items-start"
-              style={{ gap: "var(--space-02)" }}
-            >
-              {metric.direction === "down" ? (
-                <ArrowDown 
-                  style={{ 
-                    width: "var(--icon-sm)", 
-                    height: "var(--icon-sm)",
-                    color: "var(--color-blue-700)",
-                    marginTop: "2px",
-                    flexShrink: 0,
-                  }} 
-                />
-              ) : (
-                <ArrowUp 
-                  style={{ 
-                    width: "var(--icon-sm)", 
-                    height: "var(--icon-sm)",
-                    color: "var(--color-blue-700)",
-                    marginTop: "2px",
-                    flexShrink: 0,
-                  }} 
-                />
-              )}
+          {/* Metric underline: neutral track + fill expands on pointer hover only (not default `isEmphasized`) */}
+          <div aria-hidden className="w-full" style={{ marginBottom: "var(--space-05)" }}>
+            <div className="relative w-full" style={{ height: "var(--stroke-02)" }}>
+              <div
+                className="absolute inset-0"
+                style={{ backgroundColor: "var(--color-border-subtle)" }}
+              />
+              <div
+                className="absolute top-0 bottom-0 left-0 max-w-full rounded-[1px] motion-reduce:transition-none"
+                style={{
+                  width: isPointerOverCard ? "75%" : "var(--space-09)",
+                  backgroundColor: isPointerOverCard
+                    ? "var(--color-cyan-500)"
+                    : "var(--color-cyan-200)",
+                  transitionProperty: "width, background-color",
+                  transitionDuration: `${METRIC_UNDERLINE_DURATION}, ${METRIC_UNDERLINE_DURATION}`,
+                  transitionTimingFunction: `${METRIC_UNDERLINE_EASE}, ${METRIC_UNDERLINE_EASE}`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Metrics */}
+          <div
+            className="flex flex-col"
+            style={{ gap: "var(--space-03)" }}
+          >
+            {project.metrics.map((metric, index) => (
+              <div
+                key={index}
+                className="flex items-start"
+                style={{ gap: "var(--space-02)" }}
+              >
+                {metric.direction === "down" ? (
+                  <ArrowDown
+                    style={{
+                      width: "var(--icon-sm)",
+                      height: "var(--icon-sm)",
+                      color: "var(--color-blue-500)",
+                      marginTop: "2px",
+                      flexShrink: 0,
+                    }}
+                  />
+                ) : (
+                  <ArrowUp
+                    style={{
+                      width: "var(--icon-sm)",
+                      height: "var(--icon-sm)",
+                      color: "var(--color-blue-500)",
+                      marginTop: "2px",
+                      flexShrink: 0,
+                    }}
+                  />
+                )}
+                <p
+                  className="clr-text-primary"
+                  style={{
+                    fontSize: "var(--text-body-sm)",
+                    fontFamily: "var(--font-body)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 600,
+                      color: "var(--color-blue-500)",
+                    }}
+                  >
+                    {metric.value}
+                  </span>
+                  {" "}
+                  {metric.label}
+                </p>
+              </div>
+            ))}
+          
+            {/* Additional outcome */}
+            {project.additionalOutcome && (
               <p 
-                className="clr-text-primary"
+                className="clr-text-secondary"
                 style={{
                   fontSize: "var(--text-body-sm)",
                   fontFamily: "var(--font-body)",
                 }}
               >
-                <span 
-                  style={{ 
-                    fontWeight: 600,
-                    color: "var(--color-blue-700)",
-                  }}
-                >
-                  {metric.value}
-                </span>
-                {" "}{metric.label}
+                {project.additionalOutcome}
               </p>
-            </div>
-          ))}
-          
-          {/* Additional outcome */}
-          {project.additionalOutcome && (
-            <p 
-              className="clr-text-secondary"
-              style={{
-                fontSize: "var(--text-body-sm)",
-                fontFamily: "var(--font-body)",
-                marginTop: "var(--space-01)",
-              }}
-            >
-              {project.additionalOutcome}
-            </p>
-          )}
+            )}
+          </div>
+        </div>
         </div>
       </article>
     </Link>

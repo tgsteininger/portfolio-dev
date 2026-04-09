@@ -96,11 +96,15 @@
   --motion-duration-03: 300ms;
   --motion-duration-04: 400ms;
   --motion-duration-05: 600ms;
+  --motion-duration-06: 700ms;
+  --motion-duration-07: 760ms;
 
   --motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --motion-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /* Editorial / surface motion (Synthesis UI premium ease-out) */
+  --motion-easing-premium: cubic-bezier(0.22, 1, 0.36, 1);
 
   --motion-distance-01: 4px;
   --motion-distance-02: 8px;
@@ -122,6 +126,18 @@
   --color-neutral-700: #262626;
   --color-neutral-800: #111417;
   --color-neutral-900: #0C0F12;
+
+  /* Blue-grey scale (Synthesis foundation — labels, badges, secondary chrome) */
+  --color-blue-grey-50: #F5F7F8;
+  --color-blue-grey-100: #E8ECF0;
+  --color-blue-grey-200: #D0D8DE;
+  --color-blue-grey-300: #AFBBC5;
+  --color-blue-grey-400: #8292A0;
+  --color-blue-grey-500: #556575;
+  --color-blue-grey-600: #485968;
+  --color-blue-grey-700: #3D4D59;
+  --color-blue-grey-800: #313F4A;
+  --color-blue-grey-900: #26323B;
 
   --color-blue-50: #F0F7FF;
   --color-blue-100: #D6EBFF;
@@ -145,12 +161,143 @@
   --color-cyan-800: #005247;
   --color-cyan-900: #00332C;
 
+  /* Extended color foundation */
+
+  /* Neutral (endpoints — 50–900 unchanged above) */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-1000: #000000;
+
+  /* Red */
+  --color-red-50: #FFF0F0;
+  --color-red-100: #FFE0E0;
+  --color-red-200: #FFBDBD;
+  --color-red-300: #FC8383;
+  --color-red-400: #F65555;
+  --color-red-500: #EE2B2B;
+  --color-red-600: #CF1717;
+  --color-red-700: #9C1616;
+  --color-red-800: #6C1313;
+  --color-red-900: #3F0D0D;
+
+  /* Orange */
+  --color-orange-50: #FFF7ED;
+  --color-orange-100: #FFEDD5;
+  --color-orange-200: #FED7AA;
+  --color-orange-300: #FDBA74;
+  --color-orange-400: #FB923C;
+  --color-orange-500: #F97316;
+  --color-orange-600: #EA580C;
+  --color-orange-700: #C2410C;
+  --color-orange-800: #9A3412;
+  --color-orange-900: #7C2D12;
+
+  /* Yellow */
+  --color-yellow-50: #FEFCE8;
+  --color-yellow-100: #FEF9C3;
+  --color-yellow-200: #FEF08A;
+  --color-yellow-300: #FDE047;
+  --color-yellow-400: #FACC15;
+  --color-yellow-500: #EAB308;
+  --color-yellow-600: #CA8A04;
+  --color-yellow-700: #A16207;
+  --color-yellow-800: #854D0E;
+  --color-yellow-900: #713F12;
+
+  /* Lime */
+  --color-lime-50: #F7FEE7;
+  --color-lime-100: #ECFCCB;
+  --color-lime-200: #D9F99D;
+  --color-lime-300: #BEF264;
+  --color-lime-400: #A3E635;
+  --color-lime-500: #84CC16;
+  --color-lime-600: #65A30D;
+  --color-lime-700: #4D7C0F;
+  --color-lime-800: #3F6212;
+  --color-lime-900: #365314;
+
+  /* Light green */
+  --color-light-green-50: #F3FCF6;
+  --color-light-green-100: #E2F7E9;
+  --color-light-green-200: #C6ECD2;
+  --color-light-green-300: #9EDCB0;
+  --color-light-green-400: #73C88C;
+  --color-light-green-500: #4DAF6A;
+  --color-light-green-600: #3D9255;
+  --color-light-green-700: #317544;
+  --color-light-green-800: #275C37;
+  --color-light-green-900: #1E462A;
+
+  /* Green */
+  --color-green-50: #F0FDF4;
+  --color-green-100: #DCFCE7;
+  --color-green-200: #BBF7D0;
+  --color-green-300: #86EFAC;
+  --color-green-400: #4ADE80;
+  --color-green-500: #22C55E;
+  --color-green-600: #16A34A;
+  --color-green-700: #15803D;
+  --color-green-800: #166534;
+  --color-green-900: #14532D;
+
+  /* Purple */
+  --color-purple-50: #FAF5FF;
+  --color-purple-100: #F3E8FF;
+  --color-purple-200: #E9D5FF;
+  --color-purple-300: #D8B4FE;
+  --color-purple-400: #C084FC;
+  --color-purple-500: #A855F7;
+  --color-purple-600: #9333EA;
+  --color-purple-700: #7E22CE;
+  --color-purple-800: #6B21A8;
+  --color-purple-900: #581C87;
+
+  /* Magenta */
+  --color-magenta-50: #FDF4FF;
+  --color-magenta-100: #FAE8FF;
+  --color-magenta-200: #F5D0FE;
+  --color-magenta-300: #F0ABFC;
+  --color-magenta-400: #E879F9;
+  --color-magenta-500: #D946EF;
+  --color-magenta-600: #C026D3;
+  --color-magenta-700: #A21CAF;
+  --color-magenta-800: #86198F;
+  --color-magenta-900: #701A75;
+
+  /* Off-white */
+  --color-off-white-50: #FEFEFE;
+  --color-off-white-100: #FCFCFB;
+  --color-off-white-200: #F7F6F4;
+  --color-off-white-300: #EEEDE9;
+  --color-off-white-400: #E0DED8;
+  --color-off-white-500: #D1CEC6;
+  --color-off-white-600: #BEBAAF;
+  --color-off-white-700: #9A958B;
+  --color-off-white-800: #6F6B64;
+  --color-off-white-900: #4A4743;
+
+  /* Light grey */
+  --color-light-grey-50: #FAFAFA;
+  --color-light-grey-100: #F4F4F5;
+  --color-light-grey-200: #E4E4E7;
+  --color-light-grey-300: #D4D4D8;
+  --color-light-grey-400: #A1A1AA;
+  --color-light-grey-500: #71717A;
+  --color-light-grey-600: #52525B;
+  --color-light-grey-700: #3F3F46;
+  --color-light-grey-800: #27272A;
+  --color-light-grey-900: #18181B;
+
+  /* Base neutrals (explicit white/black for overlays, chrome) */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
   /* Semantic color tokens */
   --color-text-primary: var(--color-neutral-900);
   --color-text-secondary: var(--color-neutral-600);
   --color-text-tertiary: var(--color-neutral-500);
   --color-text-inverse: #FFFFFF;
   --color-text-accent: var(--color-blue-700);
+  --color-text-blue-grey: var(--color-blue-grey-500);
 
   /* Synthesis UI semantic tokens */
   --action-primary: var(--color-blue-600);
@@ -162,6 +309,7 @@
   --color-bg-surface: #FFFFFF;
   --color-bg-surface-subtle: var(--color-neutral-50);
   --color-bg-surface-elevated: #FFFFFF;
+  --color-bg-badge-subtle: var(--color-neutral-100);
   --color-bg-brand-primary: var(--color-blue-700);
   --color-bg-brand-secondary: var(--color-cyan-500);
 
@@ -179,6 +327,15 @@
   --status-danger-hover: #B91C1C;
   --status-danger-active: #991B1B;
   --status-danger-text: #FFFFFF;
+  --status-success: #16A34A;
+  --status-success-hover: #15803D;
+  --status-success-text: #FFFFFF;
+  --status-warning: #CA8A04;
+  --status-warning-hover: #A16207;
+  --status-warning-text: var(--color-neutral-900);
+  --status-info: var(--color-blue-600);
+  --status-info-hover: var(--color-blue-700);
+  --status-info-text: #FFFFFF;
 
   /* Typography scale */
   --text-display-xl: 3.5rem;   /* 56 */
@@ -196,6 +353,38 @@
   --text-label-sm: 0.75rem;    /* 12 */
   --text-caption: 0.75rem;     /* 12 */
   --text-overline: 0.6875rem;  /* 11 */
+
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose: 1.75;
+
+  /* Font weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.02em;
+
+  /* Opacity */
+  --opacity-disabled: 0.5;
+  --opacity-muted: 0.72;
+
+  /* Stacking (layout chrome, overlays) */
+  --z-base: 0;
+  --z-raised: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-overlay: 1150;
+  --z-modal: 1200;
+  --z-toast: 1300;
 }
 
 /* Base */
@@ -346,6 +535,10 @@ body {
     color: var(--color-text-accent) !important;
   }
 
+  .clr-text-blue-grey {
+    color: var(--color-text-blue-grey) !important;
+  }
+
   /* Hover state variants for text colors */
   .hover\:clr-text-primary:hover {
     color: var(--color-text-primary) !important;
@@ -380,6 +573,10 @@ body {
 
   .clr-bg-surface-elevated {
     background-color: var(--color-bg-surface-elevated) !important;
+  }
+
+  .clr-bg-badge-subtle {
+    background-color: var(--color-bg-badge-subtle) !important;
   }
 
   /* Hover state variants for backgrounds */
