@@ -107,7 +107,7 @@ export function DetailedProcessSection() {
         >
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] transition-fast focus-visible:focus-ring-standard outline-none active:scale-[0.98] ${
+            className={`flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] transition-fast focus-ring-standard outline-none active:scale-[0.98] ${
               isExpanded 
                 ? "bg-[var(--action-primary)] text-[var(--text-inverse)] hover:bg-[var(--action-primary-hover)] active:bg-[var(--action-primary-active)]" 
                 : "bg-transparent border border-[var(--color-border-default)] text-[var(--color-text-primary)] hover:bg-[var(--color-blue-50)] hover:border-[var(--color-blue-200)]"

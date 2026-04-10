@@ -1,23 +1,19 @@
 import { cn } from "@/lib/utils"
+import { SystemDiagramGraphic } from "@/components/sections/system-diagram-graphic"
 
 /**
  * Hero background: left, center, right panels are direct children of hero root (before artboard)
  * so artboard + vector paint on top. Right rail uses `right: 0` + stepped `top` (not artboard crop).
  */
 
-interface HeroBackgroundLayersProps {
-  /** Reserved for future composition reveal timing; unused while empty */
-  isVisible?: boolean
-}
-
 /** Deterministic canvas for layer coordinates (desktop/tablet primary). */
 const HERO_BG_COMPOSITION_WIDTH_PX = 2000
 const HERO_BG_COMPOSITION_HEIGHT_PX = 700
 
-export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
+export function HeroBackgroundLayers() {
   return (
     <div
-      className="absolute inset-0 overflow-hidden pointer-events-none"
+      className="pointer-events-none absolute inset-0 w-full max-w-none overflow-hidden"
       style={{ zIndex: 0 }}
       aria-hidden
       data-hero-bg-root
@@ -45,7 +41,7 @@ export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
         }}
       />
 
-      {/* Center panel: mobile 650×500 @ 195.27/147.16; tablet md–xl 550×425 @ 236.69/344.44; xl+ 650×500 @ 235.69/344.44 */}
+      {/* Center panel: Y nudge via translate — lower on xs/sm, up on md, lg/xl match prior composition */}
       <div
         aria-hidden
         className={cn(
@@ -53,38 +49,74 @@ export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
           "max-md:left-[195.27px] max-md:top-[147.16px]",
           "xl:left-[235.69px] xl:top-[344.44px]",
           "w-[650px] h-[500px] md:w-[550px] md:h-[425px] xl:w-[650px] xl:h-[500px]",
-          "opacity-[0.055] max-md:opacity-[0.048] xl:opacity-[0.06]"
+          "opacity-[0.055] max-md:opacity-[0.048] xl:opacity-[0.06]",
+          "rotate-[1deg] max-md:translate-y-[96px] md:-translate-y-[48px] lg:translate-y-0"
         )}
         style={{
           borderRadius: 8,
           backgroundColor: "#1A7FFF",
-          transform: "rotate(1deg)",
           filter: "blur(6px)",
         }}
       />
 
-      {/* Right panel: hero-root–anchored; under artboard; pinned to section right edge. */}
+      {/* Right panel: anchored to hero right; shifted right + lowered vs headline; subtle clockwise tilt. */}
       <div
         aria-hidden
         className={cn(
-          "absolute right-0 z-0",
-          "top-[147.16px] max-md:top-[128px]",
-          "opacity-[0.05] max-md:opacity-[0.038]"
+          "absolute right-0 z-0 origin-top-right",
+          /* Sit below eyebrow / metadata row */
+          "top-[204px] max-md:top-[148px]",
+          "opacity-[0.05] max-md:opacity-[0.038]",
+          /* Push panel toward far right (original ~400px on XL); scale shift down on smaller widths */
+          "translate-x-[72px] rotate-[1.25deg]",
+          "md:translate-x-[180px] md:rotate-[1.5deg]",
+          "lg:translate-x-[280px] lg:rotate-[1.75deg]",
+          "xl:translate-x-[400px] xl:rotate-[2deg]"
         )}
         style={{
           width: 750,
           height: 800,
           borderRadius: 8,
           backgroundColor: "#1A7FFF",
-          transform: "rotate(-2deg)",
-          filter: "blur(4px)",
+          /* ~38% less than 4px — clearer edge than before, still soft (left/center stay at 6px) */
+          filter: "blur(2.5px)",
         }}
       />
 
-      {/* Artboard: right-weighted crop; tighter offset as viewport narrows (stepped). */}
+      {/* System diagram: mobile-first opacity ramp (noise → full richness at xl); position / animation unchanged. */}
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 z-[1] w-full max-w-none overflow-hidden",
+          "opacity-[0.05] sm:opacity-[0.28] md:opacity-[0.55] lg:opacity-[0.75] xl:opacity-[0.95]",
+          "transition-opacity duration-300 [transition-timing-function:var(--motion-easing-premium)]"
+        )}
+        data-hero-system-diagram-layer
+      >
+        <div
+          className={cn(
+            "absolute right-0 flex max-w-none justify-end",
+            /* Lower on Y toward right-panel center; scales up on larger breakpoints */
+            "top-[var(--space-08)] min-[480px]:top-[var(--space-10)] md:top-[var(--space-11)] lg:top-[var(--space-12)] xl:top-[var(--space-13)]"
+          )}
+        >
+          <div
+            className={cn(
+              "origin-top-right will-change-transform",
+              /* Scale only (layer opacity handled on parent); slightly smaller on very narrow viewports */
+              "scale-[0.94] min-[480px]:scale-[1.06] md:scale-[1.09] lg:scale-[1.07] xl:scale-[1.04]",
+              "transition-transform duration-300 [transition-timing-function:var(--motion-easing-premium)]"
+            )}
+          >
+            <SystemDiagramGraphic />
+          </div>
+        </div>
+      </div>
+
+      {/* Artboard: above diagram layer; line vector stays visible over diagram. */}
       <div
         className={cn(
-          "absolute top-1/2 z-0 -translate-y-1/2",
+          "absolute top-1/2 z-[2] -translate-y-1/2",
           "max-md:right-[-5.5rem]",
           "md:max-xl:right-[-9.5rem]",
           "xl:right-[-12.5rem]"
@@ -100,9 +132,10 @@ export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
           <div
             aria-hidden
             className={cn(
-              "absolute z-[1] hidden md:block",
+              "hero-zigzag-accent absolute z-[1] hidden md:block",
               "left-[255px] top-[193.91px] h-[202.91px] w-[844.5px]",
-              "opacity-[0.24] xl:opacity-[0.36]"
+              /* Quieter atmospheric accent — does not compete with right system diagram */
+              "opacity-[0.12] xl:opacity-[0.19]"
             )}
           >
             <div
@@ -122,7 +155,7 @@ export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
                 <path
                   d="M 3 3 L 325.5 134.275 L 648 35.8187 L 841.5 199.913"
                   stroke="#1A7FFF"
-                  strokeOpacity={0.55}
+                  strokeOpacity={0.38}
                   strokeWidth={0.75}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -131,22 +164,22 @@ export function HeroBackgroundLayers(_props: HeroBackgroundLayersProps) {
                 <path
                   d="M3 6C4.65685 6 6 4.65685 6 3C6 1.34315 4.65685 0 3 0C1.34315 0 0 1.34315 0 3C0 4.65685 1.34315 6 3 6Z"
                   fill="#1A7FFF"
-                  fillOpacity={0.58}
+                  fillOpacity={0.34}
                 />
                 <path
                   d="M325.5 137.275C327.157 137.275 328.5 135.932 328.5 134.275C328.5 132.618 327.157 131.275 325.5 131.275C323.843 131.275 322.5 132.618 322.5 134.275C322.5 135.932 323.843 137.275 325.5 137.275Z"
                   fill="#1A7FFF"
-                  fillOpacity={0.58}
+                  fillOpacity={0.34}
                 />
                 <path
                   d="M648 38.8187C649.657 38.8187 651 37.4756 651 35.8187C651 34.1619 649.657 32.8187 648 32.8187C646.343 32.8187 645 34.1619 645 35.8187C645 37.4756 646.343 38.8187 648 38.8187Z"
                   fill="#1A7FFF"
-                  fillOpacity={0.58}
+                  fillOpacity={0.34}
                 />
                 <path
                   d="M841.5 202.913C843.157 202.913 844.5 201.569 844.5 199.913C844.5 198.256 843.157 196.913 841.5 196.913C839.843 196.913 838.5 198.256 838.5 199.913C838.5 201.569 839.843 202.913 841.5 202.913Z"
                   fill="#1A7FFF"
-                  fillOpacity={0.58}
+                  fillOpacity={0.34}
                 />
               </svg>
             </div>

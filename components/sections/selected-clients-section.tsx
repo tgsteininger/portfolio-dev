@@ -1,396 +1,261 @@
 "use client"
 
 import { Section, Container } from "@/components/layout"
+import { cn } from "@/lib/utils"
 
 /**
- * Client logo data with brand-specific styling
+ * LG/XL (1024+): fixed two flex rows — row 2 always starts with DaVita.
+ * MD (768–1023): 3-column `max-content` grid, fixed gaps, centered block (≥3 rows).
+ * SM/XS (&lt;768): 2-column `max-content` grid, fixed gaps, centered block (≥3 rows).
  */
-interface ClientLogo {
-  name: string
+interface ClientEntry {
   id: string
+  name: string
+  src: string
 }
 
-const clients: ClientLogo[] = [
-  { name: "Walgreens", id: "walgreens" },
-  { name: "The Coca-Cola Company", id: "cocacola" },
-  { name: "UCLA", id: "ucla" },
-  { name: "Xerox", id: "xerox" },
-  { name: "Avery Dennison", id: "avery" },
-  { name: "NASA", id: "nasa" },
-  { name: "UNFI", id: "unfi" },
-  { name: "DaVita", id: "davita" },
-  { name: "Sephora", id: "sephora" },
+const clientsRowOne: ClientEntry[] = [
+  { id: "walgreens", name: "Walgreens", src: "/images/clients/walgreens.svg" },
+  { id: "coca-cola", name: "The Coca-Cola Company", src: "/images/clients/coca-cola.svg" },
+  { id: "ucla", name: "UCLA", src: "/images/clients/ucal.svg" },
+  { id: "xerox", name: "Xerox", src: "/images/clients/xerox.svg" },
 ]
 
-/**
- * SVG Logo Components - Faithful wordmark representations
- * All logos use --color-neutral-500 for consistent muted gray appearance
- */
+const clientsRowTwo: ClientEntry[] = [
+  { id: "davita", name: "DaVita Kidney Care", src: "/images/clients/davita.svg" },
+  { id: "nasa", name: "NASA", src: "/images/clients/nasa.svg" },
+  { id: "avery-dennison", name: "Avery Dennison", src: "/images/clients/averydennison.svg" },
+  { id: "unfi", name: "UNFI", src: "/images/clients/unfi.svg" },
+  { id: "sephora", name: "Sephora", src: "/images/clients/sephora.svg" },
+]
 
-function WalgreensLogo() {
-  return (
-    <svg
-      viewBox="0 0 180 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-08)] w-auto"
-      aria-label="Walgreens"
-    >
-      <text
-        x="0"
-        y="30"
-        fill="var(--color-neutral-500)"
-        fontFamily="Georgia, serif"
-        fontSize="28"
-        fontStyle="italic"
-        fontWeight="400"
-      >
-        Walgreens
-      </text>
-    </svg>
-  )
-}
-
-function CocaColaLogo() {
-  return (
-    <svg
-      viewBox="0 0 240 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-08)] w-auto"
-      aria-label="The Coca-Cola Company"
-    >
-      <text
-        x="0"
-        y="26"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-ui)"
-        fontSize="11"
-        fontWeight="400"
-        letterSpacing="0.05em"
-      >
-        THE
-      </text>
-      <text
-        x="32"
-        y="30"
-        fill="var(--color-neutral-500)"
-        fontFamily="Brush Script MT, cursive"
-        fontSize="26"
-        fontWeight="400"
-        fontStyle="italic"
-      >
-        Coca-Cola
-      </text>
-      <text
-        x="150"
-        y="26"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-ui)"
-        fontSize="11"
-        fontWeight="400"
-        letterSpacing="0.05em"
-      >
-        COMPANY
-      </text>
-    </svg>
-  )
-}
-
-function UCLALogo() {
-  return (
-    <svg
-      viewBox="0 0 90 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-08)] w-auto"
-      aria-label="UCLA"
-    >
-      <text
-        x="0"
-        y="32"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-heading)"
-        fontSize="32"
-        fontWeight="700"
-        letterSpacing="-0.02em"
-      >
-        UCLA
-      </text>
-    </svg>
-  )
-}
-
-function XeroxLogo() {
-  return (
-    <svg
-      viewBox="0 0 100 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-08)] w-auto"
-      aria-label="Xerox"
-    >
-      <text
-        x="0"
-        y="32"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-heading)"
-        fontSize="32"
-        fontWeight="700"
-        letterSpacing="-0.01em"
-      >
-        xerox
-      </text>
-    </svg>
-  )
-}
-
-function AveryDennisonLogo() {
-  return (
-    <svg
-      viewBox="0 0 160 50"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-10)] w-auto"
-      aria-label="Avery Dennison"
-    >
-      {/* Triangle icon */}
-      <path
-        d="M20 8 L35 38 L5 38 Z"
-        fill="none"
-        stroke="var(--color-neutral-500)"
-        strokeWidth="2"
-      />
-      {/* AVERY text */}
-      <text
-        x="45"
-        y="22"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-ui)"
-        fontSize="12"
-        fontWeight="600"
-        letterSpacing="0.08em"
-      >
-        AVERY
-      </text>
-      {/* DENNISON text */}
-      <text
-        x="45"
-        y="38"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-ui)"
-        fontSize="12"
-        fontWeight="600"
-        letterSpacing="0.08em"
-      >
-        DENNISON
-      </text>
-    </svg>
-  )
-}
-
-function NASALogo() {
-  return (
-    <svg
-      viewBox="0 0 50 50"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-10)] w-auto"
-      aria-label="NASA"
-    >
-      {/* Circular meatball outline */}
-      <circle
-        cx="25"
-        cy="25"
-        r="22"
-        fill="var(--color-neutral-500)"
-      />
-      {/* NASA text */}
-      <text
-        x="25"
-        y="30"
-        fill="white"
-        fontFamily="var(--font-heading)"
-        fontSize="11"
-        fontWeight="700"
-        textAnchor="middle"
-        letterSpacing="0.02em"
-      >
-        NASA
-      </text>
-    </svg>
-  )
-}
-
-function UNFILogo() {
-  return (
-    <svg
-      viewBox="0 0 80 50"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-10)] w-auto"
-      aria-label="UNFI"
-    >
-      {/* UNFI text */}
-      <text
-        x="0"
-        y="26"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-heading)"
-        fontSize="26"
-        fontWeight="700"
-        letterSpacing="-0.01em"
-      >
-        UNFI
-      </text>
-      {/* Tagline */}
-      <text
-        x="0"
-        y="42"
-        fill="var(--color-neutral-400)"
-        fontFamily="var(--font-ui)"
-        fontSize="6"
-        fontWeight="500"
-        letterSpacing="0.02em"
-      >
-        BETTER FOOD. BETTER FUTURE.
-      </text>
-    </svg>
-  )
-}
-
-function DaVitaLogo() {
-  return (
-    <svg
-      viewBox="0 0 90 50"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-10)] w-auto"
-      aria-label="DaVita"
-    >
-      {/* DaVita script text */}
-      <text
-        x="0"
-        y="28"
-        fill="var(--color-neutral-500)"
-        fontFamily="Georgia, serif"
-        fontSize="24"
-        fontWeight="400"
-        fontStyle="italic"
-      >
-        DaVita
-      </text>
-      {/* Tagline */}
-      <text
-        x="0"
-        y="42"
-        fill="var(--color-neutral-400)"
-        fontFamily="var(--font-ui)"
-        fontSize="8"
-        fontWeight="400"
-      >
-        Kidney Care
-      </text>
-    </svg>
-  )
-}
-
-function SephoraLogo() {
-  return (
-    <svg
-      viewBox="0 0 140 40"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-[var(--space-08)] w-auto"
-      aria-label="Sephora"
-    >
-      <text
-        x="0"
-        y="28"
-        fill="var(--color-neutral-500)"
-        fontFamily="var(--font-ui)"
-        fontSize="20"
-        fontWeight="400"
-        letterSpacing="0.25em"
-      >
-        SEPHORA
-      </text>
-    </svg>
-  )
-}
+const clientsAll: ClientEntry[] = [...clientsRowOne, ...clientsRowTwo]
 
 /**
- * Logo renderer component
+ * Hidden ≥1024px. Sub-1024 grids (≥3 rows): centered `max-content` tracks + fixed column-gap (no 1fr stretch).
  */
-function ClientLogoRenderer({ id }: { id: string }) {
-  switch (id) {
-    case "walgreens":
-      return <WalgreensLogo />
-    case "cocacola":
-      return <CocaColaLogo />
-    case "ucla":
-      return <UCLALogo />
-    case "xerox":
-      return <XeroxLogo />
-    case "avery":
-      return <AveryDennisonLogo />
-    case "nasa":
-      return <NASALogo />
-    case "unfi":
-      return <UNFILogo />
-    case "davita":
-      return <DaVitaLogo />
-    case "sephora":
-      return <SephoraLogo />
-    default:
-      return null
+const logoGridClass = cn(
+  "m-0 min-w-0 w-full list-none overflow-visible p-0 min-[1024px]:hidden",
+  "grid justify-center justify-items-center",
+  "grid-cols-[repeat(2,max-content)]",
+  /* SM / XS: fixed gutters */
+  "max-[767px]:gap-x-[var(--space-06)] max-[767px]:gap-y-[var(--space-06)]",
+  "max-[479px]:gap-x-[var(--space-05)] max-[479px]:gap-y-[14px]",
+  /* MD: three max-content columns + fixed gutters */
+  "min-[768px]:max-[1023px]:grid-cols-[repeat(3,max-content)]",
+  "min-[768px]:max-[1023px]:gap-x-[var(--space-08)] min-[768px]:max-[1023px]:gap-y-[var(--space-07)]"
+)
+
+/** Vertical gap between row 1 and row 2 (MD / LG / XL). */
+const desktopStackClass = cn(
+  "hidden w-full min-[1024px]:flex min-[1024px]:flex-col min-[1024px]:items-center overflow-visible",
+  "min-[1024px]:max-[1279px]:gap-y-10",
+  "min-[1280px]:max-[1439px]:gap-y-12",
+  "min-[1440px]:gap-y-[56px]"
+)
+
+/** MD / LG / XL: same column gap on row 1 and row 2 — breathable, matched rhythm. */
+const desktopRowHorizontalGapClass = cn(
+  "min-[1024px]:max-[1279px]:gap-x-[56px]",
+  "min-[1280px]:max-[1439px]:gap-x-[72px]",
+  "min-[1440px]:gap-x-[88px]"
+)
+
+const logoWrapperClass = cn(
+  "flex min-w-0 items-center justify-center",
+  "max-[479px]:h-[44px]",
+  "min-[480px]:max-[767px]:h-12",
+  "min-[768px]:max-[1023px]:h-[52px]",
+  "min-[1024px]:max-[1279px]:h-14",
+  "min-[1280px]:max-[1439px]:h-[60px]",
+  "min-[1440px]:h-16"
+)
+
+const logoImgClass = cn(
+  "h-auto w-auto max-w-full object-contain",
+  "max-[479px]:max-h-6 max-[479px]:max-w-[112px]",
+  "min-[480px]:max-[767px]:max-h-7 min-[480px]:max-[767px]:max-w-[124px]",
+  "min-[768px]:max-[1023px]:max-h-[30px] min-[768px]:max-[1023px]:max-w-[136px]",
+  "min-[1024px]:max-[1279px]:max-h-[34px] min-[1024px]:max-[1279px]:max-w-[150px]",
+  "min-[1280px]:max-[1439px]:max-h-9 min-[1280px]:max-[1439px]:max-w-[164px]",
+  "min-[1440px]:max-h-10 min-[1440px]:max-w-[180px]"
+)
+
+function ClientLogoFrame({
+  src,
+  className,
+}: Pick<ClientEntry, "src"> & { className?: string }) {
+  return (
+    <div className={cn(logoWrapperClass, className)}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- deliver SVG as vector */}
+      <img
+        src={src}
+        alt=""
+        role="presentation"
+        width={180}
+        height={40}
+        decoding="async"
+        className={logoImgClass}
+      />
+    </div>
+  )
+}
+
+/** Slow “balloon” hover: 3000ms + easing from `.client-logo-hover-surface` in globals.css. */
+const logoHoverMotionClass = cn(
+  "client-logo-hover-surface",
+  "origin-center cursor-default overflow-visible",
+  "scale-100 opacity-[0.88]",
+  "hover:scale-105 hover:opacity-100"
+)
+
+function LogoListItem({
+  client,
+  gridMode = false,
+}: {
+  client: ClientEntry
+  /** Sub-1024 grid: intrinsic cell width, fixed gutters; block centered via grid `justify-center`. */
+  gridMode?: boolean
+}) {
+  return (
+    <li
+      aria-label={client.name}
+      className={cn(
+        "flex min-h-0 overflow-visible",
+        gridMode
+          ? "max-[1023px]:min-w-0 max-[1023px]:w-auto max-[1023px]:items-center max-[1023px]:justify-center"
+          : "min-w-0 min-[1024px]:w-auto min-[1024px]:shrink-0 items-center justify-center"
+      )}
+    >
+      <div
+        className={cn(
+          logoHoverMotionClass,
+          "flex",
+          gridMode
+            ? "max-[1023px]:w-auto max-[1023px]:justify-center"
+            : "min-[1024px]:w-auto justify-center"
+        )}
+      >
+        <ClientLogoFrame src={client.src} />
+      </div>
+    </li>
+  )
+}
+
+/** Flat grid for &lt;1024px (2- or 3-column). */
+function LogoGridMobile({ items }: { items: ClientEntry[] }) {
+  return (
+    <ul role="list" className={logoGridClass}>
+      {items.map((client) => (
+        <LogoListItem key={client.id} client={client} gridMode />
+      ))}
+    </ul>
+  )
+}
+
+/** MD+ — two fixed rows, centered; no flex-wrap. */
+function LogoDesktopTwoRows({
+  rowOne,
+  rowTwo,
+}: {
+  rowOne: ClientEntry[]
+  rowTwo: ClientEntry[]
+}) {
+  return (
+    <div className={desktopStackClass}>
+      <ul
+        role="list"
+        className={cn(
+          "m-0 flex w-full list-none flex-row flex-nowrap justify-center overflow-visible p-0",
+          desktopRowHorizontalGapClass
+        )}
+      >
+        {rowOne.map((client) => (
+          <LogoListItem key={client.id} client={client} />
+        ))}
+      </ul>
+      <ul
+        role="list"
+        className={cn(
+          "m-0 flex w-full list-none flex-row flex-nowrap justify-center overflow-visible p-0",
+          desktopRowHorizontalGapClass
+        )}
+      >
+        {rowTwo.map((client) => (
+          <LogoListItem key={client.id} client={client} />
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function resolveRows(clientList: ClientEntry[] | undefined): {
+  rowOne: ClientEntry[]
+  rowTwo: ClientEntry[]
+  flat: ClientEntry[]
+} {
+  if (!clientList?.length) {
+    return {
+      rowOne: clientsRowOne,
+      rowTwo: clientsRowTwo,
+      flat: clientsAll,
+    }
+  }
+  if (clientList.length >= 9) {
+    return {
+      rowOne: clientList.slice(0, 4),
+      rowTwo: clientList.slice(4, 9),
+      flat: clientList.slice(0, 9),
+    }
+  }
+  const mid = Math.ceil(clientList.length / 2)
+  return {
+    rowOne: clientList.slice(0, mid),
+    rowTwo: clientList.slice(mid),
+    flat: clientList,
   }
 }
 
-/**
- * Props for SelectedClientsSection
- */
 interface SelectedClientsSectionProps {
-  /** Section heading - defaults to "Selected Clients" */
   heading?: string
-  /** Custom client list - defaults to internal client data */
-  clientList?: ClientLogo[]
+  clientList?: ClientEntry[]
 }
 
-/**
- * SelectedClientsSection - Displays client logos in a restrained enterprise style
- * Each logo uses SVG with brand-appropriate wordmark treatments
- */
 export function SelectedClientsSection({
   heading = "Selected Clients",
-  clientList = clients,
+  clientList,
 }: SelectedClientsSectionProps) {
+  const { rowOne, rowTwo, flat } = resolveRows(clientList)
+
   return (
-    <Section
-      id="clients"
-      spacing="default"
-      background="default"
-    >
+    <Section id="clients" spacing="default" background="default" className="pt-0">
       <Container>
-        {/* Section Eyebrow */}
-        <div className="mb-[var(--space-10)]">
+        <div
+          className={cn(
+            "mb-[var(--space-10)]",
+            "max-[767px]:mb-[var(--space-07)] max-[479px]:mb-[var(--space-06)]"
+          )}
+        >
           <p className="font-ui font-medium text-[length:var(--text-overline)] clr-text-tertiary uppercase tracking-[0.15em]">
             {heading}
           </p>
         </div>
 
-        {/* Client Logos Grid - Flexible wrap layout */}
-        <div className="flex flex-wrap items-center gap-x-[var(--space-10)] gap-y-[var(--space-08)] md:gap-x-[var(--space-12)] lg:gap-x-[var(--space-14)]">
-          {clientList.map((client) => (
-            <div
-              key={client.id}
-              className="flex items-center transition-fast opacity-70 hover:opacity-100"
-            >
-              <ClientLogoRenderer id={client.id} />
-            </div>
-          ))}
+        <div
+          role="region"
+          aria-label="Selected client logos"
+          className={cn(
+            "overflow-visible",
+            "max-[767px]:-mt-1 max-[479px]:-mt-0.5",
+            "max-[767px]:pb-0"
+          )}
+        >
+          <LogoGridMobile items={flat} />
+          <LogoDesktopTwoRows rowOne={rowOne} rowTwo={rowTwo} />
         </div>
       </Container>
     </Section>
   )
 }
+
+export type { ClientEntry }

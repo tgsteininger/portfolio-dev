@@ -35,7 +35,7 @@ export function CaseStudyFooter({
   }
 
   // Shared styles for nav links
-  const navLinkBaseClass = "group flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] hover:-translate-y-px active:translate-y-0 active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+  const navLinkBaseClass = "group flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] hover:-translate-y-px active:translate-y-0 active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
   
   const navLinkStyle = {
     fontSize: "var(--text-body-sm)",
@@ -59,7 +59,7 @@ export function CaseStudyFooter({
           {/* Back to Top */}
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.98] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+            className="flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.98] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
             style={{
               fontSize: "var(--text-body-sm)",
               background: "none",
@@ -125,7 +125,7 @@ export function CaseStudyFooter({
           {/* Back to Top */}
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.98] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+            className="flex items-center gap-[var(--space-02)] font-body clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.98] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
             style={{
               fontSize: "var(--text-body-sm)",
               background: "none",
@@ -191,7 +191,7 @@ export function CaseStudyFooter({
           {/* Back to Top - Icon only */}
           <button
             onClick={scrollToTop}
-            className="flex items-center justify-center font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.95] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+            className="flex items-center justify-center font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.95] cursor-pointer rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
             style={{
               background: "none",
               border: "none",
@@ -214,7 +214,7 @@ export function CaseStudyFooter({
               <Link
                 href={previousStudy.href}
                 prefetch={false}
-                className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+                className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
                 style={{
                   fontSize: "var(--text-body-sm)",
                   fontWeight: 500,
@@ -237,7 +237,7 @@ export function CaseStudyFooter({
               <Link
                 href={nextStudy.href}
                 prefetch={false}
-                className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-visible:focus-ring-standard outline-none"
+                className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
                 style={{
                   fontSize: "var(--text-body-sm)",
                   fontWeight: 500,

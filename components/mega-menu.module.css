@@ -6,6 +6,11 @@
   /* Row anchor for :hover / :focus-visible arrow visibility */
 }
 
+/* No separate outline; elevation + shadow come from Tailwind focus-visible:* (mirrors hover). */
+.caseRow:focus-visible {
+  outline: none;
+}
+
 .caseRowArrow {
   flex-shrink: 0;
   width: 18px;

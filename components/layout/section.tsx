@@ -4,7 +4,7 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   /** Vertical padding variant */
   spacing?: "default" | "compact" | "large" | "none"
   /** Background variant */
-  background?: "default" | "subtle" | "inverse"
+  background?: "default" | "subtle" | "subtleBlue" | "inverse"
 }
 
 /**
@@ -16,6 +16,8 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
  * - compact: tighter spacing (--space-08)
  * - large: more breathing room (--space-14)
  * - none: no vertical padding
+ *
+ * Background: subtleBlue = shared alpha-only blue veil (About on section; Approach uses overlay).
  */
 export function Section({
   className,
@@ -28,6 +30,7 @@ export function Section({
   const backgroundMap = {
     default: undefined,
     subtle: "var(--color-bg-surface-subtle)",
+    subtleBlue: "var(--color-bg-surface-tint-blue)",
     inverse: "var(--color-neutral-900)",
   }
 

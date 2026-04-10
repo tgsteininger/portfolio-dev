@@ -1,7 +1,76 @@
 "use client"
 
+import { useId } from "react"
 import { Section, Container, Grid } from "@/components/layout"
+import { accentLineHoverTransitionBase } from "@/lib/accent-hover-motion"
 import { GitBranch, LayoutGrid, User } from "lucide-react"
+
+const MESH_STROKE = "var(--color-blue-grey-300)"
+const MESH_NODE = "var(--color-blue-grey-300)"
+
+/**
+ * Repeating node/line field (z-0). Sits under the alpha tint so structure reads through the veil.
+ */
+function ApproachSectionPattern() {
+  const patternId = `approach-mesh-rpt-${useId().replace(/:/g, "")}`
+
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-[0.35] max-md:opacity-[0.40]"
+    >
+      <svg
+        className="block h-full w-full"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <pattern
+            id={patternId}
+            width="132"
+            height="132"
+            patternUnits="userSpaceOnUse"
+          >
+            <g
+              fill="none"
+              stroke={MESH_STROKE}
+              strokeWidth="0.58"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.95"
+            >
+              <path d="M 14 28 L 40 50 L 72 34" />
+              <path d="M 40 50 L 34 82 M 72 34 L 102 18" />
+              <path d="M 6 70 L 28 58 L 22 98" />
+              <path d="M 92 52 L 118 38 M 92 52 L 100 86" />
+              <path d="M 48 108 L 78 96 L 108 114" />
+              <path d="M 118 92 L 132 76" />
+              <path d="M 0 44 L 18 32" />
+              <path d="M 62 12 L 88 26" />
+            </g>
+            <g fill={MESH_NODE} stroke="none" opacity="0.48">
+              <circle cx="14" cy="28" r="1.15" />
+              <circle cx="40" cy="50" r="1" />
+              <circle cx="72" cy="34" r="1.05" />
+              <circle cx="34" cy="82" r="0.9" />
+              <circle cx="102" cy="18" r="0.85" />
+              <circle cx="6" cy="70" r="0.8" />
+              <circle cx="28" cy="58" r="0.95" />
+              <circle cx="22" cy="98" r="0.85" />
+              <circle cx="92" cy="52" r="1" />
+              <circle cx="118" cy="38" r="0.9" />
+              <circle cx="100" cy="86" r="0.88" />
+              <circle cx="48" cy="108" r="1" />
+              <circle cx="78" cy="96" r="0.92" />
+              <circle cx="108" cy="114" r="0.88" />
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${patternId})`} />
+      </svg>
+    </div>
+  )
+}
 
 /**
  * Approach principle data
@@ -28,16 +97,16 @@ const principles = [
 ]
 
 /**
- * Icon wrapper component with hover emphasis
+ * Icon tile: Lucide uses currentColor; parent group drives hover with headline.
  */
-function IconWrapper({ 
-  icon: Icon 
-}: { 
-  icon: React.ComponentType<{ className?: string }> 
+function IconWrapper({
+  icon: Icon,
+}: {
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>
 }) {
   return (
-    <div 
-      className="flex items-center justify-center flex-shrink-0 transition-fast group-hover:scale-105 group-hover:shadow-[var(--elevation-01)]"
+    <div
+      className="flex flex-shrink-0 items-center justify-center text-[var(--color-icon-secondary)] transition-colors duration-[var(--motion-duration-03)] ease-[var(--motion-easing-decelerate)] motion-reduce:transition-none group-hover:text-[var(--color-blue-500)]"
       style={{
         width: "var(--space-11)",
         height: "var(--space-11)",
@@ -45,8 +114,8 @@ function IconWrapper({
         backgroundColor: "var(--color-blue-50)",
       }}
     >
-      <Icon 
-        className="clr-icon-secondary transition-fast group-hover:clr-icon-accent"
+      <Icon
+        className="shrink-0"
         style={{
           width: "var(--icon-lg)",
           height: "var(--icon-lg)",
@@ -57,10 +126,7 @@ function IconWrapper({
 }
 
 /**
- * Principle card component with hover microinteraction
- * - Icon scales subtly on hover
- * - Title gains accent underline on hover
- * - Subtle background emphasis
+ * Principle block — parent `group` drives headline + icon color on hover; underline uses stats timing.
  */
 function PrincipleCard({
   icon,
@@ -71,25 +137,30 @@ function PrincipleCard({
   title: string
   description: string
 }) {
+  const headingId = `approach-principle-${useId().replace(/:/g, "")}`
+
   return (
-    <div 
-      className="group flex flex-col cursor-default transition-standard hover:bg-[var(--color-bg-surface)] hover:shadow-[var(--elevation-01)]"
-      style={{ 
+    <div
+      className="group flex cursor-default flex-col transition-[background-color] duration-[var(--motion-duration-02)] ease-[var(--motion-easing-standard)] hover:bg-[var(--color-mix-approach-principle-hover)]"
+      style={{
         gap: "var(--space-05)",
-        padding: "var(--space-05)",
-        marginLeft: "calc(var(--space-05) * -1)",
-        marginRight: "calc(var(--space-05) * -1)",
+        paddingBlock: "var(--space-04)",
+        paddingInline: "var(--space-03)",
         borderRadius: "var(--radius-04)",
       }}
     >
-      <div 
-        className="flex items-start"
-        style={{ gap: "var(--space-05)" }}
-      >
+      <div className="flex min-w-0 items-start" style={{ gap: "var(--space-05)" }}>
         <IconWrapper icon={icon} />
-        <div className="flex flex-col" style={{ paddingTop: "var(--space-02)" }}>
-          <h3 
-            className="clr-text-primary font-heading relative inline-block"
+        <div
+          className="flex min-w-0 flex-1 flex-col items-start text-left"
+          style={{
+            paddingTop: "var(--space-02)",
+            gap: "var(--space-02)",
+          }}
+        >
+          <h3
+            id={headingId}
+            className="font-heading w-full min-w-0 text-[var(--color-text-primary)] transition-colors duration-[var(--motion-duration-03)] ease-[var(--motion-easing-decelerate)] motion-reduce:transition-none group-hover:text-[var(--color-blue-500)]"
             style={{
               fontSize: "var(--text-heading-05)",
               fontWeight: 600,
@@ -97,22 +168,29 @@ function PrincipleCard({
             }}
           >
             {title}
-            {/* Animated underline on hover */}
-            <span 
-              className="absolute left-0 origin-left scale-x-0 group-hover:scale-x-100"
+          </h3>
+          {/* Same accent-line pattern as stats: overflow track + width reveal (left-anchored) */}
+          <span
+            aria-hidden
+            className="block shrink-0 overflow-hidden"
+            style={{
+              width: "var(--space-09)",
+              height: "var(--stroke-01)",
+            }}
+          >
+            <span
+              className="block h-full w-0 max-w-none rounded-full motion-reduce:transition-none group-hover:w-[var(--space-09)]"
               style={{
-                bottom: "calc(var(--space-01) * -1)",
-                width: "100%",
-                height: "var(--stroke-02)",
-                backgroundColor: "var(--color-cyan-500)",
-                borderRadius: "var(--radius-full)",
-                transition: "transform 300ms var(--motion-easing-emphasized)",
+                backgroundColor: "var(--color-border-focus)",
+                opacity: 1,
+                transitionProperty: "width",
+                ...accentLineHoverTransitionBase,
               }}
             />
-          </h3>
+          </span>
         </div>
       </div>
-      <p 
+      <p
         className="clr-text-secondary font-body transition-standard"
         style={{
           fontSize: "var(--text-body-sm)",
@@ -132,12 +210,20 @@ function PrincipleCard({
  */
 export function ApproachSection() {
   return (
-    <Section 
-      id="approach" 
-      background="subtle"
+    <Section
+      id="approach"
+      background="default"
+      className="relative overflow-hidden"
     >
-      <Container>
-        <div 
+      {/* Stack: transparent section → z-0 mesh → z-1 neutral veil (same mix as row hover, softer) → z-2 content */}
+      <ApproachSectionPattern />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{ background: "var(--color-bg-surface-approach-veil)" }}
+      />
+      <Container className="relative z-[2]">
+        <div
           className="flex flex-col"
           style={{ gap: "var(--space-12)" }}
         >

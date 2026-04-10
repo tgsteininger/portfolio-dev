@@ -1,6 +1,8 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Section, Container } from "@/components/layout"
-import Link from "next/link"
+import { openContactEmail } from "@/lib/contact-mailto"
 
 /**
  * CTASection - Call-to-action section with centered content.
@@ -8,7 +10,7 @@ import Link from "next/link"
  */
 export function CTASection() {
   return (
-    <Section background="subtle">
+    <Section background="default">
       <Container size="reading">
         <div className="text-center">
           <h2 
@@ -34,8 +36,8 @@ export function CTASection() {
             I design structured, scalable solutions for high-stakes workflows. Let&apos;s discuss how we can improve alignment, efficiency, and decision-making in your product.
           </p>
           <div style={{ marginTop: "var(--space-09)" }}>
-            <Button asChild size="lg">
-              <Link href="/contact">Start a Conversation</Link>
+            <Button size="lg" type="button" onClick={() => openContactEmail()}>
+              Start a Conversation
             </Button>
           </div>
         </div>

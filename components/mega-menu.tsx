@@ -2,10 +2,14 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import type { CaseStudyItem } from "@/lib/navigation"
 
 import styles from "./mega-menu.module.css"
+
+/** Matches desktop case-studies nav (`md` / 64rem in @theme) — focus-out close only here, not mobile. */
+const DESKTOP_MEGA_FOCUS_MEDIA = "(min-width: 64rem)"
 
 interface MegaMenuProps {
   /** Stable id for aria-controls on the desktop trigger */
@@ -21,12 +25,34 @@ interface MegaMenuProps {
  * Uses token-driven utility classes from globals.css.
  */
 export function MegaMenu({ id, caseStudies, isOpen, onClose }: MegaMenuProps) {
+  const panelRef = useRef<HTMLDivElement>(null)
+  const onCloseRef = useRef(onClose)
+  onCloseRef.current = onClose
+
+  useEffect(() => {
+    if (!isOpen) return
+    const node = panelRef.current
+    if (!node) return
+
+    const handleFocusOut = (e: FocusEvent) => {
+      if (!window.matchMedia(DESKTOP_MEGA_FOCUS_MEDIA).matches) return
+      const next = e.relatedTarget
+      if (next instanceof Node && node.contains(next)) return
+      onCloseRef.current()
+    }
+
+    node.addEventListener("focusout", handleFocusOut)
+    return () => node.removeEventListener("focusout", handleFocusOut)
+  }, [isOpen])
+
   return (
     <div
+      ref={panelRef}
       id={id}
       role="region"
       aria-label="Case studies"
       aria-hidden={!isOpen}
+      inert={!isOpen ? true : undefined}
       className={cn(
         "absolute top-full left-1/2 -translate-x-1/2",
         isOpen
@@ -129,8 +155,9 @@ function CaseStudyRow({
         styles.caseRow,
         "group flex items-center rounded-[var(--radius-03)]",
         "hover:bg-[var(--color-blue-50)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.06)] hover:-translate-y-0.5",
+        "focus-visible:bg-[var(--color-blue-50)] focus-visible:shadow-[0_6px_16px_rgba(0,0,0,0.06)] focus-visible:-translate-y-0.5",
         "active:translate-y-0 active:scale-[0.995] active:bg-[var(--color-blue-100)]",
-        "focus-visible:focus-ring-standard outline-none",
+        "outline-none",
         "transition-fast"
       )}
       style={{

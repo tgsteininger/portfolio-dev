@@ -1,6 +1,8 @@
 "use client"
 
 import Link from "next/link"
+import { openContactEmail } from "@/lib/contact-mailto"
+import { scrollToSection } from "@/lib/scroll-to-section"
 
 /**
  * SiteFooter - Minimal global footer with identity and navigation.
@@ -8,14 +10,13 @@ import Link from "next/link"
  */
 export function SiteFooter() {
   const navLinks = [
-    { label: "Case Studies", href: "/work" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
-  ]
+    { label: "Case Studies", href: "#featured-projects" },
+    { label: "About", href: "#about" },
+  ] as const
 
   return (
     <footer 
-      className="border-t clr-border-default clr-bg-surface-subtle"
+      className="border-t clr-border-default clr-bg-surface"
     >
       <div className="layout-shell">
         <div 
@@ -29,12 +30,13 @@ export function SiteFooter() {
           <div className="flex items-center gap-[var(--space-05)]">
             {/* Avatar */}
             <div 
-              className="flex items-center justify-center flex-shrink-0 clr-bg-surface font-heading font-semibold clr-text-primary"
+              className="flex items-center justify-center flex-shrink-0 font-heading font-semibold clr-text-primary"
               style={{
                 width: "var(--space-11)",
                 height: "var(--space-11)",
                 borderRadius: "var(--radius-full)",
                 fontSize: "var(--text-body-sm)",
+                backgroundColor: "var(--color-neutral-100)",
               }}
             >
               TS
@@ -68,7 +70,11 @@ export function SiteFooter() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body clr-text-secondary transition-fast hover:clr-text-primary focus-visible:focus-ring-standard outline-none rounded-[var(--radius-02)] relative"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToSection(link.href)
+                }}
+                className="focus-ring-standard font-body clr-text-secondary transition-fast hover:clr-text-primary outline-none rounded-[var(--radius-02)] relative"
                 style={{
                   fontSize: "var(--text-body-sm)",
                   padding: "var(--space-02) var(--space-03)",
@@ -78,6 +84,18 @@ export function SiteFooter() {
                 {link.label}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => openContactEmail()}
+              className="cursor-pointer border-0 bg-transparent font-inherit focus-ring-standard font-body clr-text-secondary transition-fast hover:clr-text-primary outline-none rounded-[var(--radius-02)] relative"
+              style={{
+                fontSize: "var(--text-body-sm)",
+                padding: "var(--space-02) var(--space-03)",
+                margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
+              }}
+            >
+              Contact
+            </button>
           </nav>
         </div>
       </div>

@@ -46,6 +46,9 @@
   --layout-container-xl: 90rem;     /* 1440 */
   --layout-container-xxl: 100rem;   /* 1600 */
 
+  /* Sticky site header (expanded height; matches site-header default) */
+  --header-height: var(--space-13);
+
   /* Grid */
   --grid-columns: 12;
   --grid-gap-sm: 1rem;      /* 16 */
@@ -308,6 +311,30 @@
   --color-bg-page: #FFFFFF;
   --color-bg-surface: #FFFFFF;
   --color-bg-surface-subtle: var(--color-neutral-50);
+  /* About (section bg) + Approach (overlay on mesh): same alpha-only veil — no opaque fill */
+  --color-bg-surface-tint-blue:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(59, 130, 246, 0.03),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(59, 130, 246, 0.035) 0%,
+      rgba(59, 130, 246, 0.018) 100%
+    );
+  /* Approach principle row hover (PrincipleCard) — reused for section veil at lower alpha */
+  --color-mix-approach-principle-hover: color-mix(
+    in srgb,
+    var(--color-bg-surface) 8%,
+    var(--color-bg-surface-subtle)
+  );
+  /* Approach: same token as row hover; mix share tuned so mesh reads (slightly more transparent than full hover match) */
+  --color-bg-surface-approach-veil: color-mix(
+    in srgb,
+    var(--color-mix-approach-principle-hover) 78%,
+    transparent
+  );
   --color-bg-surface-elevated: #FFFFFF;
   --color-bg-badge-subtle: var(--color-neutral-100);
   --color-bg-brand-primary: var(--color-blue-700);
@@ -396,6 +423,11 @@ html {
   scroll-behavior: smooth;
 }
 
+#featured-projects,
+#about {
+  scroll-margin-top: calc(var(--header-height) + var(--space-04));
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-text-primary);
@@ -428,6 +460,55 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Selected Clients logos: long scale/opacity hover. Class beats `*` specificity so duration
+ * is not forced to 1ms under prefers-reduced-motion (product override for this interaction).
+ */
+.client-logo-hover-surface {
+  transition-property: transform, opacity !important;
+  transition-duration: 3000ms !important;
+  transition-timing-function: var(--motion-easing-decelerate) !important;
+  transition-delay: 0ms !important;
+}
+
+/* Hero: cyan focal node on inline system diagram (scale + opacity only; core path stays static) */
+.system-diagram-focal-glow,
+.system-diagram-focal-ring {
+  transform-origin: 560px 358.188px;
+}
+
+.system-diagram-focal-glow {
+  animation: system-diagram-focal-glow-pulse 3.2s ease-in-out infinite;
+}
+
+.system-diagram-focal-ring {
+  animation: system-diagram-focal-ring-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes system-diagram-focal-glow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.065);
+    opacity: 1;
+  }
+}
+
+@keyframes system-diagram-focal-ring-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.96;
+  }
+  50% {
+    transform: scale(1.035);
+    opacity: 1;
   }
 }
 
@@ -698,6 +779,11 @@ body {
     }
   }
 
+  /* Selected Clients: no top pad (tuck under preceding section); bottom still from .section-pad */
+  section#clients.section-pad {
+    padding-top: 0;
+  }
+
   .surface-card {
     background: var(--color-bg-surface);
     border: var(--stroke-01) solid var(--color-border-subtle);
@@ -825,17 +911,17 @@ body {
      Interaction State Utilities (Sitewide)
      ============================================ */
 
-  /* Fast transition: 150ms - for micro-interactions */
+  /* Micro-interactions: 200ms (Synthesis UI — hover / focus ring / chrome) */
   .transition-fast {
     transition-property: color, background-color, border-color, opacity, box-shadow, transform;
-    transition-duration: 150ms;
+    transition-duration: var(--motion-duration-02);
     transition-timing-function: var(--motion-easing-standard);
   }
 
-  /* Slow transition: 250ms - for larger state changes */
+  /* Larger state changes */
   .transition-slow {
     transition-property: color, background-color, border-color, opacity, box-shadow, transform;
-    transition-duration: 250ms;
+    transition-duration: var(--motion-duration-03);
     transition-timing-function: var(--motion-easing-standard);
   }
 
@@ -846,7 +932,7 @@ body {
     color: var(--text-inverse);
     border-radius: var(--radius-03) !important;
     transition-property: background-color, box-shadow, transform;
-    transition-duration: 150ms;
+    transition-duration: var(--motion-duration-02);
     transition-timing-function: var(--motion-easing-standard);
   }
 
@@ -857,7 +943,7 @@ body {
 
   .btn-primary-interactive:active {
     background-color: var(--action-primary-active);
-    transform: scale(0.98);
+    transform: scale(0.985);
   }
 
   .btn-primary-interactive:focus-visible {
@@ -873,7 +959,7 @@ body {
     border: var(--stroke-01) solid var(--color-border-default);
     color: var(--color-text-primary);
     transition-property: background-color, border-color, box-shadow, transform;
-    transition-duration: 150ms;
+    transition-duration: var(--motion-duration-02);
     transition-timing-function: var(--motion-easing-standard);
   }
 
@@ -884,7 +970,7 @@ body {
 
   .btn-secondary-interactive:active {
     background-color: var(--color-blue-100);
-    transform: scale(0.98);
+    transform: scale(0.985);
   }
 
   .btn-secondary-interactive:focus-visible {
@@ -899,7 +985,7 @@ body {
     background-color: transparent;
     color: var(--color-text-secondary);
     transition-property: color, background-color, transform;
-    transition-duration: 150ms;
+    transition-duration: var(--motion-duration-02);
     transition-timing-function: var(--motion-easing-standard);
   }
 
@@ -910,7 +996,7 @@ body {
 
   .btn-ghost-interactive:active {
     background-color: var(--color-neutral-100);
-    transform: scale(0.98);
+    transform: scale(0.985);
   }
 
   .btn-ghost-interactive:focus-visible {
@@ -924,7 +1010,7 @@ body {
   .link-interactive {
     color: var(--color-text-secondary);
     transition-property: color;
-    transition-duration: 150ms;
+    transition-duration: var(--motion-duration-02);
     transition-timing-function: var(--motion-easing-standard);
   }
 
@@ -1057,12 +1143,21 @@ body {
     transform: translateY(0);
   }
 
-  /* Focus ring utility - consistent accessibility */
+  /* Focus ring: cyan halo, keyboard only — pair with .transition-fast for 200ms box-shadow ease */
   .focus-ring-standard:focus-visible {
     outline: none;
     box-shadow:
       0 0 0 2px var(--color-bg-page),
       0 0 0 4px var(--color-border-focus);
+  }
+
+  /*
+   * Selected Work cards: no separate focus ring — keyboard focus uses the same surface lift,
+   * shadow, title accent, and metric line as hover (see ProjectCard state + group-focus-visible).
+   */
+  .selected-work-card-link:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
 
   /* Mobile touch states */

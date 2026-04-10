@@ -1,6 +1,7 @@
 "use client"
 
 import { Section, Container, Grid } from "@/components/layout"
+import { accentLineHoverTransitionBase } from "@/lib/accent-hover-motion"
 
 /**
  * Stats data structure
@@ -40,62 +41,81 @@ interface StatsSectionProps {
 }
 
 /**
- * Individual stat block component with hover underline animation
+ * Individual stat block: cyan overline grows by width above headline; content lifts/scales on hover.
  */
-function StatBlock({ 
-  stat, 
-  showDivider 
-}: { 
+function StatBlock({
+  stat,
+  showDivider,
+}: {
   stat: Stat
-  showDivider: boolean 
+  showDivider: boolean
 }) {
   return (
-    <div 
-      className="group flex cursor-default transition-fast"
-      style={{ gap: "var(--grid-gap-md)" }}
-    >
+    <div className="group flex cursor-default" style={{ gap: "var(--grid-gap-md)" }}>
       {/* Vertical divider - only on non-first items, hidden on mobile */}
       {showDivider && (
-        <div 
-          className="hidden lg:block flex-shrink-0"
+        <div
+          className="hidden flex-shrink-0 lg:block"
           style={{
             width: "var(--stroke-01)",
-            backgroundColor: "var(--color-border-default)",
+            backgroundColor:
+              "color-mix(in srgb, var(--color-border-default) 22%, transparent)",
             marginTop: "var(--space-02)",
             marginBottom: "var(--space-02)",
           }}
         />
       )}
-      
-      {/* Content */}
-      <div className="flex flex-col" style={{ gap: "var(--space-04)" }}>
-        <div className="relative inline-block">
-          <h3 
-            className="clr-text-primary font-heading"
+
+      {/* Stat content lift/scale: same transition contract as overline width + headline color */}
+      <div
+        className="flex min-w-0 flex-1 origin-top-left scale-100 flex-col items-start text-left motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:scale-100 group-hover:-translate-y-[3px] group-hover:scale-[1.015] motion-reduce:transform-none"
+        style={{
+          gap: "var(--space-05)",
+          transitionProperty: "transform",
+          ...accentLineHoverTransitionBase,
+        }}
+      >
+        <div
+          className="relative w-full min-w-0"
+          style={{
+            paddingTop: "calc(var(--stroke-01) + var(--space-03))",
+          }}
+        >
+          {/* Overline: fixed track + width 0 → 100% (left-anchored grow / shrink) */}
+          <span
+            aria-hidden
+            className="absolute left-0 top-0 block overflow-hidden"
+            style={{
+              width: "var(--space-09)",
+              height: "var(--stroke-01)",
+            }}
+          >
+            <span
+              className="block h-full w-0 max-w-none rounded-full motion-reduce:transition-none group-hover:w-[var(--space-09)]"
+              style={{
+                backgroundColor: "var(--color-border-focus)",
+                opacity: 1,
+                transitionProperty: "width",
+                ...accentLineHoverTransitionBase,
+              }}
+            />
+          </span>
+          <h3
+            className="font-heading clr-text-primary motion-reduce:transition-none group-hover:clr-text-accent"
             style={{
               fontSize: "var(--text-heading-03)",
               fontWeight: 600,
               lineHeight: 1.2,
               letterSpacing: "-0.01em",
+              transitionProperty: "color",
+              ...accentLineHoverTransitionBase,
             }}
           >
             {stat.value}
           </h3>
-          {/* Animated underline on hover */}
-          <span 
-            className="absolute left-0 origin-left scale-x-0 group-hover:scale-x-100"
-            style={{
-              bottom: "calc(var(--space-01) * -1)",
-              width: "var(--space-10)",
-              height: "var(--stroke-02)",
-              backgroundColor: "var(--color-cyan-500)",
-              borderRadius: "var(--radius-full)",
-              transition: "transform 300ms var(--motion-easing-emphasized)",
-            }}
-          />
         </div>
-        <p 
-          className="clr-text-secondary font-body transition-standard"
+        <p
+          className="clr-text-secondary font-body"
           style={{
             fontSize: "var(--text-body-sm)",
             lineHeight: 1.6,

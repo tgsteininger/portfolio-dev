@@ -165,7 +165,7 @@ export function CaseStudySectionNav() {
                 "relative font-ui whitespace-nowrap transition-fast",
                 "py-[var(--space-04)] px-[var(--space-02)] -mx-[var(--space-02)]",
                 "rounded-[var(--radius-02)]",
-                "focus-visible:focus-ring-standard outline-none",
+                "focus-ring-standard outline-none",
                 activeSection === item.id
                   ? "clr-text-primary font-medium"
                   : "clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-bg-surface-subtle)] font-normal"
@@ -199,7 +199,7 @@ export function CaseStudySectionNav() {
         <div className="layout-shell">
           <button
             onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
-            className="flex items-center justify-between w-full cursor-pointer transition-fast hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] rounded-[var(--radius-02)] focus-visible:focus-ring-standard outline-none"
+            className="flex items-center justify-between w-full cursor-pointer transition-fast hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] rounded-[var(--radius-02)] focus-ring-standard outline-none"
             style={{
               height: "56px",
               padding: "0 var(--space-03)",
@@ -270,7 +270,7 @@ export function CaseStudySectionNav() {
                     onClick={(e) => handleNavClick(e, item.id)}
                     className={cn(
                       "flex items-center justify-between w-full text-left font-body transition-fast cursor-pointer",
-                      "focus-visible:focus-ring-standard outline-none",
+                      "focus-ring-standard outline-none",
                       "active:scale-[0.99]",
                       activeSection === item.id
                         ? "clr-text-primary bg-[var(--color-cyan-50)]"

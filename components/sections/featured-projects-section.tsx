@@ -76,7 +76,7 @@ const CARD_SURFACE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
 const CARD_SURFACE_TRANSFORM_DURATION = "700ms"
 const CARD_SURFACE_SHADOW_DURATION = "760ms"
 
-/** Metric underline: fill animates on pointer hover only (independent of elevation / `isEmphasized`). */
+/** Metric underline: fill animates on pointer hover or keyboard focus (independent of default resting emphasis). */
 const METRIC_UNDERLINE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
 const METRIC_UNDERLINE_DURATION = "570ms"
 
@@ -179,9 +179,15 @@ function ProjectCard({
   onCardBlur: (e: FocusEvent<HTMLAnchorElement>) => void
 }) {
   const [isPointerOverCard, setIsPointerOverCard] = useState(false)
+  const [isLinkFocused, setIsLinkFocused] = useState(false)
 
   const isFeaturedResting =
-    isEmphasized && isDefaultFeatured && !isPointerOverCard
+    isEmphasized &&
+    isDefaultFeatured &&
+    !isPointerOverCard &&
+    !isLinkFocused
+
+  const showCardHoverVisuals = isPointerOverCard || isLinkFocused
 
   return (
     <Link
@@ -195,10 +201,16 @@ function ProjectCard({
         setIsPointerOverCard(false)
         onCardMouseLeave(e)
       }}
-      onFocus={onCardHover}
-      onBlur={onCardBlur}
+      onFocus={() => {
+        setIsLinkFocused(true)
+        onCardHover()
+      }}
+      onBlur={(e) => {
+        setIsLinkFocused(false)
+        onCardBlur(e)
+      }}
       className={cn(
-        "group block h-full min-h-0 outline-none rounded-[var(--radius-04)] focus-visible:focus-ring-standard",
+        "group selected-work-card-link transition-fast ease-[var(--motion-easing-decelerate)] block h-full min-h-0 outline-none rounded-[var(--radius-04)] active:scale-[0.99]",
         isEmphasized && "relative z-[1]"
       )}
     >
@@ -371,7 +383,7 @@ function ProjectCard({
 
         {/* Project Title */}
         <h3
-          className="font-heading clr-text-primary group-hover:clr-text-accent motion-reduce:transition-none"
+          className="font-heading clr-text-primary group-hover:clr-text-accent group-focus-visible:clr-text-accent motion-reduce:transition-none"
           style={{
             fontSize: "var(--text-heading-04)",
             fontWeight: 600,
@@ -417,7 +429,7 @@ function ProjectCard({
           className="mt-auto flex w-full min-w-0 flex-col"
           style={{ paddingTop: "var(--space-07)" }}
         >
-          {/* Metric underline: neutral track + fill expands on pointer hover only (not default `isEmphasized`) */}
+          {/* Metric underline: neutral track + fill expands on hover or link focus-visible (not default resting emphasis alone) */}
           <div aria-hidden className="w-full" style={{ marginBottom: "var(--space-05)" }}>
             <div className="relative w-full" style={{ height: "var(--stroke-02)" }}>
               <div
@@ -427,8 +439,8 @@ function ProjectCard({
               <div
                 className="absolute top-0 bottom-0 left-0 max-w-full rounded-[1px] motion-reduce:transition-none"
                 style={{
-                  width: isPointerOverCard ? "75%" : "var(--space-09)",
-                  backgroundColor: isPointerOverCard
+                  width: showCardHoverVisuals ? "75%" : "var(--space-09)",
+                  backgroundColor: showCardHoverVisuals
                     ? "var(--color-cyan-500)"
                     : "var(--color-cyan-200)",
                   transitionProperty: "width, background-color",

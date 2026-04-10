@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { caseStudies } from "@/lib/navigation"
+import { openContactEmail } from "@/lib/contact-mailto"
 
 interface MobileNavProps {
   isOpen: boolean
@@ -29,30 +30,17 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Drawer first in DOM so Tab moves through panel before overlay control */}
       <div
         className={cn(
-          "fixed inset-0 z-40 md:hidden",
-          "bg-[color-mix(in_srgb,var(--color-neutral-900)_40%,transparent)]",
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-        )}
-        style={{
-          transition: "opacity 250ms var(--motion-easing-decelerate), visibility 250ms",
-        }}
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Drawer */}
-      <div
-        className={cn(
-          "fixed top-0 right-0 bottom-0 w-full max-w-[24rem] z-50 md:hidden",
+          "fixed top-0 right-0 bottom-0 z-50 w-full max-w-[24rem] md:hidden",
           "clr-bg-surface",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
         style={{
           transition: "transform 300ms var(--motion-easing-emphasized)",
         }}
+        inert={!isOpen ? true : undefined}
       >
         <div className="flex flex-col h-full">
           {/* Drawer Header */}
@@ -62,7 +50,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             </span>
             <button
               onClick={onClose}
-              className="p-[var(--space-03)] -mr-[var(--space-03)] clr-icon-primary transition-fast hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] rounded-[var(--radius-02)] focus-visible:focus-ring-standard outline-none"
+              className="focus-ring-standard p-[var(--space-03)] -mr-[var(--space-03)] clr-icon-primary transition-fast hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] rounded-[var(--radius-02)] outline-none"
               aria-label="Close menu"
             >
               <svg
@@ -90,7 +78,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   href="/"
                   onClick={onClose}
                   prefetch={false}
-                  className="block font-body text-[length:var(--text-body-md)] clr-text-primary rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] focus-visible:focus-ring-standard outline-none transition-fast"
+                  className="focus-ring-standard block font-body text-[length:var(--text-body-md)] clr-text-primary rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] outline-none transition-fast"
                   style={{
                     padding: "var(--space-03) var(--space-04)",
                     marginLeft: "calc(var(--space-04) * -1)",
@@ -118,7 +106,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                       href={study.href}
                       onClick={onClose}
                       prefetch={false}
-                      className="block font-body text-[length:var(--text-body-md)] clr-text-primary rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] focus-visible:focus-ring-standard outline-none transition-fast"
+                      className="focus-ring-standard block font-body text-[length:var(--text-body-md)] clr-text-primary rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] outline-none transition-fast"
                       style={{
                         padding: "var(--space-03) var(--space-04)",
                         marginLeft: "calc(var(--space-04) * -1)",
@@ -135,20 +123,38 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
           {/* Drawer Footer */}
           <div className="p-[var(--space-05)] border-t clr-border-default">
-            <Link
-              href="/contact"
-              onClick={onClose}
-              prefetch={false}
-              className="block w-full text-center font-ui font-medium text-[length:var(--text-body-sm)] btn-primary-interactive focus-visible:focus-ring-standard outline-none"
+            <button
+              type="button"
+              onClick={() => {
+                onClose()
+                openContactEmail()
+              }}
+              className="cursor-pointer border-0 font-inherit btn-primary-interactive focus-ring-standard block w-full text-center font-ui font-medium text-[length:var(--text-body-sm)] outline-none"
               style={{
                 padding: "var(--space-04) var(--space-05)",
               }}
             >
               Contact
-            </Link>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Backdrop: pointer dismiss; tabIndex -1 keeps Tab inside drawer (close + links) */}
+      <button
+        type="button"
+        tabIndex={-1}
+        className={cn(
+          "fixed inset-0 z-40 cursor-default border-0 p-0 md:hidden",
+          "bg-[color-mix(in_srgb,var(--color-neutral-900)_40%,transparent)]",
+          isOpen ? "visible opacity-100" : "invisible pointer-events-none opacity-0"
+        )}
+        style={{
+          transition: "opacity 250ms var(--motion-easing-decelerate), visibility 250ms",
+        }}
+        onClick={onClose}
+        aria-label="Close menu"
+      />
     </>
   )
 }

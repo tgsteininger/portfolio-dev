@@ -9,7 +9,7 @@ import { ChevronRight } from "lucide-react"
  */
 export function AboutSection() {
   return (
-    <Section id="about" background="subtle">
+    <Section id="about" background="subtleBlue">
       <Container>
         <div
           className="grid grid-cols-1 lg:grid-cols-12 text-left"
@@ -63,8 +63,8 @@ export function AboutSection() {
               {/* CTA Link — inline, left-aligned vs centered CTASection below */}
               <div style={{ marginTop: "var(--space-03)" }}>
                 <Link
-                  href="/work"
-                  className="group inline-flex items-center clr-text-accent font-ui transition-fast rounded-[var(--radius-02)] focus-visible:focus-ring-standard outline-none hover:underline underline-offset-4"
+                  href="/case-studies/coca-cola"
+                  className="group focus-ring-standard inline-flex items-center clr-text-accent font-ui transition-fast rounded-[var(--radius-02)] outline-none hover:underline underline-offset-4"
                   style={{
                     fontSize: "var(--text-body-md)",
                     fontWeight: 500,
@@ -73,7 +73,7 @@ export function AboutSection() {
                     margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
                   }}
                 >
-                  <span>Explore My Work</span>
+                  <span>View Case Study</span>
                   <ChevronRight
                     className="arrow-shift-right"
                     style={{

@@ -39,7 +39,7 @@ function AccordionTrigger({
           'transition-fast outline-none',
           'hover:bg-[var(--color-bg-surface-subtle)]',
           'active:bg-[var(--color-neutral-100)] active:scale-[0.99]',
-          'focus-visible:focus-ring-standard',
+          'focus-ring-standard',
           'disabled:pointer-events-none disabled:opacity-50',
           '[&[data-state=open]>svg]:rotate-180',
           className,

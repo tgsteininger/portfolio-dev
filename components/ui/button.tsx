@@ -19,9 +19,9 @@ const buttonVariants = cva(
     // States
     "disabled:pointer-events-none disabled:opacity-50",
     // Focus - consistent accessible focus ring
-    "outline-none focus-visible:focus-ring-standard",
-    // Pressed state - subtle scale
-    "active:scale-[0.98]",
+    "outline-none focus-ring-standard",
+    // Pressed state — subtle inset feel (stacks with transition-fast)
+    "active:scale-[0.985]",
     // Icons
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
   ].join(" "),

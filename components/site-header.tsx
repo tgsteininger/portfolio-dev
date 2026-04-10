@@ -7,6 +7,7 @@ import { mainNavigation, type NavGroup, type NavItem } from "@/lib/navigation"
 
 import { MegaMenu } from "@/components/mega-menu"
 import { MobileNav } from "@/components/mobile-nav"
+import { openContactEmail } from "@/lib/contact-mailto"
 
 function isNavGroup(item: NavItem | NavGroup): item is NavGroup {
   return "caseStudies" in item
@@ -77,7 +78,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
             <Link
               href="/"
               prefetch={false}
-              className="font-heading font-semibold text-[length:var(--text-body-lg)] tracking-tight clr-text-primary transition-fast hover:clr-text-accent focus-visible:focus-ring-standard outline-none rounded-[var(--radius-02)] px-[var(--space-02)] -mx-[var(--space-02)]"
+              className="focus-ring-standard font-heading font-semibold text-[length:var(--text-body-lg)] tracking-tight clr-text-primary transition-fast hover:clr-text-accent outline-none rounded-[var(--radius-02)] px-[var(--space-02)] -mx-[var(--space-02)]"
             >
               Steininger UX
             </Link>
@@ -114,7 +115,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
                       "font-ui font-medium text-[length:var(--text-body-sm)]",
                       "flex items-center py-[var(--space-03)] relative",
                       "transition-fast outline-none",
-                      "focus-visible:focus-ring-standard rounded-[var(--radius-02)]",
+                      "focus-ring-standard rounded-[var(--radius-02)]",
                       activeDropdown === item.label
                         ? "clr-text-primary" 
                         : "clr-text-secondary hover:clr-text-primary"
@@ -175,14 +176,15 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
 
           {/* Right side: Contact button only */}
           <div className="hidden md:flex items-center">
-            <Link
-              href="/contact"
-              prefetch={false}
+            <button
+              type="button"
+              onClick={() => openContactEmail()}
               className={cn(
+                "cursor-pointer border-0 font-inherit",
                 "font-ui font-medium text-[length:var(--text-body-sm)]",
                 "btn-primary-interactive",
                 "inline-flex items-center justify-center",
-                "focus-visible:focus-ring-standard"
+                "focus-ring-standard"
               )}
               style={{
                 height: "var(--button-height-md)",
@@ -190,7 +192,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
               }}
             >
               Contact
-            </Link>
+            </button>
           </div>
 
           {/* Mobile Menu Trigger */}
@@ -199,7 +201,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
               "md:hidden clr-icon-primary transition-fast",
               "hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)]",
               "rounded-[var(--radius-02)]",
-              "focus-visible:focus-ring-standard outline-none"
+              "focus-ring-standard outline-none"
             )}
             style={{ padding: "var(--space-03)", marginRight: "calc(var(--space-03) * -1)" }}
             onClick={() => setMobileNavOpen(true)}
