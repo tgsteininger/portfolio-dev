@@ -134,7 +134,7 @@ export function CaseStudyHero() {
 
           <div className="col-span-4 flex min-h-0 items-center justify-center md:col-span-6 lg:col-span-7">
             <div
-              className="relative w-full max-w-[min(100%,40rem)] lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
+              className="hero-image-reveal-surface relative w-full max-w-[min(100%,40rem)] lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
               style={{
                 padding: "var(--space-02)",
                 borderRadius: "var(--radius-03)",

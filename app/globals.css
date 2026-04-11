@@ -514,6 +514,28 @@ body {
   }
 }
 
+
+/* ============================================
+   Case Study Hero — Image Reveal (one-time)
+   ============================================ */
+
+   @media (prefers-reduced-motion: no-preference) {
+    .hero-image-reveal {
+      opacity: 0;
+      transform: translateY(var(--motion-distance-02));
+      animation: hero-image-reveal-enter var(--motion-duration-06) var(--motion-easing-premium) 180ms forwards;
+      will-change: opacity, transform;
+    }
+  
+    @keyframes hero-image-reveal-enter {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  
 /* Utility classes */
 @layer utilities {
   /* ============================================
