@@ -20,10 +20,19 @@ export function AppBackground() {
       style={{ zIndex: 0 }}
       aria-hidden="true"
     >
-      {/* Base surface */}
-      <div 
+      {/* Base surface — cool blue-tinted gradient so panels read as one system (not flat white) */}
+      <div
         className="absolute inset-0"
-        style={{ backgroundColor: "var(--color-bg-surface-subtle)" }}
+        style={{
+          background: `
+            linear-gradient(
+              168deg,
+              color-mix(in srgb, var(--color-blue-50) 72%, var(--color-neutral-50)) 0%,
+              var(--color-bg-surface-subtle) 42%,
+              color-mix(in srgb, var(--color-blue-100) 22%, var(--color-neutral-50)) 100%
+            )
+          `,
+        }}
       />
       
       {/* Panel Layer - Multiple overlapping translucent rectangles */}

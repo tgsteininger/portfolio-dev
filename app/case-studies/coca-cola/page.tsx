@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { AppBackground } from "@/components/app-background"
 import { SiteHeader } from "@/components/site-header"
 import { CaseStudySectionNav } from "@/components/case-study/case-study-section-nav"
-import { HeroSection } from "@/components/sections/hero-section"
+import { CaseStudyHero } from "@/components/case-study/CaseStudyHero"
 import { ExecutiveSummarySection } from "@/components/case-study/executive-summary-section"
 import { BusinessOutcomesSection } from "@/components/case-study/business-outcomes-section"
 import { SystemTransformationSection } from "@/components/case-study/system-transformation-section"
@@ -44,15 +44,7 @@ export default function CocaColaCaseStudyPage() {
           paddingTop: "var(--space-13)",
         }}
       >
-        {/* Hero Section */}
-        <HeroSection
-          eyebrow="Case Study"
-          headlineMain="Global Supply Chain CMS"
-          headlineContinuation="Enterprise Survey & Benchmarking for Coca-Cola bottling operations."
-          description="Designed a content management system that transformed a fragmented survey process into a structured, role-based workflow for global facilities."
-          ctaLabel="View Process"
-          ctaHref="#executive-summary"
-        />
+        <CaseStudyHero />
 
         {/* Executive Summary Section */}
         <ExecutiveSummarySection

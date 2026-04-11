@@ -78,6 +78,8 @@
   --radius-03: 0.5rem;    /* 8 */
   --radius-04: 0.75rem;   /* 12 */
   --radius-05: 1rem;      /* 16 */
+  /* Alias for large surfaces (e.g. case study hero image) */
+  --radius-lg: var(--radius-05);
   --radius-full: 9999px;
 
   /* Stroke */

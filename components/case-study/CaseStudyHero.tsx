@@ -1,0 +1,172 @@
+"use client"
+
+import Image from "next/image"
+import { Container, Grid } from "@/components/layout"
+
+/** Production hero — file: `public/images/case-studies/coca-cola-hero.png` */
+const CASE_STUDY_HERO_IMAGE = "/images/case-studies/coca-cola-hero.png"
+
+const HERO_METADATA = [
+  { label: "ROLE", value: "Lead UX Designer" },
+  {
+    label: "SCOPE",
+    value: "Workflow design, role-based UX, prototyping, usability validation",
+  },
+  { label: "PLATFORM", value: "PowerApps enterprise CMS" },
+  { label: "KEY OUTCOME", value: "Scalable, centralized workflow" },
+] as const
+
+/**
+ * Coca-Cola case study hero — transparent over AppBackground (no local surface/panel layers).
+ */
+export function CaseStudyHero() {
+  return (
+    <section
+      id="overview"
+      className="relative z-[1] w-full bg-transparent"
+      aria-labelledby="case-study-hero-title"
+      style={{
+        marginTop: "calc(-1 * var(--space-13))",
+        paddingTop: "calc(var(--space-13) + var(--space-10))",
+        paddingBottom: "var(--space-13)",
+        marginBottom: "var(--space-08)",
+      }}
+    >
+      <Container className="relative">
+        <Grid
+          cols={12}
+          gap="lg"
+          className="items-center"
+          style={{
+            rowGap: "var(--space-11)",
+            columnGap: "clamp(var(--space-08), 5vw, var(--space-10))",
+          }}
+        >
+          <div
+            className="col-span-4 flex min-w-0 flex-col items-start text-left md:col-span-6 lg:col-span-5"
+            style={{
+              maxWidth: "min(100%, 36rem)",
+              paddingLeft: "var(--space-05)",
+              borderLeft:
+                "1px solid color-mix(in srgb, var(--color-blue-300) 38%, transparent)",
+            }}
+          >
+            <p
+              className="font-ui font-medium"
+              style={{
+                marginBottom: "var(--space-03)",
+                fontSize: "var(--text-body-sm)",
+                letterSpacing: "0.08em",
+                color: "color-mix(in srgb, var(--color-text-secondary) 92%, transparent)",
+              }}
+            >
+              Coca-Cola
+            </p>
+
+            <h1
+              id="case-study-hero-title"
+              className="font-heading clr-text-primary"
+              style={{
+                marginBottom: "var(--space-05)",
+                fontSize:
+                  "clamp(calc(var(--text-heading-02) * 1.06), 3.6vw + 0.55rem, 2.875rem)",
+                fontWeight: 700,
+                letterSpacing: "-0.028em",
+                lineHeight: 1.05,
+                textWrap: "balance",
+              }}
+            >
+              Global Supply Chain
+              <span className="-mt-[0.04em] block">Benchmarking CMS</span>
+            </h1>
+
+            <p
+              className="font-body"
+              style={{
+                marginBottom: "var(--space-07)",
+                fontSize: "var(--text-body-md)",
+                lineHeight: 1.62,
+                color: "var(--color-text-secondary)",
+                maxWidth: "32rem",
+              }}
+            >
+              Designing a structured survey platform for Coca-Cola&apos;s global bottling
+              network
+            </p>
+
+            <div
+              className="grid w-full min-w-0"
+              style={{
+                gap: "var(--space-05) var(--space-08)",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              }}
+            >
+              {HERO_METADATA.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex min-w-0 flex-col"
+                  style={{ gap: "var(--space-01)" }}
+                >
+                  <p
+                    className="font-ui font-medium uppercase tracking-widest"
+                    style={{
+                      fontSize: "var(--text-caption)",
+                      letterSpacing: "0.14em",
+                      color: "color-mix(in srgb, var(--color-text-tertiary) 88%, transparent)",
+                    }}
+                  >
+                    {item.label}
+                  </p>
+                  <p
+                    className="font-body min-w-0 clr-text-primary"
+                    style={{
+                      fontSize: "var(--text-body-sm)",
+                      lineHeight: 1.45,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="col-span-4 flex min-h-0 items-center justify-center md:col-span-6 lg:col-span-7">
+            <div
+              className="relative w-full max-w-[min(100%,40rem)] lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
+              style={{
+                padding: "var(--space-02)",
+                borderRadius: "var(--radius-03)",
+                backgroundColor:
+                  "color-mix(in srgb, var(--color-neutral-0) 42%, transparent)",
+                border:
+                  "1px solid color-mix(in srgb, var(--color-border-subtle) 55%, transparent)",
+                boxShadow: "var(--elevation-00)",
+                WebkitBackdropFilter: "blur(6px)",
+                backdropFilter: "blur(6px)",
+              }}
+            >
+              <div
+                className="relative w-full overflow-hidden"
+                style={{
+                  height: "min(56vh, 36rem)",
+                  minHeight: "15rem",
+                }}
+              >
+                <Image
+                  src={CASE_STUDY_HERO_IMAGE}
+                  alt="Coca-Cola global supply chain benchmarking CMS on a laptop"
+                  fill
+                  className="object-contain object-center"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </Grid>
+      </Container>
+    </section>
+  )
+}
