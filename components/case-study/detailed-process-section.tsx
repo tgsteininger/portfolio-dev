@@ -19,7 +19,9 @@ export function DetailedProcessSection() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [underlineAnimated, setUnderlineAnimated] = useState(false)
   const [hasUserScrolled, setHasUserScrolled] = useState(false)
+  const [accordionFocusVisible, setAccordionFocusVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
+  const expandedContentRef = useRef<HTMLDivElement>(null)
 
   // Require at least one scroll interaction before allowing underline animation.
   useEffect(() => {
@@ -71,6 +73,19 @@ export function DetailedProcessSection() {
 
     return () => observer.disconnect()
   }, [hasUserScrolled, underlineAnimated])
+
+  // Keep collapsed content out of keyboard and assistive-tech flow.
+  useEffect(() => {
+    const panel = expandedContentRef.current
+    if (!panel) return
+
+    if (isExpanded) {
+      panel.removeAttribute("inert")
+      return
+    }
+
+    panel.setAttribute("inert", "")
+  }, [isExpanded])
 
   return (
     <section
@@ -161,7 +176,16 @@ export function DetailedProcessSection() {
           style={{ marginBottom: isExpanded ? "var(--space-06)" : "0" }}
         >
           <button
+            id="detailed-process-toggle"
             onClick={() => setIsExpanded(!isExpanded)}
+            onFocus={(event) =>
+              setAccordionFocusVisible(event.currentTarget.matches(":focus-visible"))
+            }
+            onBlur={() => setAccordionFocusVisible(false)}
+            onKeyDown={() => setAccordionFocusVisible(true)}
+            onPointerDown={() => setAccordionFocusVisible(false)}
+            aria-expanded={isExpanded}
+            aria-controls="detailed-process-expanded-content"
             className={`flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] focus-ring-standard outline-none active:scale-[0.98] ${
               isExpanded 
                 ? "bg-[var(--action-primary)] text-[var(--text-inverse)] hover:bg-[var(--action-primary-hover)] active:bg-[var(--action-primary-active)]" 
@@ -178,7 +202,11 @@ export function DetailedProcessSection() {
               border: isExpanded
                 ? undefined
                 : "var(--stroke-01) solid color-mix(in srgb, var(--color-blue-200) 38%, var(--color-border-subtle))",
-              boxShadow: isExpanded ? undefined : "var(--elevation-00)",
+              boxShadow: accordionFocusVisible
+                ? "0 0 0 2px color-mix(in srgb, var(--color-neutral-0) 70%, transparent), 0 0 0 4px var(--color-border-focus)"
+                : isExpanded
+                  ? undefined
+                  : "var(--elevation-00)",
               transitionProperty:
                 "background-color, border-color, box-shadow, color, transform",
               transitionDuration:
@@ -205,6 +233,11 @@ export function DetailedProcessSection() {
 
       {/* Expandable Content Container - Full Width Bands */}
       <div
+        id="detailed-process-expanded-content"
+        ref={expandedContentRef}
+        role="region"
+        aria-labelledby="detailed-process-toggle"
+        aria-hidden={!isExpanded}
         className="transition-emphasized"
         style={{
           display: "grid",
@@ -504,7 +537,7 @@ function BeforeAfterBand() {
               className="relative"
               style={{
                 backgroundColor:
-                  "color-mix(in srgb, var(--color-neutral-0) 62%, transparent)",
+                  "color-mix(in srgb, var(--color-blue-100) 24%, transparent)",
                 borderRadius: "var(--radius-04)",
                 padding: "var(--space-06)",
                 border:
@@ -622,6 +655,33 @@ function InteractiveComparisonSlider() {
     setIsDragging(false)
   }
 
+  const handleSliderKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 10 : 2
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault()
+      setSliderPosition((prev) => Math.max(0, prev - step))
+      return
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault()
+      setSliderPosition((prev) => Math.min(100, prev + step))
+      return
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault()
+      setSliderPosition(0)
+      return
+    }
+
+    if (event.key === "End") {
+      event.preventDefault()
+      setSliderPosition(100)
+    }
+  }
+
   // Handle click on container to move slider
   const handleContainerClick = (e: React.MouseEvent) => {
     handleMove(e.clientX)
@@ -672,9 +732,10 @@ function InteractiveComparisonSlider() {
     >
       {/* Before Image (Bottom Layer) */}
       <img
-        src="/images/case-studies/coca-cola/comparisonbefore.png"
+        src="/images/case-studies/coca-cola/comparisonbefore.webp"
         alt="Legacy admin-only tool interface"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
         draggable={false}
       />
 
@@ -686,9 +747,10 @@ function InteractiveComparisonSlider() {
         }}
       >
         <img
-          src="/images/case-studies/coca-cola/comparisonafter.png"
+          src="/images/case-studies/coca-cola/comparisonafter.webp"
           alt="New shared web interface"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
           draggable={false}
         />
       </div>
@@ -725,7 +787,7 @@ function InteractiveComparisonSlider() {
           letterSpacing: "0.05em",
           textTransform: "uppercase",
           backgroundColor: "var(--color-blue-500)",
-          color: "var(--color-neutral-0)",
+          color: "#FFFFFF",
           padding: "var(--space-02) var(--space-03)",
           borderRadius: "var(--radius-02)",
           opacity: sliderPosition > 85 ? 0 : 1,
@@ -744,7 +806,7 @@ function InteractiveComparisonSlider() {
           backgroundColor:
             isSliderHovered || isDragging
               ? "var(--color-blue-500)"
-              : "var(--color-border-subtle)",
+              : "var(--color-blue-500)",
           boxShadow: "0 0 8px rgba(0, 0, 0, 0.3)",
           transform: "translateX(-50%)",
           transition:
@@ -755,6 +817,13 @@ function InteractiveComparisonSlider() {
       {/* Draggable Handle */}
       <div
         className="absolute top-1/2 flex items-center justify-center"
+        role="slider"
+        tabIndex={0}
+        aria-label="Before and after comparison slider"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(sliderPosition)}
+        aria-valuetext={`${Math.round(sliderPosition)}% toward after view`}
         style={{
           left: `${sliderPosition}%`,
           transform: `translate(-50%, -50%) scale(${
@@ -764,8 +833,8 @@ function InteractiveComparisonSlider() {
           height: "44px",
           backgroundColor:
             isSliderHovered || isDragging
-              ? "var(--color-blue-500)"
-              : "var(--color-neutral-100)",
+              ? "var(--color-blue-600)"
+              : "var(--color-blue-500)",
           borderRadius: "var(--radius-full)",
           boxShadow: isDragging ? "0 4px 16px rgba(0, 0, 0, 0.25)" : "0 2px 12px rgba(0, 0, 0, 0.2)",
           border: "2px solid var(--color-border-subtle)",
@@ -776,6 +845,7 @@ function InteractiveComparisonSlider() {
         }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
+        onKeyDown={handleSliderKeyDown}
       >
         <svg
           style={{
@@ -784,7 +854,7 @@ function InteractiveComparisonSlider() {
             color:
               isSliderHovered || isDragging
                 ? "var(--color-neutral-0)"
-                : "var(--color-neutral-500)",
+                : "var(--color-neutral-0)",
             transition: "color 160ms ease",
           }}
           viewBox="0 0 24 24"
@@ -810,6 +880,9 @@ function MyDesignMovesBand() {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const hoverResetTimeoutRef = useRef<number | null>(null)
+  const lightboxDialogRef = useRef<HTMLDivElement>(null)
+  const lightboxCloseButtonRef = useRef<HTMLButtonElement>(null)
+  const lightboxLastTriggerRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -878,6 +951,23 @@ function MyDesignMovesBand() {
   ]
   const interactiveItemCount = supportingImages.length
 
+  const formatImageLabel = (label: string) =>
+    label
+      .split(" ")
+      .map((word) => {
+        if (word === "/") return word
+        const alphanumeric = word.replace(/[^A-Za-z0-9]/g, "")
+        if (
+          alphanumeric.length <= 2 &&
+          alphanumeric.length > 0 &&
+          alphanumeric.toUpperCase() === alphanumeric
+        ) {
+          return word.toUpperCase()
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      })
+      .join(" ")
+
   const clearHoverResetTimeout = () => {
     if (hoverResetTimeoutRef.current !== null) {
       window.clearTimeout(hoverResetTimeoutRef.current)
@@ -921,12 +1011,23 @@ function MyDesignMovesBand() {
     setSelectedImageIndex((selectedImageIndex + 1) % supportingImages.length)
   }
 
+  const closeLightbox = () => {
+    setSelectedImageIndex(null)
+  }
+
+  const currentLightboxImage =
+    selectedImageIndex !== null ? supportingImages[selectedImageIndex] : null
+
+  const currentLightboxLabel = currentLightboxImage
+    ? formatImageLabel(currentLightboxImage.label)
+    : ""
+
   useEffect(() => {
     if (selectedImageIndex === null) return
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setSelectedImageIndex(null)
+        closeLightbox()
         return
       }
 
@@ -939,11 +1040,53 @@ function MyDesignMovesBand() {
       if (event.key === "ArrowRight") {
         event.preventDefault()
         showNextImage()
+        return
+      }
+
+      if (event.key === "Tab") {
+        const dialog = lightboxDialogRef.current
+        if (!dialog) return
+        const focusableElements = Array.from(
+          dialog.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        )
+
+        if (focusableElements.length === 0) {
+          event.preventDefault()
+          return
+        }
+
+        const firstElement = focusableElements[0]
+        const lastElement = focusableElements[focusableElements.length - 1]
+        const activeElement = document.activeElement as HTMLElement | null
+
+        if (event.shiftKey && activeElement === firstElement) {
+          event.preventDefault()
+          lastElement.focus()
+          return
+        }
+
+        if (!event.shiftKey && activeElement === lastElement) {
+          event.preventDefault()
+          firstElement.focus()
+        }
       }
     }
 
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [selectedImageIndex])
+
+  useEffect(() => {
+    if (selectedImageIndex !== null) {
+      const raf = window.requestAnimationFrame(() => {
+        lightboxCloseButtonRef.current?.focus()
+      })
+      return () => window.cancelAnimationFrame(raf)
+    }
+
+    lightboxLastTriggerRef.current?.focus()
   }, [selectedImageIndex])
 
   useEffect(() => {
@@ -984,7 +1127,6 @@ function MyDesignMovesBand() {
               {designMoves.map((move, index) => (
                 <div
                   key={move.number}
-                  tabIndex={index < interactiveItemCount ? 0 : undefined}
                   onPointerEnter={
                     index < interactiveItemCount
                       ? () => handleContentEnter(index)
@@ -995,19 +1137,7 @@ function MyDesignMovesBand() {
                       ? () => scheduleHoverReset("content")
                       : undefined
                   }
-                  onFocus={
-                    index < interactiveItemCount
-                      ? () => handleContentEnter(index)
-                      : undefined
-                  }
-                  onBlur={
-                    index < interactiveItemCount
-                      ? () => scheduleHoverReset("content")
-                      : undefined
-                  }
-                  className={`transition-standard outline-none ${
-                    index < interactiveItemCount ? "focus-ring-standard" : ""
-                  }`}
+                  className="transition-standard"
                   style={{
                     marginBottom: index === designMoves.length - 1 ? "0" : "var(--space-07)",
                     backgroundColor:
@@ -1070,13 +1200,16 @@ function MyDesignMovesBand() {
               <div key={image.label}>
                 <button
                   type="button"
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={(event) => {
+                    lightboxLastTriggerRef.current = event.currentTarget
+                    setSelectedImageIndex(index)
+                  }}
                   onPointerEnter={() => handleThumbnailEnter(index)}
                   onPointerLeave={() => scheduleHoverReset("thumbnail")}
                   onFocus={() => handleThumbnailEnter(index)}
                   onBlur={() => scheduleHoverReset("thumbnail")}
                   className="block w-full cursor-pointer text-left focus-ring-standard outline-none"
-                  aria-label={`Open ${image.label} image preview`}
+                  aria-label={`Open ${formatImageLabel(image.label)} image, ${index + 1} of ${supportingImages.length}`}
                   aria-haspopup="dialog"
                 >
                   <div
@@ -1087,7 +1220,9 @@ function MyDesignMovesBand() {
                       boxShadow: isActive
                         ? "0 8px 20px rgba(0, 0, 0, 0.12)"
                         : "0 4px 12px rgba(0, 0, 0, 0.08)",
-                      border: "var(--stroke-01) solid var(--color-border-subtle)",
+                      border: isActive
+                        ? "var(--stroke-01) solid var(--color-blue-500)"
+                        : "var(--stroke-01) solid var(--color-border-subtle)",
                       backgroundColor: "var(--color-bg-page)",
                       transform:
                         prefersReducedMotion || !isActive ? "scale(1)" : "scale(1.012)",
@@ -1103,6 +1238,7 @@ function MyDesignMovesBand() {
                       src={image.thumbnailSrc}
                       alt={image.alt}
                       className="w-full h-auto object-cover"
+                      loading="lazy"
                       style={{ 
                         aspectRatio: "16/10",
                         transform:
@@ -1123,14 +1259,18 @@ function MyDesignMovesBand() {
                         fontWeight: 600,
                         letterSpacing: "0.06em",
                         textTransform: "uppercase",
-                        color: isActive ? "white" : "var(--color-blue-grey-600)",
+                        color: isActive ? "#FFFFFF" : "var(--color-neutral-600)",
                         backgroundColor: isActive
                           ? "var(--color-blue-500)"
-                          : "rgba(255, 255, 255, 0.92)",
+                          : "var(--color-neutral-100)",
+                        border: "var(--stroke-01) solid",
+                        borderColor: isActive
+                          ? "var(--color-blue-500)"
+                          : "var(--color-neutral-200)",
                         borderRadius: "var(--radius-02)",
                         padding: "6px 10px",
                         lineHeight: 1,
-                        transitionProperty: "background-color, color",
+                        transitionProperty: "background-color, color, border-color",
                         transitionDuration: "var(--motion-duration-03)",
                         transitionTimingFunction: "var(--motion-easing-premium)",
                       }}
@@ -1150,12 +1290,30 @@ function MyDesignMovesBand() {
         createPortal(
           <div
             className="fixed inset-0 z-[1200] flex items-center justify-center"
+            ref={lightboxDialogRef}
             style={{ backgroundColor: "rgba(15, 23, 42, 0.72)" }}
             role="dialog"
             aria-modal="true"
-            aria-label="Image preview"
-            onClick={() => setSelectedImageIndex(null)}
+            aria-labelledby="my-design-moves-lightbox-title"
+            aria-describedby="my-design-moves-lightbox-caption"
+            onClick={closeLightbox}
           >
+            <h2
+              id="my-design-moves-lightbox-title"
+              style={{
+                position: "absolute",
+                width: "1px",
+                height: "1px",
+                padding: 0,
+                margin: "-1px",
+                overflow: "hidden",
+                clip: "rect(0, 0, 0, 0)",
+                whiteSpace: "nowrap",
+                border: 0,
+              }}
+            >
+              My Design Moves image preview
+            </h2>
             <button
               type="button"
               onClick={(event) => {
@@ -1178,7 +1336,7 @@ function MyDesignMovesBand() {
                 zIndex: 4,
                 transition: "background-color 180ms var(--motion-easing-standard), transform 180ms var(--motion-easing-standard), border-color 180ms var(--motion-easing-standard)",
               }}
-              aria-label="Previous image"
+              aria-label="Show previous image"
             >
               <ChevronLeft size={18} aria-hidden="true" />
             </button>
@@ -1205,7 +1363,7 @@ function MyDesignMovesBand() {
                 zIndex: 4,
                 transition: "background-color 180ms var(--motion-easing-standard), transform 180ms var(--motion-easing-standard), border-color 180ms var(--motion-easing-standard)",
               }}
-              aria-label="Next image"
+              aria-label="Show next image"
             >
               <ChevronRight size={18} aria-hidden="true" />
             </button>
@@ -1215,8 +1373,9 @@ function MyDesignMovesBand() {
               onClick={(event) => event.stopPropagation()}
             >
               <button
+                ref={lightboxCloseButtonRef}
                 type="button"
-                onClick={() => setSelectedImageIndex(null)}
+                onClick={closeLightbox}
                 className="flex items-center justify-center focus-ring-standard outline-none"
                 style={{
                   position: "absolute",
@@ -1242,6 +1401,7 @@ function MyDesignMovesBand() {
                 src={supportingImages[selectedImageIndex].fullSrc}
                 alt={supportingImages[selectedImageIndex].alt}
                 className="w-full h-auto"
+                loading="lazy"
                 style={{
                   borderRadius: "var(--radius-03)",
                   boxShadow: "0 12px 36px rgba(0, 0, 0, 0.35)",
@@ -1250,6 +1410,43 @@ function MyDesignMovesBand() {
                   backgroundColor: "var(--color-neutral-900)",
                 }}
               />
+
+              <p
+                id="my-design-moves-lightbox-caption"
+                className="font-body"
+                style={{
+                  marginTop: "var(--space-04)",
+                  textAlign: "center",
+                  fontSize: "var(--text-body-sm)",
+                  fontWeight: 500,
+                  color: "color-mix(in srgb, var(--color-neutral-0) 84%, transparent)",
+                  lineHeight: 1.4,
+                }}
+              >
+                <span
+                  style={{
+                    color: "#FFFFFF",
+                    opacity: 0.85,
+                  }}
+                >
+                  {currentLightboxLabel}
+                </span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: "inline-block",
+                    width: "var(--space-03)",
+                  }}
+                />
+                <span
+                  style={{
+                    color: "#FFFFFF",
+                    opacity: 0.6,
+                  }}
+                >
+                  {`${selectedImageIndex + 1} / ${supportingImages.length}`}
+                </span>
+              </p>
             </div>
           </div>,
           document.body
@@ -1306,9 +1503,10 @@ function WhosWhoBand() {
       }}
     >
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--grid-gap-lg)]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[var(--grid-gap-lg)]">
           {/* Left Column: Image */}
           <div
+            className="w-full max-w-[320px] sm:max-w-none"
             style={{
               borderRadius: "var(--radius-04)",
               overflow: "hidden",
@@ -1317,9 +1515,10 @@ function WhosWhoBand() {
             }}
           >
             <img
-              src="/images/case-studies/coca-cola/whoswho.png"
+              src="/images/case-studies/coca-cola/whoswho.webp"
               alt="Two colleagues celebrating with a high-five during a collaborative planning session"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
 

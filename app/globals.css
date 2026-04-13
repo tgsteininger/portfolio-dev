@@ -345,7 +345,8 @@
   --color-border-default: var(--color-neutral-200);
   --color-border-subtle: var(--color-neutral-100);
   --color-border-strong: var(--color-neutral-400);
-  --color-border-focus: var(--color-cyan-500);
+  --focus-ring-color: var(--color-neutral-600);
+  --color-border-focus: var(--focus-ring-color);
 
   --color-icon-primary: var(--color-neutral-700);
   --color-icon-secondary: var(--color-neutral-500);
@@ -437,6 +438,11 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: 2px;
 }
 
 *,
@@ -839,7 +845,7 @@ body {
     outline: none;
     box-shadow:
       0 0 0 2px color-mix(in srgb, white 70%, transparent),
-      0 0 0 4px var(--color-border-focus);
+    0 0 0 4px var(--focus-ring-color);
   }
 
   .editorial-grid {
@@ -998,7 +1004,7 @@ body {
     outline: none;
     box-shadow:
       0 0 0 2px var(--color-bg-page),
-      0 0 0 4px var(--color-border-focus);
+      0 0 0 4px var(--focus-ring-color);
   }
 
   /* Secondary/outlined button interaction states */
@@ -1025,7 +1031,7 @@ body {
     outline: none;
     box-shadow:
       0 0 0 2px var(--color-bg-page),
-      0 0 0 4px var(--color-border-focus);
+      0 0 0 4px var(--focus-ring-color);
   }
 
   /* Ghost/text button interaction states */
@@ -1051,7 +1057,7 @@ body {
     outline: none;
     box-shadow:
       0 0 0 2px var(--color-bg-page),
-      0 0 0 4px var(--color-border-focus);
+      0 0 0 4px var(--focus-ring-color);
   }
 
   /* Text link interaction states */
@@ -1071,7 +1077,7 @@ body {
     border-radius: var(--radius-02);
     box-shadow:
       0 0 0 2px var(--color-bg-page),
-      0 0 0 4px var(--color-border-focus);
+      0 0 0 4px var(--focus-ring-color);
   }
 
   /* Card/panel interaction states */
@@ -1191,12 +1197,12 @@ body {
     transform: translateY(0);
   }
 
-  /* Focus ring: cyan halo, keyboard only — pair with .transition-fast for 200ms box-shadow ease */
+  /* Focus ring: neutral halo, keyboard only — pair with .transition-fast for 200ms box-shadow ease */
   .focus-ring-standard:focus-visible {
     outline: none;
     box-shadow:
       0 0 0 2px var(--color-bg-page),
-      0 0 0 4px var(--color-border-focus);
+      0 0 0 4px var(--focus-ring-color);
   }
 
   /*

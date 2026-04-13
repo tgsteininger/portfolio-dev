@@ -3,8 +3,8 @@
 import Image from "next/image"
 import { Container, Grid } from "@/components/layout"
 
-/** Production hero — file: `public/images/case-studies/coca-cola-hero.png` */
-const CASE_STUDY_HERO_IMAGE = "/images/case-studies/coca-cola-hero.png"
+/** Production hero — file: `public/images/case-studies/coca-cola/coca-cola-hero.webp` */
+const CASE_STUDY_HERO_IMAGE = "/images/case-studies/coca-cola/coca-cola-hero.webp"
 
 const HERO_METADATA = [
   { label: "ROLE", value: "Lead UX Designer" },
@@ -57,7 +57,7 @@ export function CaseStudyHero() {
               style={{
                 marginBottom: "var(--space-03)",
                 fontSize: "var(--text-body-sm)",
-                letterSpacing: "0.08em",
+                letterSpacing: "0.02em",
                 color: "color-mix(in srgb, var(--color-text-secondary) 92%, transparent)",
               }}
             >

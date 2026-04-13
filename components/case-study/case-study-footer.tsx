@@ -44,6 +44,20 @@ export function CaseStudyFooter({
     margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
   }
 
+  const tabletNavLinkStyle = {
+    fontSize: "var(--text-body-sm)",
+    fontWeight: 500,
+    padding: "var(--space-02) var(--space-03)",
+    margin: 0,
+  }
+
+  const mobileNavLinkStyle = {
+    fontSize: "var(--text-body-sm)",
+    fontWeight: 500,
+    padding: "var(--space-02) var(--space-03)",
+    margin: 0,
+  }
+
   const desktopCaseStudyBlockClass =
     "group flex flex-col rounded-[var(--radius-02)] transition-slow focus-ring-standard outline-none hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.98]"
 
@@ -207,14 +221,14 @@ export function CaseStudyFooter({
           </button>
 
           {/* Case Study Navigation - Condensed */}
-          <div className="flex items-center gap-[var(--space-05)]">
+          <div className="flex items-center gap-[var(--space-04)]">
             {/* Previous Case Study */}
             {previousStudy && (
               <Link
                 href={previousStudy.href}
                 prefetch={false}
                 className={navLinkBaseClass}
-                style={navLinkStyle}
+                style={tabletNavLinkStyle}
               >
                 <ArrowLeft 
                   className="arrow-shift-left"
@@ -233,7 +247,7 @@ export function CaseStudyFooter({
                 href={nextStudy.href}
                 prefetch={false}
                 className={navLinkBaseClass}
-                style={navLinkStyle}
+                style={tabletNavLinkStyle}
               >
                 <span>Next Case Study</span>
                 <ArrowRight 
@@ -265,6 +279,7 @@ export function CaseStudyFooter({
               padding: "var(--space-03)",
               margin: "calc(var(--space-03) * -1)",
             }}
+            aria-label="Back to top"
           >
             <ArrowUp 
               style={{ 
@@ -275,19 +290,14 @@ export function CaseStudyFooter({
           </button>
 
           {/* Case Study Navigation */}
-          <div className="flex items-center gap-[var(--space-05)]">
+          <div className="flex items-center gap-[var(--space-04)]">
             {/* Previous */}
             {previousStudy && (
               <Link
                 href={previousStudy.href}
                 prefetch={false}
                 className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
-                style={{
-                  fontSize: "var(--text-body-sm)",
-                  fontWeight: 500,
-                  padding: "var(--space-02) var(--space-03)",
-                  margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
-                }}
+                style={mobileNavLinkStyle}
               >
                 <ArrowLeft 
                   style={{ 
@@ -305,12 +315,7 @@ export function CaseStudyFooter({
                 href={nextStudy.href}
                 prefetch={false}
                 className="group flex items-center gap-[var(--space-02)] font-body clr-text-secondary active:clr-text-primary active:bg-[var(--color-blue-100)] active:scale-[0.98] rounded-[var(--radius-02)] transition-fast focus-ring-standard outline-none"
-                style={{
-                  fontSize: "var(--text-body-sm)",
-                  fontWeight: 500,
-                  padding: "var(--space-02) var(--space-03)",
-                  margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
-                }}
+                style={mobileNavLinkStyle}
               >
                 <span>Next</span>
                 <ArrowRight 

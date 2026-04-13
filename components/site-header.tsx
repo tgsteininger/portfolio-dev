@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRef } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { mainNavigation, type NavGroup, type NavItem } from "@/lib/navigation"
@@ -28,6 +29,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [currentPath, setCurrentPath] = useState<string | null>(null)
+  const headerRef = useRef<HTMLElement>(null)
 
   // Get pathname on client side only to avoid router initialization issues
   useEffect(() => {
@@ -54,8 +56,23 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [scrollAway])
 
+  const headerIsHidden = scrollAway && isHidden
+
+  useEffect(() => {
+    const headerEl = headerRef.current
+    if (!headerEl) return
+
+    if (headerIsHidden) {
+      headerEl.setAttribute("inert", "")
+      return
+    }
+
+    headerEl.removeAttribute("inert")
+  }, [headerIsHidden])
+
   return (
     <header
+      ref={headerRef}
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
         "clr-bg-page border-b clr-border-subtle",
@@ -67,6 +84,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
         height: isScrolled ? "var(--space-11)" : "var(--space-13)",
         transition: "height 250ms var(--motion-easing-standard), background-color 200ms var(--motion-easing-standard), border-color 200ms var(--motion-easing-standard), box-shadow 200ms var(--motion-easing-standard), opacity 250ms var(--motion-easing-standard), transform 250ms var(--motion-easing-standard)",
       }}
+      aria-hidden={headerIsHidden}
     >
       <div className="layout-shell h-full">
         <nav className="flex items-center justify-between h-full">
@@ -154,7 +172,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
                       style={{
                         bottom: 0,
                         height: "var(--stroke-02)",
-                        backgroundColor: "var(--color-blue-500)",
+                        backgroundColor: "var(--color-cyan-500)",
                         borderRadius: "var(--radius-full)",
                         transformOrigin: "left center",
                         transform: activeDropdown === item.label ? "scaleX(1)" : "scaleX(0)",
@@ -187,8 +205,8 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
                 "focus-ring-standard"
               )}
               style={{
-                height: "var(--button-height-md)",
-                padding: "0 var(--button-pad-x-lg)",
+                height: "var(--button-height-sm)",
+                padding: "0 var(--button-pad-x-md)",
               }}
             >
               Contact

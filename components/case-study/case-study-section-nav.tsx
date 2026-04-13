@@ -35,6 +35,7 @@ export function CaseStudySectionNav() {
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false)
   const [activeSection, setActiveSection] = useState<string>("overview")
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
+  const mobileListboxId = "case-study-section-nav-mobile-listbox"
 
   // Get active section label
   const activeSectionLabel = sectionItems.find(item => item.id === activeSection)?.label || "Overview"
@@ -147,6 +148,7 @@ export function CaseStudySectionNav() {
           "opacity var(--motion-duration-03) var(--motion-easing-premium), transform var(--motion-duration-03) var(--motion-easing-premium)",
       }}
       aria-label="Case study section navigation"
+      aria-hidden={!isVisible}
     >
       {/* Desktop Navigation - hidden on mobile */}
       <div className="hidden md:block layout-shell">
@@ -162,6 +164,8 @@ export function CaseStudySectionNav() {
               key={item.id}
               href={`#${item.id}`}
               onClick={(e) => handleNavClick(e, item.id)}
+              aria-current={activeSection === item.id ? "location" : undefined}
+              tabIndex={isVisible ? 0 : -1}
               className={cn(
                 "relative font-ui whitespace-nowrap transition-fast",
                 "py-[var(--space-04)] px-[var(--space-02)] -mx-[var(--space-02)]",
@@ -173,6 +177,8 @@ export function CaseStudySectionNav() {
               )}
               style={{
                 fontSize: "var(--text-body-sm)",
+                // Small optical offset for first sticky section-nav item so custom focus ring is not clipped on the left edge.
+                marginLeft: item.id === sectionItems[0].id ? "4px" : undefined,
               }}
             >
               {item.label}
@@ -209,6 +215,8 @@ export function CaseStudySectionNav() {
             }}
             aria-expanded={mobileDropdownOpen}
             aria-haspopup="listbox"
+            aria-controls={mobileListboxId}
+            tabIndex={isVisible ? 0 : -1}
           >
             <div className="flex items-center gap-[var(--space-02)]">
               <span
@@ -265,7 +273,7 @@ export function CaseStudySectionNav() {
               paddingBottom: "var(--space-03)",
             }}
           >
-            <ul role="listbox" className="flex flex-col">
+            <ul id={mobileListboxId} role="listbox" className="flex flex-col">
               {sectionItems.map((item) => (
                 <li key={item.id}>
                   <button
@@ -286,6 +294,7 @@ export function CaseStudySectionNav() {
                     }}
                     role="option"
                     aria-selected={activeSection === item.id}
+                    tabIndex={isVisible && mobileDropdownOpen ? 0 : -1}
                   >
                     {item.label}
                     {activeSection === item.id && (
