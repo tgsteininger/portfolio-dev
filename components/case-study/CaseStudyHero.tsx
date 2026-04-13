@@ -43,9 +43,10 @@ export function CaseStudyHero() {
           }}
         >
           <div
-            className="col-span-4 flex min-w-0 flex-col items-start text-left md:col-span-6 lg:col-span-5"
+            className="col-span-4 flex w-full min-w-0 max-w-none flex-col items-start text-left md:col-span-6 lg:col-span-5 lg:max-w-[36rem]"
+            data-reveal
+            data-reveal-delay="40"
             style={{
-              maxWidth: "min(100%, 36rem)",
               paddingLeft: "var(--space-05)",
               borderLeft:
                 "1px solid color-mix(in srgb, var(--color-blue-300) 38%, transparent)",
@@ -134,32 +135,35 @@ export function CaseStudyHero() {
 
           <div className="col-span-4 flex min-h-0 items-center justify-center md:col-span-6 lg:col-span-7">
             <div
-              className="hero-image-reveal-surface relative w-full max-w-[min(100%,40rem)] lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
+              className="hero-image-reveal-surface relative w-full max-w-none lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
+              data-reveal
+              data-reveal-delay="140"
               style={{
-                padding: "var(--space-02)",
-                borderRadius: "var(--radius-03)",
-                backgroundColor:
-                  "color-mix(in srgb, var(--color-neutral-0) 42%, transparent)",
-                border:
-                  "1px solid color-mix(in srgb, var(--color-border-subtle) 55%, transparent)",
-                boxShadow: "var(--elevation-00)",
-                WebkitBackdropFilter: "blur(6px)",
-                backdropFilter: "blur(6px)",
+                padding: "var(--space-04)",
+                borderRadius: "var(--radius-04)",
+                backgroundColor: "var(--color-bg-surface)",
+                boxShadow: "var(--elevation-01)",
               }}
             >
               <div
-                className="relative w-full overflow-hidden"
+                className="w-full overflow-hidden"
                 style={{
-                  height: "min(56vh, 36rem)",
-                  minHeight: "15rem",
+                  borderRadius: "var(--radius-03)",
+                  backgroundColor: "var(--color-neutral-50)",
                 }}
               >
                 <Image
                   src={CASE_STUDY_HERO_IMAGE}
                   alt="Coca-Cola global supply chain benchmarking CMS on a laptop"
-                  fill
-                  className="object-contain object-center"
+                  width={1600}
+                  height={920}
+                  className="h-auto w-full object-contain object-center"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                  style={{
+                    display: "block",
+                    transform: "scaleY(1.06)",
+                    transformOrigin: "center center",
+                  }}
                   priority
                 />
               </div>

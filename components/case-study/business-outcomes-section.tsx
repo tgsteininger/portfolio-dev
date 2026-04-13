@@ -1,5 +1,8 @@
 import { Container } from "@/components/layout"
 import { CheckCircle2 } from "lucide-react"
+import { CircularMetric } from "@/components/case-study/circular-metric"
+import { ApprovalVelocityMetric } from "@/components/case-study/approval-velocity-metric"
+import { OperationalEfficiencyMetric } from "@/components/case-study/operational-efficiency-metric"
 
 /**
  * BusinessOutcomesSection
@@ -19,6 +22,7 @@ export function BusinessOutcomesSection() {
       <Container>
         {/* White Content Container */}
         <div
+          data-reveal
           style={{
             backgroundColor: "var(--color-bg-surface)",
             borderRadius: "var(--radius-04)",
@@ -30,6 +34,8 @@ export function BusinessOutcomesSection() {
           {/* Section Heading */}
           <h2
             className="font-heading"
+            data-reveal
+            data-reveal-delay="40"
             style={{
               fontSize: "var(--text-heading-01)",
               fontWeight: 600,
@@ -49,7 +55,8 @@ export function BusinessOutcomesSection() {
               value="90%+"
               primaryText="Platform adoption across target users"
               secondaryText="Strong uptake after rollout"
-              graphic={<AdoptionRingGraphic />}
+              graphic={<CircularMetric progress={0.9} />}
+              revealDelay="80"
             />
 
             {/* Metric Card 2: Approval Velocity */}
@@ -58,7 +65,8 @@ export function BusinessOutcomesSection() {
               value="50–75%"
               primaryText="Faster approval workflows"
               secondaryText="Reduced delays and bottlenecks"
-              graphic={<VelocityBarGraphic />}
+              graphic={<ApprovalVelocityMetric />}
+              revealDelay="130"
             />
 
             {/* Metric Card 3: Operational Efficiency */}
@@ -68,7 +76,8 @@ export function BusinessOutcomesSection() {
               valueSize="small"
               primaryText="Less manual coordination and fewer engineering handoffs"
               secondaryText="Simplified operational flow"
-              graphic={<EfficiencyFlowGraphic />}
+              graphic={<OperationalEfficiencyMetric />}
+              revealDelay="180"
             />
           </div>
 
@@ -77,15 +86,29 @@ export function BusinessOutcomesSection() {
             className="grid grid-cols-1 md:grid-cols-2 gap-[var(--grid-gap-sm)]"
             style={{ marginTop: "var(--space-08)" }}
           >
-            <OutcomeBullet text="Replaced fragmented spreadsheet and email workflows with a centralized CMS" />
-            <OutcomeBullet text="Improved consistency across survey creation, translation, and approval" />
-            <OutcomeBullet text="Enabled more scalable multilingual distribution across global facilities" />
-            <OutcomeBullet text="Gave leadership clearer visibility into performance trends and operational priorities" />
+            <OutcomeBullet
+              text="Replaced fragmented spreadsheet and email workflows with a centralized CMS"
+              revealDelay="220"
+            />
+            <OutcomeBullet
+              text="Improved consistency across survey creation, translation, and approval"
+              revealDelay="260"
+            />
+            <OutcomeBullet
+              text="Enabled more scalable multilingual distribution across global facilities"
+              revealDelay="300"
+            />
+            <OutcomeBullet
+              text="Gave leadership clearer visibility into performance trends and operational priorities"
+              revealDelay="340"
+            />
           </div>
 
           {/* Footnote */}
           <p
             className="font-body"
+            data-reveal
+            data-reveal-delay="380"
             style={{
               marginTop: "var(--space-07)",
               fontSize: "var(--text-caption)",
@@ -111,6 +134,7 @@ function MetricCard({
   primaryText,
   secondaryText,
   graphic,
+  revealDelay,
 }: {
   label: string
   value: string
@@ -118,9 +142,13 @@ function MetricCard({
   primaryText: string
   secondaryText: string
   graphic: React.ReactNode
+  revealDelay?: string
 }) {
   return (
     <div
+      data-reveal
+      data-reveal-delay={revealDelay}
+      className="transition-standard"
       style={{
         backgroundColor: "var(--color-bg-surface)",
         border: "var(--stroke-01) solid var(--color-border-default)",
@@ -131,6 +159,8 @@ function MetricCard({
         alignItems: "flex-start",
         gap: "var(--space-05)",
         minHeight: "200px",
+        transitionDuration: "var(--motion-duration-03)",
+        transitionTimingFunction: "var(--motion-easing-premium)",
       }}
     >
       {/* Content */}
@@ -211,9 +241,11 @@ function MetricCard({
 /**
  * OutcomeBullet component
  */
-function OutcomeBullet({ text }: { text: string }) {
+function OutcomeBullet({ text, revealDelay }: { text: string; revealDelay?: string }) {
   return (
     <div
+      data-reveal
+      data-reveal-delay={revealDelay}
       className="flex items-center transition-standard"
       style={{
         backgroundColor: "var(--color-bg-surface)",
@@ -221,13 +253,15 @@ function OutcomeBullet({ text }: { text: string }) {
         borderRadius: "var(--radius-03)",
         padding: "var(--space-05) var(--space-06)",
         gap: "var(--space-04)",
+        transitionDuration: "var(--motion-duration-03)",
+        transitionTimingFunction: "var(--motion-easing-premium)",
       }}
     >
       <CheckCircle2
         style={{
           width: "var(--icon-md)",
           height: "var(--icon-md)",
-          color: "var(--color-cyan-500)",
+          color: "var(--color-blue-500)",
           flexShrink: 0,
         }}
       />
@@ -245,152 +279,3 @@ function OutcomeBullet({ text }: { text: string }) {
   )
 }
 
-/**
- * Adoption Ring Graphic - circular progress ring
- */
-function AdoptionRingGraphic() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Background ring */}
-      <circle
-        cx="32"
-        cy="32"
-        r="26"
-        stroke="var(--color-neutral-200)"
-        strokeWidth="4"
-        fill="none"
-      />
-      {/* Progress ring - 90% = ~324 degrees */}
-      <circle
-        cx="32"
-        cy="32"
-        r="26"
-        stroke="var(--color-cyan-400)"
-        strokeWidth="4"
-        fill="none"
-        strokeLinecap="round"
-        strokeDasharray="147 163"
-        transform="rotate(-90 32 32)"
-      />
-    </svg>
-  )
-}
-
-/**
- * Velocity Bar Graphic - ascending bar chart
- */
-function VelocityBarGraphic() {
-  return (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Bar 1 - shortest */}
-      <rect
-        x="8"
-        y="44"
-        width="10"
-        height="12"
-        rx="2"
-        fill="var(--color-cyan-100)"
-      />
-      {/* Bar 2 */}
-      <rect
-        x="21"
-        y="36"
-        width="10"
-        height="20"
-        rx="2"
-        fill="var(--color-cyan-200)"
-      />
-      {/* Bar 3 */}
-      <rect
-        x="34"
-        y="26"
-        width="10"
-        height="30"
-        rx="2"
-        fill="var(--color-cyan-300)"
-      />
-      {/* Bar 4 - tallest */}
-      <rect
-        x="47"
-        y="14"
-        width="10"
-        height="42"
-        rx="2"
-        fill="var(--color-cyan-500)"
-      />
-    </svg>
-  )
-}
-
-/**
- * Efficiency Flow Graphic - workflow connection dots
- */
-function EfficiencyFlowGraphic() {
-  return (
-    <svg
-      width="80"
-      height="48"
-      viewBox="0 0 80 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Dotted line */}
-      <line
-        x1="8"
-        y1="24"
-        x2="72"
-        y2="24"
-        stroke="var(--color-neutral-300)"
-        strokeWidth="2"
-        strokeDasharray="4 4"
-      />
-      {/* Node 1 */}
-      <circle
-        cx="16"
-        cy="24"
-        r="6"
-        fill="var(--color-neutral-200)"
-        stroke="var(--color-neutral-300)"
-        strokeWidth="2"
-      />
-      {/* Node 2 */}
-      <circle
-        cx="40"
-        cy="24"
-        r="6"
-        fill="var(--color-neutral-200)"
-        stroke="var(--color-neutral-300)"
-        strokeWidth="2"
-      />
-      {/* Node 3 */}
-      <circle
-        cx="64"
-        cy="24"
-        r="6"
-        fill="var(--color-cyan-500)"
-        stroke="var(--color-cyan-600)"
-        strokeWidth="2"
-      />
-      {/* Arrow head */}
-      <path
-        d="M70 24L76 24M76 24L72 20M76 24L72 28"
-        stroke="var(--color-cyan-500)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}

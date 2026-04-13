@@ -148,6 +148,7 @@ export function ExecutiveSummarySection({
         {/* Introduction Paragraphs */}
         <div 
           className="flex flex-col"
+          data-reveal
           style={{ 
             gap: "var(--space-07)",
             maxWidth: "var(--layout-content-max)",
@@ -158,6 +159,8 @@ export function ExecutiveSummarySection({
             <p 
               key={index}
               className="font-body"
+              data-reveal
+              data-reveal-delay={String(80 + index * 80)}
               style={{
                 fontSize: "var(--text-body-lg)",
                 lineHeight: 1.7,
@@ -172,6 +175,8 @@ export function ExecutiveSummarySection({
         {/* Executive Summary Heading */}
         <h2 
           className="font-heading"
+          data-reveal
+          data-reveal-delay="120"
           style={{
             fontSize: "var(--text-heading-01)",
             fontWeight: 500,
@@ -192,6 +197,8 @@ export function ExecutiveSummarySection({
           {/* Use CSS media query via responsive classes */}
           <div 
             className="grid md:grid-cols-2"
+            data-reveal
+            data-reveal-delay="160"
             style={{ gap: "var(--space-10)" }}
           >
             {/* Left Column */}
@@ -235,6 +242,8 @@ export function ExecutiveSummarySection({
 
         {/* Metrics Section */}
         <div 
+          data-reveal
+          data-reveal-delay="220"
           style={{
             marginTop: "var(--space-12)",
             paddingTop: "var(--space-10)",

@@ -35,134 +35,137 @@ export function AppBackground() {
         }}
       />
       
-      {/* Panel Layer - Multiple overlapping translucent rectangles */}
+      {/* Panel Layer - Architectural rectangles aligned to AppBG.svg composition */}
       <div className="absolute inset-0">
-        {/* Panel 1: Top-left large panel */}
-        <div 
-          className="absolute motion-safe-transform"
+        {/* Panel 1: Upper-left anchor */}
+        <div
+          className="absolute motion-safe-transform app-bg-panel app-bg-panel-1"
           style={{
-            top: "-5%",
-            left: "-10%",
+            top: "-5.9%",
+            left: "-13.1%",
+            width: "65%",
+            height: "75%",
+            backgroundColor: "var(--color-blue-500)",
+            opacity: 0.043,
+            borderRadius: "var(--radius-03)",
+            transform: "rotate(-2.5deg)",
+            transformOrigin: "12% 14%",
+          }}
+        />
+
+        {/* Panel 2: Right tall field */}
+        <div
+          className="absolute motion-safe-transform app-bg-panel app-bg-panel-2"
+          style={{
+            top: "16.9%",
+            left: "52.6%",
+            width: "58%",
+            height: "68%",
+            backgroundColor: "var(--color-blue-500)",
+            opacity: 0.055,
+            borderRadius: "var(--radius-03)",
+            transform: "rotate(1.5deg)",
+            transformOrigin: "18% 16%",
+          }}
+        />
+
+        {/* Panel 3: Lower-left tall slab */}
+        <div
+          className="absolute motion-safe-transform app-bg-panel app-bg-panel-3"
+          style={{
+            top: "48.8%",
+            left: "4.5%",
+            width: "52%",
+            height: "72%",
+            backgroundColor: "var(--color-blue-500)",
+            opacity: 0.05,
+            borderRadius: "var(--radius-03)",
+            transform: "rotate(-1.2deg)",
+            transformOrigin: "20% 10%",
+          }}
+        />
+
+        {/* Panel 4: Far lower-right anchor */}
+        <div
+          className="absolute motion-safe-transform app-bg-panel app-bg-panel-4"
+          style={{
+            top: "70.8%",
+            left: "57.7%",
+            width: "48%",
+            height: "58%",
+            backgroundColor: "var(--color-blue-500)",
+            opacity: 0.04,
+            borderRadius: "var(--radius-03)",
+            transform: "rotate(2deg)",
+            transformOrigin: "20% 12%",
+          }}
+        />
+
+        {/* Panel 5: Mid-lower bridge panel */}
+        <div
+          className="absolute motion-safe-transform app-bg-panel app-bg-panel-5"
+          style={{
+            top: "62.5%",
+            left: "14.8%",
             width: "55%",
-            height: "45%",
-            backgroundColor: "var(--color-blue-100)",
-            opacity: 0.35,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 2: Center-right tall panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "8%",
-            left: "52%",
-            width: "35%",
-            height: "55%",
-            backgroundColor: "var(--color-blue-50)",
-            opacity: 0.5,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 3: Top-right small panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "0%",
-            right: "0%",
-            width: "30%",
-            height: "25%",
-            backgroundColor: "var(--color-neutral-50)",
-            opacity: 0.7,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 4: Bottom-left large panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "35%",
-            left: "-5%",
-            width: "45%",
             height: "50%",
-            backgroundColor: "var(--color-blue-100)",
-            opacity: 0.3,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 5: Center overlapping panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "40%",
-            left: "25%",
-            width: "50%",
-            height: "30%",
-            backgroundColor: "var(--color-blue-200)",
-            opacity: 0.2,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 6: Center vertical accent panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "20%",
-            left: "48%",
-            width: "4%",
-            height: "60%",
-            backgroundColor: "var(--color-blue-300)",
-            opacity: 0.15,
-            borderRadius: "var(--radius-02)",
-          }}
-        />
-        
-        {/* Panel 7: Bottom-center panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "55%",
-            left: "40%",
-            width: "35%",
-            height: "35%",
-            backgroundColor: "var(--color-blue-100)",
-            opacity: 0.35,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 8: Bottom-right accent panel */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "60%",
-            right: "5%",
-            width: "25%",
-            height: "30%",
-            backgroundColor: "var(--color-blue-200)",
-            opacity: 0.25,
-            borderRadius: "var(--radius-03)",
-          }}
-        />
-        
-        {/* Panel 9: Small elevated accent */}
-        <div 
-          className="absolute motion-safe-transform"
-          style={{
-            top: "45%",
-            left: "55%",
-            width: "20%",
-            height: "20%",
-            backgroundColor: "var(--color-blue-100)",
-            opacity: 0.4,
+            backgroundColor: "var(--color-blue-500)",
+            opacity: 0.06,
             borderRadius: "var(--radius-04)",
+            transform: "rotate(-0.8deg)",
+            transformOrigin: "22% 12%",
           }}
         />
       </div>
+
+      <style jsx>{`
+        @media (max-width: 1024px) {
+          .app-bg-panel {
+            filter: none;
+          }
+          .app-bg-panel-1 {
+            opacity: 0.036 !important;
+          }
+          .app-bg-panel-2 {
+            opacity: 0.046 !important;
+          }
+          .app-bg-panel-3 {
+            opacity: 0.042 !important;
+          }
+          .app-bg-panel-4 {
+            opacity: 0.032 !important;
+          }
+          .app-bg-panel-5 {
+            opacity: 0.05 !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .app-bg-panel-1 {
+            left: -24% !important;
+            width: 82% !important;
+            opacity: 0.03 !important;
+          }
+          .app-bg-panel-2 {
+            left: 66% !important;
+            width: 62% !important;
+            opacity: 0.038 !important;
+          }
+          .app-bg-panel-3 {
+            left: -8% !important;
+            width: 66% !important;
+            opacity: 0.034 !important;
+          }
+          .app-bg-panel-4 {
+            opacity: 0.026 !important;
+          }
+          .app-bg-panel-5 {
+            left: 6% !important;
+            width: 70% !important;
+            opacity: 0.042 !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

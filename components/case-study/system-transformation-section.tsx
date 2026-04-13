@@ -62,7 +62,7 @@ function BulletItem({
           width: "var(--space-03)",
           height: "var(--space-03)",
           backgroundColor: variant === "accent" 
-            ? "var(--color-cyan-500)" 
+            ? "var(--color-blue-500)" 
             : "var(--color-neutral-400)",
         }}
       />
@@ -88,70 +88,110 @@ function BulletItem({
 function ComparisonPanel({ 
   data,
   variant,
+  revealDelay,
 }: { 
   data: PanelData
   variant: "before" | "after"
+  revealDelay?: string
 }) {
   const isAfter = variant === "after"
   
   return (
-    <div 
-      className="flex flex-col transition-standard hover:shadow-[var(--elevation-02)] hover:-translate-y-1"
+    <div
+      className="relative"
+      data-reveal
+      data-reveal-delay={revealDelay}
       style={{
-        backgroundColor: "var(--color-bg-surface)",
-        borderRadius: "var(--radius-05)",
-        border: "var(--stroke-01) solid var(--color-border-subtle)",
-        padding: "var(--space-07)",
-        boxShadow: "var(--elevation-01)",
+        paddingRight: "var(--space-03)",
+        paddingBottom: "var(--space-03)",
       }}
     >
-      {/* Label */}
-      <span 
-        className="font-ui uppercase tracking-wider"
+      {/* Card-level backing panel */}
+      <div
+        aria-hidden="true"
         style={{
-          fontSize: "var(--text-label-sm)",
-          fontWeight: 600,
-          letterSpacing: "0.08em",
-          color: isAfter 
-            ? "var(--color-cyan-600)" 
-            : "var(--color-neutral-500)",
-          marginBottom: "var(--space-05)",
+          position: "absolute",
+          top: "var(--space-02)",
+          right: 0,
+          bottom: 0,
+          left: "var(--space-03)",
+          borderRadius: "var(--radius-05)",
+          backgroundColor:
+            "color-mix(in srgb, var(--color-blue-100) 44%, transparent)",
+        }}
+      />
+
+      <div
+        className="relative flex flex-col"
+        style={{
+          zIndex: 1,
+          backgroundColor: "var(--color-bg-surface)",
+          borderRadius: "var(--radius-05)",
+          border: "var(--stroke-01) solid var(--color-border-subtle)",
+          padding: "var(--space-10)",
+          boxShadow: "var(--elevation-01)",
         }}
       >
-        {data.label}
-      </span>
+        {/* Label + Image Group */}
+        <div
+          className="relative"
+          style={{
+            marginBottom: "var(--space-06)",
+          }}
+        >
+          {/* Label */}
+          <span
+            className="font-ui uppercase tracking-wider relative"
+            style={{
+              display: "block",
+              zIndex: 1,
+              fontSize: "var(--text-label-sm)",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              color: isAfter
+                ? "var(--color-blue-500)"
+                : "var(--color-neutral-500)",
+              marginBottom: "var(--space-05)",
+            }}
+          >
+            {data.label}
+          </span>
 
-      {/* Screenshot Frame */}
-      <div 
-        className="relative overflow-hidden"
-        style={{
-          borderRadius: "var(--radius-04)",
-          backgroundColor: "var(--color-neutral-100)",
-          aspectRatio: "16 / 10",
-          marginBottom: "var(--space-06)",
-        }}
-      >
-        <Image
-          src={data.imageSrc}
-          alt={data.imageAlt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
+          {/* Screenshot Frame */}
+          <div
+            className="relative overflow-hidden"
+            style={{
+              zIndex: 1,
+              borderRadius: "var(--radius-04)",
+              backgroundColor: "var(--color-neutral-100)",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+              border: "var(--stroke-01) solid var(--color-border-subtle)",
+              aspectRatio: "16 / 10",
+            }}
+          >
+            <Image
+              src={data.imageSrc}
+              alt={data.imageAlt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+        </div>
 
-      {/* Bullet Points */}
-      <div 
-        className="flex flex-col"
-        style={{ gap: "var(--space-03)" }}
-      >
-        {data.bullets.map((bullet, index) => (
-          <BulletItem 
-            key={index}
-            text={bullet.text}
-            variant={isAfter ? "accent" : "neutral"}
-          />
-        ))}
+        {/* Bullet Points */}
+        <div 
+          className="flex flex-col"
+          style={{ gap: "var(--space-03)" }}
+        >
+          {data.bullets.map((bullet, index) => (
+            <BulletItem 
+              key={index}
+              text={bullet.text}
+              variant={isAfter ? "accent" : "neutral"}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -167,15 +207,15 @@ export function SystemTransformationSection() {
   const beforePanel: PanelData = {
     label: "Before",
     labelColor: "neutral",
-    imageSrc: "/placeholder.svg?height=400&width=640&query=spreadsheet workflow with papers and manual processes on desk",
-    imageAlt: "Legacy fragmented workflow with spreadsheets and manual processes",
+    imageSrc: "/images/case-studies/coca-cola/before.png",
+    imageAlt: "Before view of legacy fragmented workflow",
     bullets: beforeBullets,
   }
 
   const afterPanel: PanelData = {
     label: "After",
     labelColor: "accent",
-    imageSrc: "/placeholder.svg?height=400&width=640&query=modern CMS dashboard interface on laptop screen showing content management system",
+    imageSrc: "/images/case-studies/coca-cola/after.png",
     imageAlt: "New centralized CMS platform with structured workflow",
     bullets: afterBullets,
   }
@@ -187,77 +227,95 @@ export function SystemTransformationSection() {
       style={{
         paddingTop: "var(--space-14)",
         paddingBottom: "var(--space-14)",
+        backgroundColor: "color-mix(in srgb, var(--color-neutral-0) 96%, transparent)",
       }}
     >
-      {/* Subtle blue-tinted background layer */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundColor: "var(--color-blue-50)",
-          opacity: 0.5,
-        }}
-      />
-
       <Container className="relative">
-        {/* Section Header */}
-        <div 
-          className="flex"
-          style={{ 
-            marginBottom: "var(--space-10)",
-            gap: "var(--space-05)",
+        <div
+          style={{
+            backgroundColor: "color-mix(in srgb, var(--color-neutral-0) 92%, transparent)",
+            borderRadius: "var(--radius-05)",
+            boxShadow: "var(--elevation-00)",
+            padding: "var(--space-07)",
+            WebkitBackdropFilter: "blur(4px)",
+            backdropFilter: "blur(4px)",
           }}
         >
-          {/* Vertical accent bar */}
+          {/* Section Header */}
           <div 
-            className="flex-shrink-0"
-            style={{
-              width: "var(--space-02)",
-              backgroundColor: "var(--color-neutral-900)",
-              borderRadius: "var(--radius-full)",
+            className="flex"
+            data-reveal
+            data-reveal-delay="40"
+            style={{ 
+              marginBottom: "var(--space-10)",
+              gap: "var(--space-05)",
             }}
-          />
-          
-          {/* Title and eyebrow */}
-          <div className="flex flex-col" style={{ gap: "var(--space-04)" }}>
-            <h2 
-              className="font-heading"
+          >
+            {/* Vertical accent bar */}
+            <div 
+              className="flex-shrink-0"
               style={{
-                fontSize: "var(--text-heading-01)",
-                fontWeight: 600,
-                color: "var(--color-text-primary)",
-                lineHeight: 1.2,
-                letterSpacing: "-0.02em",
+                width: "var(--space-02)",
+                backgroundColor: "var(--color-neutral-900)",
+                borderRadius: "var(--radius-full)",
               }}
-            >
-              System Transformation
-            </h2>
-            <p 
-              className="font-body uppercase tracking-wider"
-              style={{
-                fontSize: "var(--text-label-sm)",
-                fontWeight: 500,
-                letterSpacing: "0.06em",
-                color: "var(--color-text-tertiary)",
-              }}
-            >
-              From fragmented workflows to a structured, scalable platform
-            </p>
+            />
+            
+            {/* Title and eyebrow */}
+            <div className="flex flex-col" style={{ gap: "var(--space-04)" }}>
+              <h2 
+                className="font-heading"
+                style={{
+                  fontSize: "var(--text-heading-01)",
+                  fontWeight: 600,
+                  color: "var(--color-text-primary)",
+                  lineHeight: 1.2,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                System Transformation
+              </h2>
+              <p 
+                className="font-body uppercase tracking-wider"
+                style={{
+                  fontSize: "var(--text-label-sm)",
+                  fontWeight: 500,
+                  letterSpacing: "0.06em",
+                  color: "var(--color-text-tertiary)",
+                }}
+              >
+                From fragmented workflows to a structured, scalable platform
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Comparison Panels Grid - 2 columns on tablet and desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--grid-gap-lg)]">
-          {/* Before Panel */}
-          <ComparisonPanel 
-            data={beforePanel}
-            variant="before"
-          />
+          {/* Shared comparison backdrop + 2-column cards */}
+          <div
+            className="relative"
+            style={{
+              backgroundColor:
+                "color-mix(in srgb, var(--color-blue-50) 72%, transparent)",
+              borderRadius: "var(--radius-05)",
+              padding: "var(--space-04)",
+              boxShadow: "var(--elevation-00)",
+            }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--grid-gap-lg)]">
+              {/* Before Panel */}
+              <ComparisonPanel 
+                data={beforePanel}
+                variant="before"
+                revealDelay="120"
+              />
 
-          {/* After Panel */}
-          <ComparisonPanel 
-            data={afterPanel}
-            variant="after"
-          />
+              {/* After Panel */}
+              <ComparisonPanel 
+                data={afterPanel}
+                variant="after"
+                revealDelay="180"
+              />
+            </div>
+          </div>
         </div>
       </Container>
     </section>

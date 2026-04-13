@@ -143,7 +143,8 @@ export function CaseStudySectionNav() {
         top: 0,
         backgroundColor: "var(--color-bg-page)",
         borderBottom: "var(--stroke-01) solid var(--color-border-subtle)",
-        transition: "opacity 200ms var(--motion-easing-decelerate), transform 200ms var(--motion-easing-decelerate)",
+        transition:
+          "opacity var(--motion-duration-03) var(--motion-easing-premium), transform var(--motion-duration-03) var(--motion-easing-premium)",
       }}
       aria-label="Case study section navigation"
     >
@@ -185,7 +186,8 @@ export function CaseStudySectionNav() {
                   transformOrigin: "left center",
                   transform: activeSection === item.id ? "scaleX(1)" : "scaleX(0)",
                   opacity: activeSection === item.id ? 1 : 0,
-                  transition: "transform 200ms var(--motion-easing-standard), opacity 200ms var(--motion-easing-standard)",
+                  transition:
+                    "transform var(--motion-duration-03) var(--motion-easing-premium), opacity var(--motion-duration-03) var(--motion-easing-premium)",
                 }}
               />
             </a>

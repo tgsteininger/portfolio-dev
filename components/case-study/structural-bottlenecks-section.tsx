@@ -48,10 +48,18 @@ const bottlenecks: Bottleneck[] = [
 /**
  * Individual bottleneck item component
  */
-function BottleneckItem({ bottleneck }: { bottleneck: Bottleneck }) {
+function BottleneckItem({
+  bottleneck,
+  revealDelay,
+}: {
+  bottleneck: Bottleneck
+  revealDelay?: string
+}) {
   return (
     <div
       className="group flex items-start transition-fast hover:bg-[var(--color-bg-surface-subtle)]"
+      data-reveal
+      data-reveal-delay={revealDelay}
       style={{
         paddingTop: "var(--space-07)",
         paddingBottom: "var(--space-07)",
@@ -61,6 +69,8 @@ function BottleneckItem({ bottleneck }: { bottleneck: Bottleneck }) {
         marginRight: "calc(var(--space-05) * -1)",
         borderBottom: "var(--stroke-01) solid var(--color-border-subtle)",
         borderRadius: "var(--radius-03)",
+        transitionDuration: "var(--motion-duration-03)",
+        transitionTimingFunction: "var(--motion-easing-premium)",
       }}
     >
       {/* Number Badge */}
@@ -127,6 +137,7 @@ export function StructuralBottlenecksSection() {
         {/* Section Header */}
         <header
           className="flex flex-col"
+          data-reveal
           style={{
             gap: "var(--space-05)",
             marginBottom: "var(--space-08)",
@@ -163,8 +174,12 @@ export function StructuralBottlenecksSection() {
             borderTop: "var(--stroke-01) solid var(--color-border-subtle)",
           }}
         >
-          {bottlenecks.map((bottleneck) => (
-            <BottleneckItem key={bottleneck.number} bottleneck={bottleneck} />
+          {bottlenecks.map((bottleneck, index) => (
+            <BottleneckItem
+              key={bottleneck.number}
+              bottleneck={bottleneck}
+              revealDelay={String(80 + index * 50)}
+            />
           ))}
         </div>
       </Container>

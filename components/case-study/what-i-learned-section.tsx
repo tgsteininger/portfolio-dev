@@ -27,6 +27,7 @@ export function WhatILearnedSection() {
         {/* Section Heading - left-aligned within centered column */}
         <h2
           className="font-heading clr-text-primary"
+          data-reveal
           style={{
             fontSize: "var(--text-heading-01)",
             fontWeight: 600,
@@ -47,6 +48,8 @@ export function WhatILearnedSection() {
         >
           <p
             className="font-body clr-text-secondary"
+            data-reveal
+            data-reveal-delay="80"
             style={{
               fontSize: "var(--text-body-md)",
               lineHeight: 1.75,
@@ -57,6 +60,8 @@ export function WhatILearnedSection() {
 
           <p
             className="font-body clr-text-secondary"
+            data-reveal
+            data-reveal-delay="140"
             style={{
               fontSize: "var(--text-body-md)",
               lineHeight: 1.75,
@@ -67,6 +72,8 @@ export function WhatILearnedSection() {
 
           <p
             className="font-body clr-text-secondary"
+            data-reveal
+            data-reveal-delay="200"
             style={{
               fontSize: "var(--text-body-md)",
               lineHeight: 1.75,
