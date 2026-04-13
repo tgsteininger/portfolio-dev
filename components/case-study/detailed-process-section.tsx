@@ -5,9 +5,220 @@ import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { createPortal } from "react-dom"
 import { Container } from "@/components/layout/container"
 
+interface DetailedProcessSectionProps {
+  introText?: string
+  processOverviewSteps?: ProcessOverviewStep[]
+  whosWhoTitle?: string
+  whosWhoStakeholders?: WhosWhoStakeholder[]
+  whosWhoImageSrc?: string
+  supportingImages?: SupportingImage[]
+  comparisonBeforeSrc?: string
+  comparisonAfterSrc?: string
+  designMoves?: DesignMove[]
+  beforeAfterItems?: {
+    before: string[]
+    after: string[]
+  }
+  interactiveComparisonContent?: InteractiveComparisonContent
+}
+
+const DEFAULT_INTRO_TEXT =
+  "To address these systemic bottlenecks, I designed a structured workflow transformation spanning research, modeling, and implementation."
+
+interface ProcessOverviewStep {
+  title: string
+  description: string
+}
+
+interface WhosWhoStakeholder {
+  role: string
+  coreJob: string
+  painPoint: string
+}
+
+interface SupportingImage {
+  label: string
+  thumbnailSrc: string
+  fullSrc: string
+  alt: string
+}
+
+interface DesignMove {
+  number: string
+  title: string
+  description: string
+}
+
+interface InteractiveComparisonContent {
+  title: string
+  beforeTitle: string
+  beforeSubtitle: string
+  afterTitle: string
+  afterSubtitle: string
+  caption: string
+}
+
+const DEFAULT_PROCESS_OVERVIEW_STEPS: ProcessOverviewStep[] = [
+  {
+    title: "Research & Discovery",
+    description:
+      "I conducted interviews across stakeholder groups and time zones to understand how content moved through the organization in practice.",
+  },
+  {
+    title: "Workflow Modeling",
+    description:
+      "I translated findings into user flows and future-state workflows that could be validated with stakeholders.",
+  },
+  {
+    title: "Wireframing & Prototyping",
+    description:
+      "I started with low-fidelity wireframes and then created Figma prototypes tailored to the realities of PowerApps.",
+  },
+  {
+    title: "Familiarity Without Chaos",
+    description:
+      "The interface needed to feel more structured than Excel, but not so unfamiliar that adoption became its own barrier.",
+  },
+  {
+    title: "Documentation & Handoff",
+    description:
+      "I created detailed design specifications and worked closely with engineering and QA to ensure the experience translated accurately into the shipped product.",
+  },
+]
+
+const DEFAULT_WHOS_WHO_TITLE = "Who's Who (And What They Needed)"
+
+const DEFAULT_WHOS_WHO_STAKEHOLDERS: WhosWhoStakeholder[] = [
+  {
+    role: "Content Creator",
+    coreJob: "Create structured survey modules",
+    painPoint: "Previously relied on spreadsheets and email with no clear system or structure",
+  },
+  {
+    role: "Content Approver",
+    coreJob: "Review and approve survey content",
+    painPoint: "No visibility into approval status and no reliable review queue",
+  },
+  {
+    role: "Translator",
+    coreJob: "Localize finalized content",
+    painPoint: "No formal translation workflow or dedicated tools",
+  },
+  {
+    role: "Publisher (Executive)",
+    coreJob: "Publish finalized content globally",
+    painPoint: "Dependent on developers for routine content updates",
+  },
+  {
+    role: "Facility Manager",
+    coreJob: "Complete relevant surveys in the right language",
+    painPoint: "Often received mismatched or unclear inputs",
+  },
+]
+
+const DEFAULT_WHOS_WHO_IMAGE_SRC = "/images/case-studies/coca-cola/whoswho.webp"
+
+const DEFAULT_SUPPORTING_IMAGES: SupportingImage[] = [
+  {
+    label: "WORKFLOW DIAGRAM",
+    thumbnailSrc: "/images/case-studies/coca-cola/workflowdiagram.png",
+    fullSrc: "/images/case-studies/coca-cola/workflowdiagramfull.png",
+    alt: "Workflow diagram showing content creation and approval process",
+  },
+  {
+    label: "CONTENT CREATION",
+    thumbnailSrc: "/images/case-studies/coca-cola/contentcreation.png",
+    fullSrc: "/images/case-studies/coca-cola/contentcreationfull.png",
+    alt: "Content creation interface screenshot",
+  },
+  {
+    label: "FINAL UI / PUBLISHER VIEW",
+    thumbnailSrc: "/images/case-studies/coca-cola/finalui.png",
+    fullSrc: "/images/case-studies/coca-cola/finaluifull.png",
+    alt: "Final publisher view of the CMS interface",
+  },
+]
+
+const DEFAULT_COMPARISON_BEFORE_SRC =
+  "/images/case-studies/coca-cola/comparisonbefore.webp"
+const DEFAULT_COMPARISON_AFTER_SRC =
+  "/images/case-studies/coca-cola/comparisonafter.webp"
+
+const DEFAULT_DESIGN_MOVES: DesignMove[] = [
+  {
+    number: "1",
+    title: "Mapped the Existing Workflow",
+    description:
+      "I created before-and-after workflow models to visualize how survey content moved through the organization and where delays and handoff failures were happening.",
+  },
+  {
+    number: "2",
+    title: "Designed a Modular Survey Builder",
+    description:
+      "I designed a structured content system that preserved useful Excel familiarity while eliminating version chaos and manual workarounds.",
+  },
+  {
+    number: "3",
+    title: "Created Role-Based Experiences",
+    description:
+      "I tailored workflows and interfaces for creators, approvers, translators, publishers, and leadership so each group had the right information and controls.",
+  },
+  {
+    number: "4",
+    title: "Introduced AI-Assisted Translation",
+    description:
+      "I incorporated AI-assisted translation as a first-draft mechanism with human review built into the workflow.",
+  },
+  {
+    number: "5",
+    title: "Aligned Design with Platform Constraints",
+    description:
+      "I designed the system to work within PowerApps limitations while still improving usability, structure, and clarity.",
+  },
+  {
+    number: "6",
+    title: "Partnered Closely Through Delivery",
+    description:
+      "I collaborated with development and QA throughout implementation and created detailed specifications to support accurate delivery.",
+  },
+]
+
+const DEFAULT_BEFORE_AFTER_ITEMS = {
+  before: [
+    "Survey requests started informally",
+    "Creators built content manually in spreadsheets",
+    "Approvals moved through scattered email threads",
+    "Translation had no formal workflow",
+    "Publishing required developer intervention",
+    "Surveys could be printed, mailed, scanned, or faxed",
+    "Facility managers completed mismatched or unclear forms",
+    "Leadership received fragmented data with little actionable clarity",
+  ],
+  after: [
+    "Survey content moved through a structured CMS",
+    "Creators built modules using templates and defined inputs",
+    "Approvers reviewed content through visible queues",
+    "Translation became a supported step in the workflow",
+    "Publishing became a controlled user action, not a developer task",
+    "Surveys were distributed digitally and matched to facility context",
+    "Facility managers completed relevant content in the appropriate language",
+    "Leadership gained centralized visibility into trends and priorities",
+  ],
+}
+
+const DEFAULT_INTERACTIVE_COMPARISON_CONTENT: InteractiveComparisonContent = {
+  title: "Interactive Comparison",
+  beforeTitle: "Admin-Only Tool",
+  beforeSubtitle: "Not accessible to end users",
+  afterTitle: "Shared Web Interface",
+  afterSubtitle: "Accessible to creators, approvers, and publishers",
+  caption:
+    "Previously, publishing required access to an internal admin tool. The redesigned system introduces a shared web interface that enables creators, approvers, and publishers to manage the workflow independently.",
+}
+
 /**
  * DetailedProcessSection
- * 
+ *
  * An expandable disclosure section for deep-dive process content.
  * Features:
  * - Intro paragraph (always visible)
@@ -15,7 +226,19 @@ import { Container } from "@/components/layout/container"
  * - Accordion toggle for expanded content
  * - 4 process subsections inside the disclosed container
  */
-export function DetailedProcessSection() {
+export function DetailedProcessSection({
+  introText = DEFAULT_INTRO_TEXT,
+  processOverviewSteps = DEFAULT_PROCESS_OVERVIEW_STEPS,
+  whosWhoTitle = DEFAULT_WHOS_WHO_TITLE,
+  whosWhoStakeholders = DEFAULT_WHOS_WHO_STAKEHOLDERS,
+  whosWhoImageSrc = DEFAULT_WHOS_WHO_IMAGE_SRC,
+  supportingImages = DEFAULT_SUPPORTING_IMAGES,
+  comparisonBeforeSrc = DEFAULT_COMPARISON_BEFORE_SRC,
+  comparisonAfterSrc = DEFAULT_COMPARISON_AFTER_SRC,
+  designMoves = DEFAULT_DESIGN_MOVES,
+  beforeAfterItems = DEFAULT_BEFORE_AFTER_ITEMS,
+  interactiveComparisonContent = DEFAULT_INTERACTIVE_COMPARISON_CONTENT,
+}: DetailedProcessSectionProps = {}) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [underlineAnimated, setUnderlineAnimated] = useState(false)
   const [hasUserScrolled, setHasUserScrolled] = useState(false)
@@ -124,8 +347,7 @@ export function DetailedProcessSection() {
             maxWidth: "var(--layout-content-max)",
           }}
         >
-          To address these systemic bottlenecks, I designed a structured workflow transformation
-          spanning research, modeling, and implementation.
+          {introText}
         </p>
 
         {/* Animated Underline */}
@@ -249,16 +471,29 @@ export function DetailedProcessSection() {
       >
         <div style={{ overflow: "hidden" }}>
           {/* Process Subsection 1: Process Overview - White Band */}
-          <ProcessOverviewBand />
+          <ProcessOverviewBand steps={processOverviewSteps} />
 
           {/* Process Subsection 2: Who's Who - White Band */}
-          <WhosWhoBand />
+          <WhosWhoBand
+            title={whosWhoTitle}
+            stakeholders={whosWhoStakeholders}
+            imageSrc={whosWhoImageSrc}
+          />
 
           {/* Process Subsection 3: My Design Moves - Blue Tinted Band */}
-          <MyDesignMovesBand />
+          <MyDesignMovesBand
+            designMoves={designMoves}
+            supportingImages={supportingImages}
+          />
 
           {/* Process Subsection 4: Before → After - Light Gray Band */}
-          <BeforeAfterBand />
+          <BeforeAfterBand
+            beforeItems={beforeAfterItems.before}
+            afterItems={beforeAfterItems.after}
+            interactiveComparisonContent={interactiveComparisonContent}
+            comparisonBeforeSrc={comparisonBeforeSrc}
+            comparisonAfterSrc={comparisonAfterSrc}
+          />
         </div>
       </div>
     </section>
@@ -269,29 +504,19 @@ export function DetailedProcessSection() {
  * Before → After Band Component
  * Full-width light gray band with comparison panels and interactive screenshot
  */
-function BeforeAfterBand() {
-  const beforeItems = [
-    "Survey requests started informally",
-    "Creators built content manually in spreadsheets",
-    "Approvals moved through scattered email threads",
-    "Translation had no formal workflow",
-    "Publishing required developer intervention",
-    "Surveys could be printed, mailed, scanned, or faxed",
-    "Facility managers completed mismatched or unclear forms",
-    "Leadership received fragmented data with little actionable clarity",
-  ]
-
-  const afterItems = [
-    "Survey content moved through a structured CMS",
-    "Creators built modules using templates and defined inputs",
-    "Approvers reviewed content through visible queues",
-    "Translation became a supported step in the workflow",
-    "Publishing became a controlled user action, not a developer task",
-    "Surveys were distributed digitally and matched to facility context",
-    "Facility managers completed relevant content in the appropriate language",
-    "Leadership gained centralized visibility into trends and priorities",
-  ]
-
+function BeforeAfterBand({
+  beforeItems,
+  afterItems,
+  interactiveComparisonContent,
+  comparisonBeforeSrc,
+  comparisonAfterSrc,
+}: {
+  beforeItems: string[]
+  afterItems: string[]
+  interactiveComparisonContent: InteractiveComparisonContent
+  comparisonBeforeSrc: string
+  comparisonAfterSrc: string
+}) {
   return (
     <div
       data-reveal
@@ -529,7 +754,7 @@ function BeforeAfterBand() {
                 display: "block",
               }}
             >
-              Interactive Comparison
+              {interactiveComparisonContent.title}
             </span>
 
             {/* Screenshot Comparison */}
@@ -558,13 +783,13 @@ function BeforeAfterBand() {
                     marginBottom: "var(--space-01)",
                   }}
                 >
-                  Admin-Only Tool
+                  {interactiveComparisonContent.beforeTitle}
                 </h4>
                 <p
                   className="font-body clr-text-tertiary"
                   style={{ fontSize: "var(--text-body-sm)" }}
                 >
-                  Not accessible to end users
+                  {interactiveComparisonContent.beforeSubtitle}
                 </p>
               </div>
               <div className="text-right">
@@ -576,19 +801,22 @@ function BeforeAfterBand() {
                     marginBottom: "var(--space-01)",
                   }}
                 >
-                  Shared Web Interface
+                  {interactiveComparisonContent.afterTitle}
                 </h4>
                 <p
                   className="font-body clr-text-tertiary"
                   style={{ fontSize: "var(--text-body-sm)" }}
                 >
-                  Accessible to creators, approvers, and publishers
+                  {interactiveComparisonContent.afterSubtitle}
                 </p>
               </div>
             </div>
 
             {/* Interactive Comparison Slider */}
-            <InteractiveComparisonSlider />
+            <InteractiveComparisonSlider
+              comparisonBeforeSrc={comparisonBeforeSrc}
+              comparisonAfterSrc={comparisonAfterSrc}
+            />
 
               {/* Caption */}
               <p
@@ -600,7 +828,7 @@ function BeforeAfterBand() {
                   maxWidth: "var(--layout-content-max)",
                 }}
               >
-                Previously, publishing required access to an internal admin tool. The redesigned system introduces a shared web interface that enables creators, approvers, and publishers to manage the workflow independently.
+                {interactiveComparisonContent.caption}
               </p>
             </div>
           </div>
@@ -614,7 +842,13 @@ function BeforeAfterBand() {
  * Interactive Comparison Slider Component
  * Draggable slider to compare before/after screenshots
  */
-function InteractiveComparisonSlider() {
+function InteractiveComparisonSlider({
+  comparisonBeforeSrc,
+  comparisonAfterSrc,
+}: {
+  comparisonBeforeSrc: string
+  comparisonAfterSrc: string
+}) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
   const [isSliderHovered, setIsSliderHovered] = useState(false)
@@ -732,7 +966,7 @@ function InteractiveComparisonSlider() {
     >
       {/* Before Image (Bottom Layer) */}
       <img
-        src="/images/case-studies/coca-cola/comparisonbefore.webp"
+        src={comparisonBeforeSrc}
         alt="Legacy admin-only tool interface"
         className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
@@ -747,7 +981,7 @@ function InteractiveComparisonSlider() {
         }}
       >
         <img
-          src="/images/case-studies/coca-cola/comparisonafter.webp"
+          src={comparisonAfterSrc}
           alt="New shared web interface"
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
@@ -873,7 +1107,13 @@ function InteractiveComparisonSlider() {
  * My Design Moves Band Component
  * Full-width blue-tinted band with two-column layout (text + image stack)
  */
-function MyDesignMovesBand() {
+function MyDesignMovesBand({
+  designMoves,
+  supportingImages,
+}: {
+  designMoves: DesignMove[]
+  supportingImages: SupportingImage[]
+}) {
   const [activeMoveIndex, setActiveMoveIndex] = useState(0)
   const [contentHoverIndex, setContentHoverIndex] = useState<number | null>(null)
   const [thumbnailHoverIndex, setThumbnailHoverIndex] = useState<number | null>(null)
@@ -896,59 +1136,6 @@ function MyDesignMovesBand() {
     return () => mediaQuery.removeEventListener("change", handleChange)
   }, [])
 
-  const designMoves = [
-    {
-      number: "1",
-      title: "Mapped the Existing Workflow",
-      description: "I created before-and-after workflow models to visualize how survey content moved through the organization and where delays and handoff failures were happening.",
-    },
-    {
-      number: "2",
-      title: "Designed a Modular Survey Builder",
-      description: "I designed a structured content system that preserved useful Excel familiarity while eliminating version chaos and manual workarounds.",
-    },
-    {
-      number: "3",
-      title: "Created Role-Based Experiences",
-      description: "I tailored workflows and interfaces for creators, approvers, translators, publishers, and leadership so each group had the right information and controls.",
-    },
-    {
-      number: "4",
-      title: "Introduced AI-Assisted Translation",
-      description: "I incorporated AI-assisted translation as a first-draft mechanism with human review built into the workflow.",
-    },
-    {
-      number: "5",
-      title: "Aligned Design with Platform Constraints",
-      description: "I designed the system to work within PowerApps limitations while still improving usability, structure, and clarity.",
-    },
-    {
-      number: "6",
-      title: "Partnered Closely Through Delivery",
-      description: "I collaborated with development and QA throughout implementation and created detailed specifications to support accurate delivery.",
-    },
-  ]
-
-  const supportingImages = [
-    {
-      label: "WORKFLOW DIAGRAM",
-      thumbnailSrc: "/images/case-studies/coca-cola/workflowdiagram.png",
-      fullSrc: "/images/case-studies/coca-cola/workflowdiagramfull.png",
-      alt: "Workflow diagram showing content creation and approval process",
-    },
-    {
-      label: "CONTENT CREATION",
-      thumbnailSrc: "/images/case-studies/coca-cola/contentcreation.png",
-      fullSrc: "/images/case-studies/coca-cola/contentcreationfull.png",
-      alt: "Content creation interface screenshot",
-    },
-    {
-      label: "FINAL UI / PUBLISHER VIEW",
-      thumbnailSrc: "/images/case-studies/coca-cola/finalui.png",
-      fullSrc: "/images/case-studies/coca-cola/finaluifull.png",
-      alt: "Final publisher view of the CMS interface",
-    },
-  ]
   const interactiveItemCount = supportingImages.length
 
   const formatImageLabel = (label: string) =>
@@ -1463,35 +1650,15 @@ function MyDesignMovesBand() {
  * Who's Who Band Component
  * Full-width white band with two-column layout (image + stakeholder list)
  */
-function WhosWhoBand() {
-  const stakeholders = [
-    {
-      role: "Content Creator",
-      coreJob: "Create structured survey modules",
-      painPoint: "Previously relied on spreadsheets and email with no clear system or structure",
-    },
-    {
-      role: "Content Approver",
-      coreJob: "Review and approve survey content",
-      painPoint: "No visibility into approval status and no reliable review queue",
-    },
-    {
-      role: "Translator",
-      coreJob: "Localize finalized content",
-      painPoint: "No formal translation workflow or dedicated tools",
-    },
-    {
-      role: "Publisher (Executive)",
-      coreJob: "Publish finalized content globally",
-      painPoint: "Dependent on developers for routine content updates",
-    },
-    {
-      role: "Facility Manager",
-      coreJob: "Complete relevant surveys in the right language",
-      painPoint: "Often received mismatched or unclear inputs",
-    },
-  ]
-
+function WhosWhoBand({
+  title,
+  stakeholders,
+  imageSrc,
+}: {
+  title: string
+  stakeholders: WhosWhoStakeholder[]
+  imageSrc: string
+}) {
   return (
     <div
       data-reveal
@@ -1515,7 +1682,7 @@ function WhosWhoBand() {
             }}
           >
             <img
-              src="/images/case-studies/coca-cola/whoswho.webp"
+              src={imageSrc}
               alt="Two colleagues celebrating with a high-five during a collaborative planning session"
               className="w-full h-full object-cover"
               loading="lazy"
@@ -1533,7 +1700,7 @@ function WhosWhoBand() {
                 marginBottom: "var(--space-07)",
               }}
             >
-              Who&apos;s Who (And What They Needed)
+              {title}
             </h3>
 
             <div>
@@ -1592,30 +1759,7 @@ function WhosWhoBand() {
  * Process Overview Band Component
  * Full-width white band with centered process steps
  */
-function ProcessOverviewBand() {
-  const steps = [
-    {
-      title: "Research & Discovery",
-      description: "I conducted interviews across stakeholder groups and time zones to understand how content moved through the organization in practice.",
-    },
-    {
-      title: "Workflow Modeling",
-      description: "I translated findings into user flows and future-state workflows that could be validated with stakeholders.",
-    },
-    {
-      title: "Wireframing & Prototyping",
-      description: "I started with low-fidelity wireframes and then created Figma prototypes tailored to the realities of PowerApps.",
-    },
-    {
-      title: "Familiarity Without Chaos",
-      description: "The interface needed to feel more structured than Excel, but not so unfamiliar that adoption became its own barrier.",
-    },
-    {
-      title: "Documentation & Handoff",
-      description: "I created detailed design specifications and worked closely with engineering and QA to ensure the experience translated accurately into the shipped product.",
-    },
-  ]
-
+function ProcessOverviewBand({ steps }: { steps: ProcessOverviewStep[] }) {
   return (
     <div
       data-reveal

@@ -33,6 +33,8 @@ const sectionItems = [
 export function CaseStudySectionNav() {
   const [isVisible, setIsVisible] = useState(false)
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false)
+  const [isNearPageBottom, setIsNearPageBottom] = useState(false)
+  const [isHeaderCompressed, setIsHeaderCompressed] = useState(false)
   const [activeSection, setActiveSection] = useState<string>("overview")
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
   const mobileListboxId = "case-study-section-nav-mobile-listbox"
@@ -47,13 +49,24 @@ export function CaseStudySectionNav() {
       const executiveSummaryEl = document.getElementById("executive-summary")
       if (!executiveSummaryEl) return
 
+      const scrollY = window.scrollY
+      const documentHeight = document.documentElement.scrollHeight
+      const viewportHeight = window.innerHeight
+      const distanceFromBottom = Math.max(0, documentHeight - (scrollY + viewportHeight))
+      const withinLastFivePercent = distanceFromBottom <= documentHeight * 0.05
+      const withinFooterProximity = distanceFromBottom <= 64
+      const shouldStackUnderHeader = withinLastFivePercent || withinFooterProximity
+
+      setIsHeaderCompressed(scrollY > 10)
+      setIsNearPageBottom(shouldStackUnderHeader)
+
       const rect = executiveSummaryEl.getBoundingClientRect()
       // Main header height is approximately 56-72px depending on scroll state
       // Show section nav only when:
       // 1. Executive summary is at or above the viewport top (rect.top <= 56)
       // 2. This ensures the main header has scrolled off-screen first
       const mainHeaderHeight = 72 // Conservative estimate for unscrolled header
-      const shouldShow = rect.top <= mainHeaderHeight
+      const shouldShow = rect.top <= mainHeaderHeight || shouldStackUnderHeader
 
       if (shouldShow && !isVisible) {
         setIsVisible(true)
@@ -72,6 +85,12 @@ export function CaseStudySectionNav() {
 
     return () => window.removeEventListener("scroll", handleScroll)
   }, [isVisible, hasAnimatedIn])
+
+  const navTop = isNearPageBottom
+    ? isHeaderCompressed
+      ? "var(--space-11)"
+      : "var(--space-13)"
+    : 0
 
   // Close mobile dropdown on scroll
   useEffect(() => {
@@ -141,11 +160,11 @@ export function CaseStudySectionNav() {
           : "opacity-0 -translate-y-2 pointer-events-none"
       )}
       style={{
-        top: 0,
+        top: navTop,
         backgroundColor: "var(--color-bg-page)",
         borderBottom: "var(--stroke-01) solid var(--color-border-subtle)",
         transition:
-          "opacity var(--motion-duration-03) var(--motion-easing-premium), transform var(--motion-duration-03) var(--motion-easing-premium)",
+          "top var(--motion-duration-03) var(--motion-easing-premium), opacity var(--motion-duration-03) var(--motion-easing-premium), transform var(--motion-duration-03) var(--motion-easing-premium)",
       }}
       aria-label="Case study section navigation"
       aria-hidden={!isVisible}

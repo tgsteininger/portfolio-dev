@@ -46,8 +46,20 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
       
       // If scrollAway mode, hide header once we've scrolled past the hero area
       if (scrollAway) {
+        const documentHeight = document.documentElement.scrollHeight
+        const viewportHeight = window.innerHeight
+        const distanceFromBottom = Math.max(
+          0,
+          documentHeight - (scrollY + viewportHeight)
+        )
+        const withinLastFivePercent =
+          distanceFromBottom <= documentHeight * 0.05
+        const withinFooterProximity = distanceFromBottom <= 64
+        const shouldForceVisibleNearBottom =
+          withinLastFivePercent || withinFooterProximity
+
         // Hide header when scrolled past approximately 400px (hero section)
-        setIsHidden(scrollY > 400)
+        setIsHidden(scrollY > 400 && !shouldForceVisibleNearBottom)
       }
     }
 

@@ -4,7 +4,19 @@
  * A minimal, editorial closing section for the case study.
  * Features a clean heading and reflective paragraphs with generous spacing.
  */
-export function WhatILearnedSection() {
+interface WhatILearnedSectionProps {
+  paragraphs?: [string, string, string]
+}
+
+const DEFAULT_PARAGRAPHS: [string, string, string] = [
+  "This project reinforced that enterprise design is often less about novelty and more about replacing fragile habits with systems people can trust.",
+  "The best solution was not the one with the most dramatic interface. It was the one that gave each role a clearer path forward without asking users to completely reinvent how they worked overnight.",
+  "It also reminded me that operational complexity tends to hide inside familiar tools. A spreadsheet can look harmless on the surface, but when an entire workflow depends on it, it is often carrying far more risk than anyone wants to admit.",
+]
+
+export function WhatILearnedSection({
+  paragraphs = DEFAULT_PARAGRAPHS,
+}: WhatILearnedSectionProps = {}) {
   return (
     <section
       id="what-i-learned"
@@ -55,7 +67,7 @@ export function WhatILearnedSection() {
               lineHeight: 1.75,
             }}
           >
-            This project reinforced that enterprise design is often less about novelty and more about replacing fragile habits with systems people can trust.
+            {paragraphs[0]}
           </p>
 
           <p
@@ -67,7 +79,7 @@ export function WhatILearnedSection() {
               lineHeight: 1.75,
             }}
           >
-            The best solution was not the one with the most dramatic interface. It was the one that gave each role a clearer path forward without asking users to completely reinvent how they worked overnight.
+            {paragraphs[1]}
           </p>
 
           <p
@@ -79,7 +91,7 @@ export function WhatILearnedSection() {
               lineHeight: 1.75,
             }}
           >
-            It also reminded me that operational complexity tends to hide inside familiar tools. A spreadsheet can look harmless on the surface, but when an entire workflow depends on it, it is often carrying far more risk than anyone wants to admit.
+            {paragraphs[2]}
           </p>
         </div>
       </div>
