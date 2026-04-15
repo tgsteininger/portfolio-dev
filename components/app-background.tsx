@@ -13,7 +13,11 @@
  * - Uses design system tokens for colors/opacity
  * - Parallax-ready with transform-based positioning
  */
-export function AppBackground() {
+interface AppBackgroundProps {
+  showStructuralGrid?: boolean
+}
+
+export function AppBackground({ showStructuralGrid = false }: AppBackgroundProps) {
   return (
     <div 
       className="fixed inset-0 pointer-events-none overflow-hidden"
@@ -34,6 +38,31 @@ export function AppBackground() {
           `,
         }}
       />
+
+      {showStructuralGrid ? (
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              repeating-linear-gradient(
+                to right,
+                color-mix(in srgb, var(--color-neutral-400) 18%, transparent) 0,
+                color-mix(in srgb, var(--color-neutral-400) 18%, transparent) 1px,
+                transparent 1px,
+                transparent 72px
+              ),
+              repeating-linear-gradient(
+                to bottom,
+                color-mix(in srgb, var(--color-neutral-400) 18%, transparent) 0,
+                color-mix(in srgb, var(--color-neutral-400) 18%, transparent) 1px,
+                transparent 1px,
+                transparent 72px
+              )
+            `,
+            opacity: 0.3,
+          }}
+        />
+      ) : null}
       
       {/* Panel Layer - Architectural rectangles aligned to AppBG.svg composition */}
       <div className="absolute inset-0">

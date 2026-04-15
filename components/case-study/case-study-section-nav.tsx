@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import { ChevronDown, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
  * Section Navigation Items
  * Maps to section IDs in the case study page
  */
-const sectionItems = [
+const baseSectionItems = [
   { id: "overview", label: "Overview" },
   { id: "executive-summary", label: "Executive Summary" },
   { id: "business-outcomes", label: "Business Outcomes" },
@@ -35,12 +35,75 @@ export function CaseStudySectionNav() {
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false)
   const [isNearPageBottom, setIsNearPageBottom] = useState(false)
   const [isHeaderCompressed, setIsHeaderCompressed] = useState(false)
+  const [hasDecisionFrameworkSection, setHasDecisionFrameworkSection] = useState(false)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+  const [hoveredSectionId, setHoveredSectionId] = useState<string | null>(null)
+  const [activeUnderline, setActiveUnderline] = useState({ left: 0, width: 0, visible: false })
+  const [hoverUnderline, setHoverUnderline] = useState({ left: 0, width: 0, visible: false })
+  const [isBottomOverrideActive, setIsBottomOverrideActive] = useState(false)
   const [activeSection, setActiveSection] = useState<string>("overview")
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false)
   const mobileListboxId = "case-study-section-nav-mobile-listbox"
+  const desktopScrollRef = useRef<HTMLDivElement>(null)
+  const navItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({})
+  const lastAutoScrolledSectionRef = useRef<string | null>(null)
+  const isBottomOverrideActiveRef = useRef(false)
+
+  useEffect(() => {
+    const path = window.location.pathname
+    setHasDecisionFrameworkSection(
+      path === "/case-studies/walgreens" || path === "/case-studies/mediaplatform"
+    )
+  }, [])
+
+  const sectionItems = useMemo(() => {
+    if (!hasDecisionFrameworkSection) return baseSectionItems
+
+    const insertionIndex = baseSectionItems.findIndex(
+      (item) => item.id === "structural-bottlenecks"
+    )
+    const items = [...baseSectionItems]
+    items.splice(insertionIndex + 1, 0, {
+      id: "decision-framework",
+      label: "Decisions & Constraints",
+    })
+    return items
+  }, [hasDecisionFrameworkSection])
 
   // Get active section label
   const activeSectionLabel = sectionItems.find(item => item.id === activeSection)?.label || "Overview"
+
+  const getUnderlineMetrics = useCallback((itemId: string) => {
+    const itemEl = navItemRefs.current[itemId]
+    if (!itemEl) return null
+
+    const itemStyles = window.getComputedStyle(itemEl)
+    const horizontalInset = Number.parseFloat(itemStyles.paddingLeft || "0") || 0
+    const left = itemEl.offsetLeft + horizontalInset
+    const width = Math.max(0, itemEl.offsetWidth - horizontalInset * 2)
+
+    return { left, width }
+  }, [])
+
+  const getCurrentInViewSectionId = useCallback(() => {
+    const sectionActivationY = 96
+    let currentSectionId = sectionItems[0]?.id
+
+    sectionItems.forEach((item) => {
+      const sectionEl = document.getElementById(item.id)
+      if (!sectionEl) return
+      if (sectionEl.getBoundingClientRect().top <= sectionActivationY) {
+        currentSectionId = item.id
+      }
+    })
+
+    return currentSectionId
+  }, [sectionItems])
+
+  useEffect(() => {
+    isBottomOverrideActiveRef.current = isBottomOverrideActive
+  }, [isBottomOverrideActive])
 
   // Handle scroll visibility - show when main header has scrolled off-screen
   // and Executive Summary section is approaching the top
@@ -104,6 +167,150 @@ export function CaseStudySectionNav() {
     return () => window.removeEventListener("scroll", handleScrollClose)
   }, [mobileDropdownOpen])
 
+  useEffect(() => {
+    const scrollEl = desktopScrollRef.current
+    if (!scrollEl) return
+
+    const isTabletViewport = () =>
+      window.matchMedia("(min-width: 768px) and (max-width: 1023px)").matches
+
+    const updateAffordances = () => {
+      if (!isVisible || !isTabletViewport()) {
+        setCanScrollLeft(false)
+        setCanScrollRight(false)
+        return
+      }
+
+      const { scrollLeft, scrollWidth, clientWidth } = scrollEl
+      const maxScrollLeft = Math.max(0, scrollWidth - clientWidth)
+
+      setCanScrollLeft(scrollLeft > 1)
+      setCanScrollRight(scrollLeft < maxScrollLeft - 1)
+    }
+
+    const handleResize = () => updateAffordances()
+    const handleScroll = () => updateAffordances()
+
+    updateAffordances()
+    scrollEl.addEventListener("scroll", handleScroll, { passive: true })
+    window.addEventListener("resize", handleResize, { passive: true })
+
+    return () => {
+      scrollEl.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [isVisible, sectionItems])
+
+  useEffect(() => {
+    if (!isVisible) {
+      setActiveUnderline((prev) => ({ ...prev, visible: false }))
+      setHoverUnderline((prev) => ({ ...prev, visible: false }))
+      return
+    }
+
+    const activeMetrics = getUnderlineMetrics(activeSection)
+    if (activeMetrics) {
+      setActiveUnderline({
+        ...activeMetrics,
+        visible: true,
+      })
+    } else {
+      setActiveUnderline((prev) => ({ ...prev, visible: false }))
+    }
+
+    if (!hoveredSectionId || hoveredSectionId === activeSection) {
+      setHoverUnderline((prev) => ({ ...prev, visible: false }))
+      return
+    }
+
+    const hoverMetrics = getUnderlineMetrics(hoveredSectionId)
+    if (!hoverMetrics) {
+      setHoverUnderline((prev) => ({ ...prev, visible: false }))
+      return
+    }
+
+    setHoverUnderline({
+      ...hoverMetrics,
+      visible: true,
+    })
+  }, [activeSection, hoveredSectionId, isVisible, getUnderlineMetrics, sectionItems])
+
+  useEffect(() => {
+    const scrollEl = desktopScrollRef.current
+    if (!scrollEl) return
+
+    const updateUnderlinePositions = () => {
+      const activeMetrics = getUnderlineMetrics(activeSection)
+      if (activeMetrics) {
+        setActiveUnderline({
+          ...activeMetrics,
+          visible: true,
+        })
+      }
+
+      if (!hoveredSectionId || hoveredSectionId === activeSection) return
+
+      const hoverMetrics = getUnderlineMetrics(hoveredSectionId)
+      if (hoverMetrics) {
+        setHoverUnderline({
+          ...hoverMetrics,
+          visible: true,
+        })
+      }
+    }
+
+    updateUnderlinePositions()
+    window.addEventListener("resize", updateUnderlinePositions, { passive: true })
+    return () => window.removeEventListener("resize", updateUnderlinePositions)
+  }, [activeSection, hoveredSectionId, getUnderlineMetrics])
+
+  useEffect(() => {
+    if (!isVisible) return
+
+    const isTabletViewport =
+      window.matchMedia("(min-width: 768px) and (max-width: 1023px)").matches
+    if (!isTabletViewport) return
+
+    const scrollEl = desktopScrollRef.current
+    const activeEl = navItemRefs.current[activeSection]
+    if (!scrollEl || !activeEl) return
+    if (scrollEl.scrollWidth <= scrollEl.clientWidth + 1) return
+
+    const itemRect = activeEl.getBoundingClientRect()
+    const containerRect = scrollEl.getBoundingClientRect()
+    const itemCenter = itemRect.left + itemRect.width / 2
+    const containerCenter = containerRect.left + containerRect.width / 2
+    const centerDelta = Math.abs(itemCenter - containerCenter)
+    const centerThreshold = containerRect.width * 0.2
+
+    const visibleLeft = Math.max(itemRect.left, containerRect.left)
+    const visibleRight = Math.min(itemRect.right, containerRect.right)
+    const visibleWidth = Math.max(0, visibleRight - visibleLeft)
+    const visibleRatio = itemRect.width > 0 ? visibleWidth / itemRect.width : 1
+    const isMostlyVisible = visibleRatio >= 0.8
+    const isMostlyCentered = centerDelta <= centerThreshold
+
+    if (
+      isMostlyVisible &&
+      isMostlyCentered &&
+      lastAutoScrolledSectionRef.current === activeSection
+    ) {
+      return
+    }
+
+    if (isMostlyVisible && isMostlyCentered) {
+      lastAutoScrolledSectionRef.current = activeSection
+      return
+    }
+
+    lastAutoScrolledSectionRef.current = activeSection
+    activeEl.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    })
+  }, [activeSection, isVisible])
+
   // Scrollspy - track active section based on scroll position
   useEffect(() => {
     const observerOptions = {
@@ -113,6 +320,7 @@ export function CaseStudySectionNav() {
     }
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
+      if (isBottomOverrideActiveRef.current) return
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id)
@@ -129,7 +337,45 @@ export function CaseStudySectionNav() {
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, [sectionItems])
+
+  // Ensure final section can become active near page bottom.
+  useEffect(() => {
+    const finalSectionId = sectionItems[sectionItems.length - 1]?.id
+    if (!finalSectionId) return
+
+    const bottomActivationThreshold = 12
+
+    const handleBottomOverride = () => {
+      const scrollPosition = window.scrollY + window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const isNearBottom =
+        scrollPosition >= documentHeight - bottomActivationThreshold
+
+      if (isNearBottom) {
+        if (!isBottomOverrideActiveRef.current) {
+          setIsBottomOverrideActive(true)
+        }
+        setActiveSection((currentSection) =>
+          currentSection === finalSectionId ? currentSection : finalSectionId
+        )
+        return
+      }
+
+      if (isBottomOverrideActiveRef.current) {
+        setIsBottomOverrideActive(false)
+        const resumedSectionId = getCurrentInViewSectionId()
+        if (resumedSectionId) {
+          setActiveSection(resumedSectionId)
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleBottomOverride, { passive: true })
+    handleBottomOverride()
+
+    return () => window.removeEventListener("scroll", handleBottomOverride)
+  }, [sectionItems, getCurrentInViewSectionId])
 
   // Smooth scroll to section on click
   const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
@@ -163,6 +409,7 @@ export function CaseStudySectionNav() {
         top: navTop,
         backgroundColor: "var(--color-bg-page)",
         borderBottom: "var(--stroke-01) solid var(--color-border-subtle)",
+        boxShadow: "var(--elevation-01)",
         transition:
           "top var(--motion-duration-03) var(--motion-easing-premium), opacity var(--motion-duration-03) var(--motion-easing-premium), transform var(--motion-duration-03) var(--motion-easing-premium)",
       }}
@@ -172,7 +419,14 @@ export function CaseStudySectionNav() {
       {/* Desktop Navigation - hidden on mobile */}
       <div className="hidden md:block layout-shell">
         <div
-          className="flex items-center overflow-x-auto scrollbar-hide"
+          className="case-study-nav-scroll-shell"
+          data-scroll-left={canScrollLeft ? "true" : "false"}
+          data-scroll-right={canScrollRight ? "true" : "false"}
+        >
+          <div
+          ref={desktopScrollRef}
+          onMouseLeave={() => setHoveredSectionId(null)}
+          className="case-study-nav-scroll-track flex items-center overflow-x-auto"
           style={{
             height: "56px",
             gap: "var(--space-08)",
@@ -182,17 +436,22 @@ export function CaseStudySectionNav() {
             <a
               key={item.id}
               href={`#${item.id}`}
+              ref={(el) => {
+                navItemRefs.current[item.id] = el
+              }}
               onClick={(e) => handleNavClick(e, item.id)}
+              onMouseEnter={() => setHoveredSectionId(item.id)}
               aria-current={activeSection === item.id ? "location" : undefined}
               tabIndex={isVisible ? 0 : -1}
+              data-active={activeSection === item.id ? "true" : "false"}
               className={cn(
-                "relative font-ui whitespace-nowrap transition-fast",
+                "case-study-nav-snap-item case-study-nav-item relative font-ui whitespace-nowrap transition-fast",
                 "py-[var(--space-04)] px-[var(--space-02)] -mx-[var(--space-02)]",
                 "rounded-[var(--radius-02)]",
                 "focus-ring-standard outline-none",
                 activeSection === item.id
                   ? "clr-text-primary font-medium"
-                  : "clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-bg-surface-subtle)] font-normal"
+                  : "clr-text-secondary hover:clr-text-primary font-normal"
               )}
               style={{
                 fontSize: "var(--text-body-sm)",
@@ -201,22 +460,27 @@ export function CaseStudySectionNav() {
               }}
             >
               {item.label}
-              {/* Active indicator underline */}
-              <span
-                className="absolute left-[var(--space-02)] right-[var(--space-02)] bottom-0"
-                style={{
-                  height: "var(--stroke-02)",
-                  backgroundColor: "var(--color-cyan-500)",
-                  borderRadius: "var(--radius-full)",
-                  transformOrigin: "left center",
-                  transform: activeSection === item.id ? "scaleX(1)" : "scaleX(0)",
-                  opacity: activeSection === item.id ? 1 : 0,
-                  transition:
-                    "transform var(--motion-duration-03) var(--motion-easing-premium), opacity var(--motion-duration-03) var(--motion-easing-premium)",
-                }}
-              />
             </a>
           ))}
+          <span
+            className="case-study-nav-active-underline"
+            aria-hidden="true"
+            style={{
+              left: `${activeUnderline.left}px`,
+              width: `${activeUnderline.width}px`,
+              opacity: activeUnderline.visible ? 1 : 0,
+            }}
+          />
+          <span
+            className="case-study-nav-hover-underline"
+            aria-hidden="true"
+            style={{
+              left: `${hoverUnderline.left}px`,
+              width: `${hoverUnderline.width}px`,
+              opacity: hoverUnderline.visible ? 1 : 0,
+            }}
+          />
+        </div>
         </div>
       </div>
 

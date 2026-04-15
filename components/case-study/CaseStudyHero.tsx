@@ -46,11 +46,6 @@ export function CaseStudyHero() {
             className="col-span-4 flex w-full min-w-0 max-w-none flex-col items-start text-left md:col-span-6 lg:col-span-5 lg:max-w-[36rem]"
             data-reveal
             data-reveal-delay="40"
-            style={{
-              paddingLeft: "var(--space-05)",
-              borderLeft:
-                "1px solid color-mix(in srgb, var(--color-blue-300) 38%, transparent)",
-            }}
           >
             <p
               className="font-ui font-medium"

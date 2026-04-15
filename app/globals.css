@@ -1220,4 +1220,110 @@ body {
       background-color: var(--color-blue-100);
     }
   }
+
+  /* Tablet case-study section nav horizontal overflow behavior + gradient affordance */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .case-study-nav-scroll-shell {
+      position: relative;
+    }
+
+    .case-study-nav-scroll-track {
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+      scroll-snap-type: x proximity;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .case-study-nav-scroll-track::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .case-study-nav-snap-item {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+    }
+
+    .case-study-nav-scroll-shell::after,
+    .case-study-nav-scroll-shell::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity var(--motion-duration-03) var(--motion-easing-standard);
+    }
+
+    .case-study-nav-scroll-shell::after {
+      right: 0;
+      background: linear-gradient(to right, transparent, var(--color-neutral-0));
+    }
+
+    .case-study-nav-scroll-shell[data-scroll-right="true"]::after {
+      opacity: 1;
+    }
+
+    .case-study-nav-scroll-shell::before {
+      left: 0;
+      background: linear-gradient(to left, transparent, var(--color-neutral-0));
+    }
+
+    .case-study-nav-scroll-shell[data-scroll-left="true"]::before {
+      opacity: 1;
+    }
+  }
+
+  /* Case-study section nav premium underline interaction (desktop + tablet) */
+  .case-study-nav-item {
+    text-decoration: none;
+  }
+
+  .case-study-nav-scroll-track {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .case-study-nav-scroll-track::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .case-study-nav-active-underline,
+  .case-study-nav-hover-underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    border-radius: var(--radius-full);
+    pointer-events: none;
+    transition:
+      left 220ms var(--motion-easing-standard),
+      width 220ms var(--motion-easing-standard),
+      opacity 220ms var(--motion-easing-standard);
+  }
+
+  .case-study-nav-active-underline {
+    background: var(--color-cyan-500);
+    z-index: 1;
+  }
+
+  .case-study-nav-hover-underline {
+    background: var(--color-cyan-300);
+    z-index: 2;
+  }
 }

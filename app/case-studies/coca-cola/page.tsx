@@ -35,7 +35,7 @@ export default function CocaColaCaseStudyPage() {
       <CaseStudySectionNav />
       
       {/* Background Layer */}
-      <AppBackground />
+      <AppBackground showStructuralGrid />
       
       {/* Main Content Layer */}
       <main 
@@ -84,15 +84,10 @@ export default function CocaColaCaseStudyPage() {
 
         {/* Footer */}
         <CaseStudyFooter
-          previousStudy={{
-            title: "Previous Case Study",
-            subtitle: "Walgreens Pharmacy Workflow",
-            href: "/case-studies/walgreens",
-          }}
           nextStudy={{
             title: "Next Case Study",
-            subtitle: "MediaPlatform Broadcast Collaboration",
-            href: "/case-studies/mediaplatform",
+            subtitle: "Walgreens Pharmacy Workflow",
+            href: "/case-studies/walgreens",
           }}
         />
       </main>

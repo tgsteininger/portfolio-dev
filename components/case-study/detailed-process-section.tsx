@@ -20,6 +20,7 @@ interface DetailedProcessSectionProps {
     after: string[]
   }
   interactiveComparisonContent?: InteractiveComparisonContent
+  useSharedComparisonCard?: boolean
 }
 
 const DEFAULT_INTRO_TEXT =
@@ -238,6 +239,7 @@ export function DetailedProcessSection({
   designMoves = DEFAULT_DESIGN_MOVES,
   beforeAfterItems = DEFAULT_BEFORE_AFTER_ITEMS,
   interactiveComparisonContent = DEFAULT_INTERACTIVE_COMPARISON_CONTENT,
+  useSharedComparisonCard = false,
 }: DetailedProcessSectionProps = {}) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [underlineAnimated, setUnderlineAnimated] = useState(false)
@@ -408,27 +410,21 @@ export function DetailedProcessSection({
             onPointerDown={() => setAccordionFocusVisible(false)}
             aria-expanded={isExpanded}
             aria-controls="detailed-process-expanded-content"
-            className={`flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] focus-ring-standard outline-none active:scale-[0.98] ${
-              isExpanded 
-                ? "bg-[var(--action-primary)] text-[var(--text-inverse)] hover:bg-[var(--action-primary-hover)] active:bg-[var(--action-primary-active)]" 
-                : "text-[var(--color-text-primary)]"
-            }`}
+            className="flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] focus-ring-standard outline-none text-[var(--color-text-primary)] hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] active:scale-[0.98]"
             style={{
               fontSize: "var(--text-body-sm)",
               fontWeight: 500,
               height: "var(--button-height-md)",
               padding: "0 var(--button-pad-x-md)",
               backgroundColor: isExpanded
-                ? undefined
-                : "color-mix(in srgb, var(--color-blue-50) 48%, var(--color-bg-surface))",
+                ? "var(--color-neutral-100)"
+                : "var(--color-bg-surface)",
               border: isExpanded
-                ? undefined
-                : "var(--stroke-01) solid color-mix(in srgb, var(--color-blue-200) 38%, var(--color-border-subtle))",
+                ? "var(--stroke-01) solid var(--color-border-default)"
+                : "var(--stroke-01) solid var(--color-border-subtle)",
               boxShadow: accordionFocusVisible
                 ? "0 0 0 2px color-mix(in srgb, var(--color-neutral-0) 70%, transparent), 0 0 0 4px var(--color-border-focus)"
-                : isExpanded
-                  ? undefined
-                  : "var(--elevation-00)",
+                : "var(--elevation-00)",
               transitionProperty:
                 "background-color, border-color, box-shadow, color, transform",
               transitionDuration:
@@ -493,6 +489,7 @@ export function DetailedProcessSection({
             interactiveComparisonContent={interactiveComparisonContent}
             comparisonBeforeSrc={comparisonBeforeSrc}
             comparisonAfterSrc={comparisonAfterSrc}
+            useSharedComparisonCard={useSharedComparisonCard}
           />
         </div>
       </div>
@@ -510,12 +507,14 @@ function BeforeAfterBand({
   interactiveComparisonContent,
   comparisonBeforeSrc,
   comparisonAfterSrc,
+  useSharedComparisonCard,
 }: {
   beforeItems: string[]
   afterItems: string[]
   interactiveComparisonContent: InteractiveComparisonContent
   comparisonBeforeSrc: string
   comparisonAfterSrc: string
+  useSharedComparisonCard: boolean
 }) {
   return (
     <div
@@ -611,135 +610,264 @@ function BeforeAfterBand({
           </h3>
 
           {/* Comparison Panels */}
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-06)]"
-            style={{ marginBottom: "var(--space-12)" }}
-          >
-            {/* Before Panel */}
+          {useSharedComparisonCard ? (
             <div
               style={{
-                backgroundColor: "var(--color-bg-page)",
+                marginBottom: "var(--space-12)",
+                backgroundColor:
+                  "color-mix(in srgb, var(--color-bg-page) 90%, transparent)",
                 borderRadius: "var(--radius-04)",
                 padding: "var(--space-08)",
-                border: "var(--stroke-01) solid var(--color-border-subtle)",
+                border:
+                  "var(--stroke-01) solid color-mix(in srgb, var(--color-border-subtle) 68%, transparent)",
               }}
             >
-              <span
-                className="font-body clr-text-tertiary"
-                style={{
-                  fontSize: "var(--text-label-sm)",
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  marginBottom: "var(--space-06)",
-                  display: "block",
-                }}
-              >
-                Before
-              </span>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {beforeItems.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-[var(--space-03)]"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-06)]">
+                <div>
+                  <span
+                    className="font-body clr-text-tertiary"
                     style={{
-                      marginBottom: index === beforeItems.length - 1 ? "0" : "var(--space-04)",
+                      fontSize: "var(--text-label-sm)",
+                      fontWeight: 600,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: "var(--space-06)",
+                      display: "block",
                     }}
                   >
-                    <svg
-                      className="flex-shrink-0"
-                      style={{
-                        width: "var(--icon-sm)",
-                        height: "var(--icon-sm)",
-                        marginTop: "2px",
-                        color: "var(--color-neutral-400)",
-                      }}
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span
-                      className="font-body clr-text-secondary"
-                      style={{
-                        fontSize: "var(--text-body-sm)",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    Before
+                  </span>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    {beforeItems.map((item, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start gap-[var(--space-03)]"
+                        style={{
+                          marginBottom:
+                            index === beforeItems.length - 1 ? "0" : "var(--space-04)",
+                        }}
+                      >
+                        <svg
+                          className="flex-shrink-0"
+                          style={{
+                            width: "var(--icon-sm)",
+                            height: "var(--icon-sm)",
+                            marginTop: "2px",
+                            color: "var(--color-neutral-400)",
+                          }}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span
+                          className="font-body clr-text-secondary"
+                          style={{
+                            fontSize: "var(--text-body-sm)",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            {/* After Panel */}
-            <div
-              style={{
-                backgroundColor: "var(--color-bg-page)",
-                borderRadius: "var(--radius-04)",
-                padding: "var(--space-08)",
-                border: "var(--stroke-01) solid var(--color-border-subtle)",
-              }}
-            >
-              <span
-                className="font-body"
-                style={{
-                  fontSize: "var(--text-label-sm)",
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  marginBottom: "var(--space-06)",
-                  display: "block",
-                  color: "var(--color-blue-500)",
-                }}
-              >
-                After
-              </span>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                {afterItems.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-[var(--space-03)]"
+                <div>
+                  <span
+                    className="font-body"
                     style={{
-                      marginBottom: index === afterItems.length - 1 ? "0" : "var(--space-04)",
+                      fontSize: "var(--text-label-sm)",
+                      fontWeight: 600,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: "var(--space-06)",
+                      display: "block",
+                      color: "var(--color-blue-500)",
                     }}
                   >
-                    <svg
-                      className="flex-shrink-0"
-                      style={{
-                        width: "var(--icon-sm)",
-                        height: "var(--icon-sm)",
-                        marginTop: "2px",
-                        color: "var(--color-blue-500)",
-                      }}
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span
-                      className="font-body clr-text-secondary"
-                      style={{
-                        fontSize: "var(--text-body-sm)",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                    After
+                  </span>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                    {afterItems.map((item, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start gap-[var(--space-03)]"
+                        style={{
+                          marginBottom:
+                            index === afterItems.length - 1 ? "0" : "var(--space-04)",
+                        }}
+                      >
+                        <svg
+                          className="flex-shrink-0"
+                          style={{
+                            width: "var(--icon-sm)",
+                            height: "var(--icon-sm)",
+                            marginTop: "2px",
+                            color: "var(--color-blue-500)",
+                          }}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span
+                          className="font-body clr-text-secondary"
+                          style={{
+                            fontSize: "var(--text-body-sm)",
+                            lineHeight: 1.5,
+                            fontWeight: 600,
+                            color: "var(--color-text-primary)",
+                          }}
+                        >
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-06)]"
+              style={{ marginBottom: "var(--space-12)" }}
+            >
+              {/* Before Panel */}
+              <div
+                style={{
+                  backgroundColor: "var(--color-bg-page)",
+                  borderRadius: "var(--radius-04)",
+                  padding: "var(--space-08)",
+                  border: "var(--stroke-01) solid var(--color-border-subtle)",
+                }}
+              >
+                <span
+                  className="font-body clr-text-tertiary"
+                  style={{
+                    fontSize: "var(--text-label-sm)",
+                    fontWeight: 600,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginBottom: "var(--space-06)",
+                    display: "block",
+                  }}
+                >
+                  Before
+                </span>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {beforeItems.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex items-start gap-[var(--space-03)]"
+                      style={{
+                        marginBottom: index === beforeItems.length - 1 ? "0" : "var(--space-04)",
+                      }}
+                    >
+                      <svg
+                        className="flex-shrink-0"
+                        style={{
+                          width: "var(--icon-sm)",
+                          height: "var(--icon-sm)",
+                          marginTop: "2px",
+                          color: "var(--color-neutral-400)",
+                        }}
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span
+                        className="font-body clr-text-secondary"
+                        style={{
+                          fontSize: "var(--text-body-sm)",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* After Panel */}
+              <div
+                style={{
+                  backgroundColor: "var(--color-bg-page)",
+                  borderRadius: "var(--radius-04)",
+                  padding: "var(--space-08)",
+                  border: "var(--stroke-01) solid var(--color-border-subtle)",
+                }}
+              >
+                <span
+                  className="font-body"
+                  style={{
+                    fontSize: "var(--text-label-sm)",
+                    fontWeight: 600,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginBottom: "var(--space-06)",
+                    display: "block",
+                    color: "var(--color-blue-500)",
+                  }}
+                >
+                  After
+                </span>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {afterItems.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex items-start gap-[var(--space-03)]"
+                      style={{
+                        marginBottom: index === afterItems.length - 1 ? "0" : "var(--space-04)",
+                      }}
+                    >
+                      <svg
+                        className="flex-shrink-0"
+                        style={{
+                          width: "var(--icon-sm)",
+                          height: "var(--icon-sm)",
+                          marginTop: "2px",
+                          color: "var(--color-blue-500)",
+                        }}
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span
+                        className="font-body clr-text-secondary"
+                        style={{
+                          fontSize: "var(--text-body-sm)",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           {/* Interactive Comparison Section */}
           <div>
@@ -1115,11 +1243,12 @@ function MyDesignMovesBand({
   supportingImages: SupportingImage[]
 }) {
   const [activeMoveIndex, setActiveMoveIndex] = useState(0)
-  const [contentHoverIndex, setContentHoverIndex] = useState<number | null>(null)
-  const [thumbnailHoverIndex, setThumbnailHoverIndex] = useState<number | null>(null)
+  const [hoveredPairIndex, setHoveredPairIndex] = useState<number | null>(null)
+  const [hoveredPairSource, setHoveredPairSource] = useState<
+    "content" | "thumbnail" | null
+  >(null)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const hoverResetTimeoutRef = useRef<number | null>(null)
   const lightboxDialogRef = useRef<HTMLDivElement>(null)
   const lightboxCloseButtonRef = useRef<HTMLButtonElement>(null)
   const lightboxLastTriggerRef = useRef<HTMLElement | null>(null)
@@ -1155,36 +1284,31 @@ function MyDesignMovesBand({
       })
       .join(" ")
 
-  const clearHoverResetTimeout = () => {
-    if (hoverResetTimeoutRef.current !== null) {
-      window.clearTimeout(hoverResetTimeoutRef.current)
-      hoverResetTimeoutRef.current = null
-    }
-  }
-
-  const scheduleHoverReset = (source: "content" | "thumbnail") => {
-    clearHoverResetTimeout()
-    hoverResetTimeoutRef.current = window.setTimeout(() => {
-      if (source === "content") setContentHoverIndex(null)
-      if (source === "thumbnail") setThumbnailHoverIndex(null)
-      hoverResetTimeoutRef.current = null
-    }, 45)
-  }
-
   const handleContentEnter = (index: number) => {
-    clearHoverResetTimeout()
-    setContentHoverIndex(index)
+    setHoveredPairIndex(index)
+    setHoveredPairSource("content")
     setActiveMoveIndex(index)
+  }
+
+  const handleContentLeave = () => {
+    if (hoveredPairSource !== "content") return
+    setHoveredPairIndex(null)
+    setHoveredPairSource(null)
   }
 
   const handleThumbnailEnter = (index: number) => {
-    clearHoverResetTimeout()
-    setThumbnailHoverIndex(index)
+    setHoveredPairIndex(index)
+    setHoveredPairSource("thumbnail")
     setActiveMoveIndex(index)
   }
 
-  const activePairedIndex =
-    thumbnailHoverIndex ?? contentHoverIndex ?? activeMoveIndex
+  const handleThumbnailRegionLeave = () => {
+    if (hoveredPairSource !== "thumbnail") return
+    setHoveredPairIndex(null)
+    setHoveredPairSource(null)
+  }
+
+  const activePairedIndex = hoveredPairIndex ?? activeMoveIndex
 
   const showPreviousImage = () => {
     if (selectedImageIndex === null) return
@@ -1276,10 +1400,6 @@ function MyDesignMovesBand({
     lightboxLastTriggerRef.current?.focus()
   }, [selectedImageIndex])
 
-  useEffect(() => {
-    return () => clearHoverResetTimeout()
-  }, [])
-
   return (
     <div
       data-reveal
@@ -1321,7 +1441,7 @@ function MyDesignMovesBand({
                   }
                   onPointerLeave={
                     index < interactiveItemCount
-                      ? () => scheduleHoverReset("content")
+                      ? handleContentLeave
                       : undefined
                   }
                   className="transition-standard"
@@ -1379,7 +1499,10 @@ function MyDesignMovesBand({
           </div>
 
           {/* Right Column: Supporting Images */}
-          <div className="flex w-full max-w-[400px] flex-col gap-[var(--space-05)] sm:justify-self-end">
+          <div
+            className="flex w-full max-w-[400px] flex-col gap-[var(--space-05)] sm:justify-self-end"
+            onPointerLeave={handleThumbnailRegionLeave}
+          >
             {supportingImages.map((image, index) => {
               const isActive = activePairedIndex === index
 
@@ -1392,9 +1515,7 @@ function MyDesignMovesBand({
                     setSelectedImageIndex(index)
                   }}
                   onPointerEnter={() => handleThumbnailEnter(index)}
-                  onPointerLeave={() => scheduleHoverReset("thumbnail")}
                   onFocus={() => handleThumbnailEnter(index)}
-                  onBlur={() => scheduleHoverReset("thumbnail")}
                   className="block w-full cursor-pointer text-left focus-ring-standard outline-none"
                   aria-label={`Open ${formatImageLabel(image.label)} image, ${index + 1} of ${supportingImages.length}`}
                   aria-haspopup="dialog"

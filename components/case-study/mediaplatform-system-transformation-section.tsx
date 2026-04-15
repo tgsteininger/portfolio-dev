@@ -9,26 +9,27 @@ interface BulletPoint {
 
 interface PanelData {
   label: string
-  labelColor: "neutral" | "accent"
   imageSrc: string
   imageAlt: string
   bullets: BulletPoint[]
 }
 
 const beforeBullets: BulletPoint[] = [
-  { text: "Fragmented workflows across multiple applications" },
-  { text: "Manual coordination between roles" },
-  { text: "Limited visibility into task progress" },
-  { text: "High cognitive load and frequent interruptions" },
-  { text: "Inefficient mouse-dependent input methods" },
+  { text: "Fragmented tools and manual coordination across workflows" },
+  { text: "Jargon-heavy onboarding and rigid setup requirements" },
+  { text: "Shared workspaces with competing controls and responsibilities" },
+  { text: "Manual layout manipulation during live events" },
+  { text: "Limited audience engagement and fragmented analytics" },
+  { text: "Branding and configuration required engineering support" },
 ]
 
 const afterBullets: BulletPoint[] = [
-  { text: "Streamlined, task-based workflow structure" },
-  { text: "Unified view of prescription data and source validation" },
-  { text: "Inline communication between pharmacists and technicians" },
-  { text: "Persistent progress tracking across workflow tasks" },
-  { text: "Keyboard-optimized interaction model" },
+  { text: "Streamlined, role-based production workflows" },
+  { text: "Immediate access to the broadcast canvas with minimal setup" },
+  { text: "Personalized workspaces for producers, presenters, and administrators" },
+  { text: "Preconfigured scenes with one-click switching" },
+  { text: "Integrated engagement tools and narrative-driven analytics" },
+  { text: "Self-service branding and reusable templates" },
 ]
 
 function BulletItem({
@@ -170,20 +171,18 @@ function ComparisonPanel({
   )
 }
 
-export function WalgreensSystemTransformationSection() {
+export function MediaPlatformSystemTransformationSection() {
   const beforePanel: PanelData = {
     label: "Before",
-    labelColor: "neutral",
     imageSrc: "/images/case-studies/walgreens/before.png",
-    imageAlt: "Fragmented pharmacy workflow across disconnected applications",
+    imageAlt: "Fragmented enterprise broadcasting workflow across disconnected tools",
     bullets: beforeBullets,
   }
 
   const afterPanel: PanelData = {
     label: "After",
-    labelColor: "accent",
     imageSrc: "/images/case-studies/walgreens/after.png",
-    imageAlt: "Task-based pharmacy workflow with unified prescription data",
+    imageAlt: "Role-based broadcasting workflow with unified live production controls",
     bullets: afterBullets,
   }
 
@@ -248,7 +247,7 @@ export function WalgreensSystemTransformationSection() {
                   color: "var(--color-text-tertiary)",
                 }}
               >
-                From fragmented workflows to a structured, scalable platform
+                From fragmented broadcast to a controlled, real-time production system
               </p>
             </div>
           </div>

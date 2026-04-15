@@ -9,6 +9,7 @@ import { ExecutiveSummarySection } from "@/components/case-study/executive-summa
 import { WalgreensBusinessOutcomesSection } from "@/components/case-study/walgreens-business-outcomes-section"
 import { WalgreensSystemTransformationSection } from "@/components/case-study/walgreens-system-transformation-section"
 import { WalgreensStructuralBottlenecksSection } from "@/components/case-study/walgreens-structural-bottlenecks-section"
+import { DecisionFrameworkSection } from "@/components/case-study/decision-framework-section"
 import { DetailedProcessSection } from "@/components/case-study/detailed-process-section"
 import { WhatILearnedSection } from "@/components/case-study/what-i-learned-section"
 import { CaseStudyFooter } from "@/components/case-study/case-study-footer"
@@ -36,7 +37,7 @@ export default function CocaColaCaseStudyPage() {
       <CaseStudySectionNav />
       
       {/* Background Layer */}
-      <AppBackground />
+      <AppBackground showStructuralGrid />
       
       {/* Main Content Layer */}
       <main 
@@ -52,15 +53,16 @@ export default function CocaColaCaseStudyPage() {
 
         {/* Executive Summary Section */}
         <ExecutiveSummarySection
+          backgroundColor="color-mix(in srgb, var(--color-blue-900) 48%, var(--color-neutral-900))"
           introduction={[
-            "Walgreens' in-store prescription review workflow was slow, fragmented, and heavily dependent on inefficient interaction patterns. Pharmacists were required to navigate multiple disconnected systems, reprocess large amounts of data for minor edits, and manage unclear communication loops with technicians — all in a high-interruption, time-critical environment.",
+            "Walgreens' in-store prescription review workflow was slow, fragmented, and heavily dependent on inefficient interaction patterns. Pharmacists were required to navigate multiple disconnected systems, reprocess large amounts of data for minor edits, and manage unclear communication loops with technicians. This occurred in a high-interruption, time-critical environment.",
             "These inefficiencies increased cognitive load, slowed prescription throughput, and introduced avoidable errors in a high-stakes setting.",
-            "Over a 16-week engagement, I led the redesign of the Data Review workflow — one of seven core system verticals. The approach focused on restructuring workflows around real-world pharmacy behavior, reducing context switching across systems, and introducing interaction patterns optimized for speed and accuracy.",
+            "Over a 16-week engagement, I led the redesign of the Data Review workflow, one of seven core system verticals. The approach focused on restructuring workflows around real-world pharmacy behavior, reducing context switching across systems, and introducing interaction patterns optimized for speed and accuracy.",
             "The result was a more cohesive and efficient workflow system that reduced friction and improved task completion speed across the prescription lifecycle.",
           ]}
           problemDescription="Walgreens lacked a cohesive prescription review workflow. Pharmacists navigated multiple disconnected systems, reprocessed entire records for minor corrections, relied on mouse-heavy input with limited keyboard support, and managed unclear communication loops with technicians. At scale across 9,000+ locations, these inefficiencies directly impacted operational throughput, staff productivity, and patient service speed."
-          solutionDescription="I redesigned the Data Review workflow within a multi-application pharmacy ecosystem, shifting from a record-based model to a task-based, modular structure. The solution introduced keyboard-first interaction patterns, embedded source data directly into the review interface, and added contextual exception handling — reducing friction and improving accuracy without replacing the broader system."
-          roleDescription="I led UX design for the Data Review workflow — one of seven core system verticals. I translated complex pharmacy workflows into structured user flows, conducted workflow shadowing and co-design sessions with pharmacists, designed interaction patterns optimized for speed and accuracy, and contributed reusable components to the broader design system."
+          solutionDescription="I redesigned the Data Review workflow within a multi-application pharmacy ecosystem, shifting from a record-based model to a task-based, modular structure. The solution introduced keyboard-first interaction patterns, embedded source data directly into the review interface, and added contextual exception handling. This reduced friction and improved accuracy without replacing the broader system."
+          roleDescription="I led UX design for the Data Review workflow, one of seven core system verticals. I translated complex pharmacy workflows into structured user flows, conducted workflow shadowing and co-design sessions with pharmacists, designed interaction patterns optimized for speed and accuracy, and contributed reusable components to the broader design system."
           impactDescription="The redesigned workflow delivered a reported ~200% improvement in efficiency, reduced task completion time through optimized interaction patterns, decreased clarification errors between pharmacists and technicians, and established design patterns that scaled across additional workflow verticals within the system."
           metrics={[
             { value: "~200%", label: "Workflow efficiency improvement" },
@@ -77,6 +79,9 @@ export default function CocaColaCaseStudyPage() {
         {/* Structural Bottlenecks Section */}
         <WalgreensStructuralBottlenecksSection />
 
+        {/* Decision Framework & Constraints Section */}
+        <DecisionFrameworkSection />
+
         {/* Detailed Process Section */}
         <DetailedProcessSection
           introText="I redesigned the underlying workflow to better support how pharmacists and technicians operate, reducing cognitive load and improving throughput across the fulfillment process."
@@ -87,21 +92,21 @@ export default function CocaColaCaseStudyPage() {
           supportingImages={[
             {
               label: "WORKFLOW DIAGRAM",
-              thumbnailSrc: "/images/case-studies/walgreens/workflowdiagram.png",
-              fullSrc: "/images/case-studies/walgreens/workflowdiagramfull.png",
+              thumbnailSrc: "/images/case-studies/walgreens/workflowdiagram.webp",
+              fullSrc: "/images/case-studies/walgreens/workflowdiagram.webp",
               alt: "Workflow diagram showing content creation and approval process",
             },
             {
-              label: "CONTENT CREATION",
-              thumbnailSrc: "/images/case-studies/walgreens/contentcreation.png",
-              fullSrc: "/images/case-studies/walgreens/contentcreationfull.png",
-              alt: "Content creation interface screenshot",
+              label: "ACCESSIBLE DESIGN",
+              thumbnailSrc: "/images/case-studies/walgreens/accessibledesign.webp",
+              fullSrc: "/images/case-studies/walgreens/accessibledesignfull.webp",
+              alt: "Accessible design refinements in the Walgreens workflow interface",
             },
             {
-              label: "FINAL UI / PUBLISHER VIEW",
-              thumbnailSrc: "/images/case-studies/walgreens/finalui.png",
-              fullSrc: "/images/case-studies/walgreens/finaluifull.png",
-              alt: "Final publisher view of the CMS interface",
+              label: "SOURCE DATA COMPARISON",
+              thumbnailSrc: "/images/case-studies/walgreens/sourcedatacomparison.webp",
+              fullSrc: "/images/case-studies/walgreens/sourcedatacomparisonfull.png",
+              alt: "Content creation interface screenshot",
             },
           ]}
           whosWhoStakeholders={[
@@ -142,7 +147,7 @@ export default function CocaColaCaseStudyPage() {
               number: "1",
               title: "Shift from Record-Based to Task-Based Workflow",
               description:
-                "I redesigned the review flow around discrete, modular tasks rather than forcing pharmacists to process entire records for every interaction - reducing unnecessary reprocessing and cognitive load.",
+                "I redesigned the review flow around discrete, modular tasks rather than forcing pharmacists to process entire records for every interaction. This reduced unnecessary reprocessing and cognitive load.",
             },
             {
               number: "2",
@@ -195,6 +200,7 @@ export default function CocaColaCaseStudyPage() {
               "First-pass resolution improved through contextual exception handling",
             ],
           }}
+          useSharedComparisonCard
           interactiveComparisonContent={{
             title: "Interactive Comparison",
             beforeTitle: "Fragmented Multi-Application Workflow",
@@ -237,7 +243,7 @@ export default function CocaColaCaseStudyPage() {
         <WhatILearnedSection
           paragraphs={[
             "The most meaningful outcome was not just improved metrics, but a shift in how the system felt to its users.",
-            "Pharmacists described the experience as lighter, faster, and easier to navigate — enabling them to focus less on managing the system and more on patient care.",
+            "Pharmacists described the experience as lighter, faster, and easier to navigate. This enabled them to focus less on managing the system and more on patient care.",
             "This project reinforced that high-stakes environments don't require dramatic redesigns. They require clear thinking about what slows people down, and disciplined solutions that remove that friction without introducing cognitive burden.",
           ]}
         />
@@ -246,8 +252,8 @@ export default function CocaColaCaseStudyPage() {
         <CaseStudyFooter
           previousStudy={{
             title: "Previous Case Study",
-            subtitle: "Walgreens Pharmacy Workflow",
-            href: "/case-studies/walgreens",
+            subtitle: "Coca-Cola Global Benchmarking CMS",
+            href: "/case-studies/coca-cola",
           }}
           nextStudy={{
             title: "Next Case Study",

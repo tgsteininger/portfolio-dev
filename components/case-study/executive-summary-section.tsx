@@ -29,6 +29,7 @@ interface ExecutiveSummaryProps {
     value: string
     label: string
   }>
+  backgroundColor?: string
 }
 
 /**
@@ -135,12 +136,13 @@ export function ExecutiveSummarySection({
   roleDescription,
   impactDescription,
   metrics,
+  backgroundColor = "var(--color-neutral-900)",
 }: ExecutiveSummaryProps) {
   return (
     <section
       id="executive-summary"
       style={{
-        background: "var(--color-neutral-900)",
+        backgroundColor,
         paddingBlock: "var(--space-14)",
       }}
     >

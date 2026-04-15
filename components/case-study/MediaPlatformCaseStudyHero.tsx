@@ -3,25 +3,28 @@
 import Image from "next/image"
 import { Container, Grid } from "@/components/layout"
 
-/** Production hero — file: `public/images/case-studies/walgreens/walgreens-hero.webp` */
+/** Placeholder hero asset for MediaPlatform content pass. */
 const CASE_STUDY_HERO_IMAGE = "/images/case-studies/walgreens/walgreens-hero.webp"
 const CASE_STUDY_HERO_BACKGROUND =
   "/images/case-studies/walgreens/walgreens-hero-bg.svg"
 
 const HERO_METADATA = [
-  { label: "ROLE", value: "Senior UX Designer" },
+  { label: "ROLE", value: "Lead UX/UI Designer" },
   {
     label: "SCOPE",
-    value: "Interaction design, workflow modeling, usability validation",
+    value: "Product UX strategy, interaction design, workflow modeling, usability validation",
   },
-  { label: "PLATFORM", value: "Multi-application pharmacy ecosystem" },
-  { label: "KEY OUTCOME", value: "~200% workflow efficiency improvement" },
+  {
+    label: "PLATFORM",
+    value: "Enterprise webcasting platform (React, WebRTC, cloud streaming infrastructure)",
+  },
+  {
+    label: "KEY OUTCOME",
+    value: "80% faster event setup and shift to single-operator live production",
+  },
 ] as const
 
-/**
- * Walgreens case study hero — transparent over AppBackground (no local surface/panel layers).
- */
-export function WalgreensCaseStudyHero() {
+export function MediaPlatformCaseStudyHero() {
   return (
     <section
       id="overview"
@@ -74,7 +77,7 @@ export function WalgreensCaseStudyHero() {
                 color: "color-mix(in srgb, var(--color-text-secondary) 92%, transparent)",
               }}
             >
-              Walgreens
+              MediaPlatform
             </p>
 
             <h1
@@ -90,8 +93,8 @@ export function WalgreensCaseStudyHero() {
                 textWrap: "balance",
               }}
             >
-              Retail Pharmacy
-              <span className="-mt-[0.04em] block">Workflow Transformation</span>
+              Enterprise Broadcasting
+              <span className="-mt-[0.04em] block">Platform</span>
             </h1>
 
             <p
@@ -104,8 +107,8 @@ export function WalgreensCaseStudyHero() {
                 maxWidth: "32rem",
               }}
             >
-              Redesigning a high-volume prescription data review workflow across a
-              multi-application pharmacy ecosystem used at 9,000+ retail locations.
+              Designing a real-time production system for high-stakes global
+              communication.
             </p>
 
             <div
@@ -191,28 +194,28 @@ export function WalgreensCaseStudyHero() {
                   boxShadow: "var(--elevation-01)",
                 }}
               >
-              <div
-                className="w-full overflow-hidden"
-                style={{
-                  borderRadius: "var(--radius-03)",
-                  backgroundColor: "var(--color-neutral-50)",
-                }}
-              >
-                <Image
-                  src={CASE_STUDY_HERO_IMAGE}
-                  alt="Pharmacy team workflow dashboard across connected applications"
-                  width={1600}
-                  height={920}
-                  className="h-auto w-full object-contain object-center"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                <div
+                  className="w-full overflow-hidden"
                   style={{
-                    display: "block",
-                    transform: "scaleY(1.06)",
-                    transformOrigin: "center center",
+                    borderRadius: "var(--radius-03)",
+                    backgroundColor: "var(--color-neutral-50)",
                   }}
-                  priority
-                />
-              </div>
+                >
+                  <Image
+                    src={CASE_STUDY_HERO_IMAGE}
+                    alt="Broadcast production dashboard across presenter and operator views"
+                    width={1600}
+                    height={920}
+                    className="h-auto w-full object-contain object-center"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                    style={{
+                      display: "block",
+                      transform: "scaleY(1.06)",
+                      transformOrigin: "center center",
+                    }}
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>

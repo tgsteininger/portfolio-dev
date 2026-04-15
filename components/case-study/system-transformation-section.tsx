@@ -53,7 +53,7 @@ function BulletItem({
 }) {
   return (
     <div 
-      className="flex items-center"
+      className="flex items-start"
       style={{ gap: "var(--space-04)" }}
     >
       <div 
@@ -61,6 +61,7 @@ function BulletItem({
         style={{
           width: "var(--space-03)",
           height: "var(--space-03)",
+          marginTop: "2px",
           backgroundColor: variant === "accent" 
             ? "var(--color-blue-500)" 
             : "var(--color-neutral-400)",
@@ -74,6 +75,7 @@ function BulletItem({
             ? "var(--color-text-primary)" 
             : "var(--color-text-secondary)",
           fontWeight: variant === "accent" ? 500 : 400,
+          lineHeight: 1.5,
         }}
       >
         {text}

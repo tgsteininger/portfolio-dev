@@ -26,6 +26,7 @@ interface SiteHeaderProps {
 export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
+  const [isNearPageBottom, setIsNearPageBottom] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [currentPath, setCurrentPath] = useState<string | null>(null)
@@ -57,9 +58,12 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
         const withinFooterProximity = distanceFromBottom <= 64
         const shouldForceVisibleNearBottom =
           withinLastFivePercent || withinFooterProximity
+        setIsNearPageBottom(shouldForceVisibleNearBottom)
 
         // Hide header when scrolled past approximately 400px (hero section)
         setIsHidden(scrollY > 400 && !shouldForceVisibleNearBottom)
+      } else {
+        setIsNearPageBottom(false)
       }
     }
 
@@ -88,7 +92,9 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
         "clr-bg-page border-b clr-border-subtle",
-        isScrolled && "shadow-[var(--elevation-01)]",
+        isScrolled &&
+          !(scrollAway && isNearPageBottom) &&
+          "shadow-[var(--elevation-01)]",
         // Hide header when scrollAway mode is active and we've scrolled past threshold
         scrollAway && isHidden && "opacity-0 -translate-y-full pointer-events-none"
       )}
