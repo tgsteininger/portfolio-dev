@@ -116,7 +116,7 @@ export function SiteHeader({ scrollAway = false }: SiteHeaderProps) {
               prefetch={false}
               className="focus-ring-standard font-heading font-semibold text-[length:var(--text-body-lg)] tracking-tight clr-text-primary transition-fast hover:clr-text-accent outline-none rounded-[var(--radius-02)] px-[var(--space-02)] -mx-[var(--space-02)]"
             >
-              Synthesis UX
+              Steininger UX
             </Link>
             {/* Vertical divider */}
             <div 

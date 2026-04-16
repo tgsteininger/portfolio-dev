@@ -46,7 +46,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           {/* Drawer Header */}
           <div className="flex items-center justify-between px-[var(--space-05)] h-[var(--space-11)] border-b clr-border-default">
             <span className="font-heading font-semibold text-[length:var(--text-body-lg)] tracking-tight clr-text-primary">
-              Synthesis UX
+              Steininger UX
             </span>
             <button
               onClick={onClose}
