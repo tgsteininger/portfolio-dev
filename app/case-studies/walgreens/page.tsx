@@ -1,4 +1,3 @@
-// TODO: Replace Coca-Cola content with Walgreens content
 import type { Metadata } from "next"
 import { AppBackground } from "@/components/app-background"
 import { SiteHeader } from "@/components/site-header"
@@ -87,8 +86,11 @@ export default function CocaColaCaseStudyPage() {
           introText="I redesigned the underlying workflow to better support how pharmacists and technicians operate, reducing cognitive load and improving throughput across the fulfillment process."
           whosWhoTitle="Who's Who (And What They Needed)"
           whosWhoImageSrc="/images/case-studies/walgreens/whoswho.webp"
+          whosWhoImageAlt="Who's Who stakeholder illustration"
           comparisonBeforeSrc="/images/case-studies/walgreens/comparisonbefore.webp"
           comparisonAfterSrc="/images/case-studies/walgreens/comparisonafter.webp"
+          comparisonBeforeAlt="Interactive comparison — before (Walgreens)"
+          comparisonAfterAlt="Interactive comparison — after (Walgreens)"
           supportingImages={[
             {
               label: "WORKFLOW DIAGRAM",

@@ -41,11 +41,10 @@ function BulletItem({
   return (
     <div className="flex items-start" style={{ gap: "var(--space-04)" }}>
       <div
-        className="flex-shrink-0 rounded-full"
+        className="system-transformation-list-dot flex-shrink-0 rounded-full"
         style={{
           width: "var(--space-03)",
           height: "var(--space-03)",
-          marginTop: "2px",
           backgroundColor:
             variant === "accent"
               ? "var(--color-blue-500)"
@@ -190,7 +189,7 @@ export function WalgreensSystemTransformationSection() {
   return (
     <section
       id="system-transformation"
-      className="relative"
+      className="relative system-transformation"
       style={{
         paddingTop: "var(--space-14)",
         paddingBottom: "var(--space-14)",

@@ -26,7 +26,7 @@ export const caseStudies: CaseStudyItem[] = [
     description: "Global survey platform for bottling operations",
     metric: "90%+ user adoption",
     href: "/case-studies/coca-cola",
-    thumbnail: "/images/thumbnails/coca-cola-cms.jpg",
+    thumbnail: "/images/case-studies/coca-cola/coca-cola-hero.webp",
   },
   {
     title: "Retail Rx Fulfillment",
@@ -34,15 +34,15 @@ export const caseStudies: CaseStudyItem[] = [
     description: "Pharmacy workflow redesign across 9,000+ stores",
     metric: "200% efficiency gain",
     href: "/case-studies/walgreens",
-    thumbnail: "/images/thumbnails/walgreens-rx.jpg",
+    thumbnail: "/images/case-studies/walgreens/walgreens-hero.webp",
   },
   {
     title: "Video Broadcasting Platform",
     client: "MediaPlatform",
     description: "Enterprise live streaming and control platform",
-    metric: "42% faster setup",
+    metric: "80% faster setup",
     href: "/case-studies/mediaplatform",
-    thumbnail: "/images/thumbnails/mediaplatform-video.jpg",
+    thumbnail: "/images/case-studies/mediaplatform/mediaplatform-hero.webp",
   },
 ]
 

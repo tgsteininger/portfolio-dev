@@ -1,50 +1,19 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface WalgreensMetricThreeProps {
   width?: number
   height?: number
+  visualStaggerMs?: number
 }
 
 export function WalgreensMetricThree({
   width = 84,
   height = 72,
+  visualStaggerMs = 0,
 }: WalgreensMetricThreeProps) {
-  const svgRef = useRef<SVGSVGElement>(null)
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    if (hasAnimated) return
-    const target = svgRef.current
-    if (!target) return
-
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(reducedMotionQuery.matches)
-
-    if (reducedMotionQuery.matches) {
-      setHasAnimated(true)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.25) return
-          setHasAnimated(true)
-          observer.unobserve(entry.target)
-        })
-      },
-      {
-        threshold: [0, 0.25, 0.5],
-        rootMargin: "0px 0px -8% 0px",
-      }
-    )
-
-    observer.observe(target)
-    return () => observer.disconnect()
-  }, [hasAnimated])
+  const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
 
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
   const startDelayMs = 160

@@ -3,10 +3,10 @@
 import Image from "next/image"
 import { Container, Grid } from "@/components/layout"
 
-/** Placeholder hero asset for MediaPlatform content pass. */
-const CASE_STUDY_HERO_IMAGE = "/images/case-studies/walgreens/walgreens-hero.webp"
+/** MediaPlatform case study hero assets (`public/images/case-studies/mediaplatform/`). */
+const CASE_STUDY_HERO_IMAGE = "/images/case-studies/mediaplatform/mediaplatform-hero.webp"
 const CASE_STUDY_HERO_BACKGROUND =
-  "/images/case-studies/walgreens/walgreens-hero-bg.svg"
+  "/images/case-studies/mediaplatform/mediaplatform-hero-bg.svg"
 
 const HERO_METADATA = [
   { label: "ROLE", value: "Lead UX/UI Designer" },
@@ -20,7 +20,8 @@ const HERO_METADATA = [
   },
   {
     label: "KEY OUTCOME",
-    value: "80% faster event setup and shift to single-operator live production",
+    value:
+      "80% faster event setup, 40–60% higher audience engagement, and 60% fewer live-event support tickets",
   },
 ] as const
 

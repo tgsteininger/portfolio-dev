@@ -1,5 +1,10 @@
 import { Container } from "@/components/layout"
 import { CheckCircle2 } from "lucide-react"
+import {
+  caseStudyBoBulletDelay,
+  caseStudyBoFootnoteDelay,
+  caseStudyBoMetricDelay,
+} from "@/lib/case-study-reveal"
 import { WalgreensMetricOne } from "@/components/case-study/walgreens-metric-one"
 import { WalgreensMetricTwo } from "@/components/case-study/walgreens-metric-two"
 import { WalgreensMetricThree } from "@/components/case-study/walgreens-metric-three"
@@ -50,8 +55,8 @@ export function WalgreensBusinessOutcomesSection() {
               value="~200%"
               primaryText="Workflow Efficiency Improvement"
               secondaryText="Faster prescription review throughput"
-              graphic={<WalgreensMetricOne />}
-              revealDelay="80"
+              graphic={<WalgreensMetricOne visualStaggerMs={0} />}
+              revealDelay={caseStudyBoMetricDelay(0)}
             />
 
             <MetricCard
@@ -59,8 +64,8 @@ export function WalgreensBusinessOutcomesSection() {
               value="25%"
               primaryText="Reduction in Clarification Errors"
               secondaryText="Fewer pharmacist-technician handoff issues"
-              graphic={<WalgreensMetricTwo />}
-              revealDelay="130"
+              graphic={<WalgreensMetricTwo visualStaggerMs={140} />}
+              revealDelay={caseStudyBoMetricDelay(1)}
             />
 
             <MetricCard
@@ -68,8 +73,8 @@ export function WalgreensBusinessOutcomesSection() {
               value="20%"
               primaryText="Faster Task Navigation"
               secondaryText="Reduced time to complete core actions"
-              graphic={<WalgreensMetricThree />}
-              revealDelay="180"
+              graphic={<WalgreensMetricThree visualStaggerMs={280} />}
+              revealDelay={caseStudyBoMetricDelay(2)}
             />
           </div>
 
@@ -79,26 +84,26 @@ export function WalgreensBusinessOutcomesSection() {
           >
             <OutcomeBullet
               text="Restructured workflows from record-based review to modular, task-oriented components"
-              revealDelay="220"
+              revealDelay={caseStudyBoBulletDelay(0)}
             />
             <OutcomeBullet
               text="Eliminated context switching through a unified prescription data and source validation interface"
-              revealDelay="260"
+              revealDelay={caseStudyBoBulletDelay(1)}
             />
             <OutcomeBullet
               text="Improved first-pass resolution through contextual, field-level exception handling"
-              revealDelay="300"
+              revealDelay={caseStudyBoBulletDelay(2)}
             />
             <OutcomeBullet
               text="Design patterns scaled across additional workflow verticals within the broader pharmacy system"
-              revealDelay="340"
+              revealDelay={caseStudyBoBulletDelay(3)}
             />
           </div>
 
           <p
             className="font-body"
             data-reveal
-            data-reveal-delay="380"
+            data-reveal-delay={caseStudyBoFootnoteDelay()}
             style={{
               marginTop: "var(--space-07)",
               fontSize: "var(--text-caption)",

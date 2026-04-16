@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react"
 import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { createPortal } from "react-dom"
 import { Container } from "@/components/layout/container"
+import { CaseStudyWhosWhoImage } from "@/components/case-study/case-study-whos-who-image"
+import { cn } from "@/lib/utils"
 
 interface DetailedProcessSectionProps {
   introText?: string
@@ -11,9 +13,12 @@ interface DetailedProcessSectionProps {
   whosWhoTitle?: string
   whosWhoStakeholders?: WhosWhoStakeholder[]
   whosWhoImageSrc?: string
+  whosWhoImageAlt: string
   supportingImages?: SupportingImage[]
   comparisonBeforeSrc?: string
   comparisonAfterSrc?: string
+  comparisonBeforeAlt: string
+  comparisonAfterAlt: string
   designMoves?: DesignMove[]
   beforeAfterItems?: {
     before: string[]
@@ -21,6 +26,8 @@ interface DetailedProcessSectionProps {
   }
   interactiveComparisonContent?: InteractiveComparisonContent
   useSharedComparisonCard?: boolean
+  /** When false, the Before/After checklist panels are omitted (Interactive Comparison remains). */
+  showBeforeAfterChecklists?: boolean
 }
 
 const DEFAULT_INTRO_TEXT =
@@ -233,18 +240,21 @@ export function DetailedProcessSection({
   whosWhoTitle = DEFAULT_WHOS_WHO_TITLE,
   whosWhoStakeholders = DEFAULT_WHOS_WHO_STAKEHOLDERS,
   whosWhoImageSrc = DEFAULT_WHOS_WHO_IMAGE_SRC,
+  whosWhoImageAlt,
   supportingImages = DEFAULT_SUPPORTING_IMAGES,
   comparisonBeforeSrc = DEFAULT_COMPARISON_BEFORE_SRC,
   comparisonAfterSrc = DEFAULT_COMPARISON_AFTER_SRC,
+  comparisonBeforeAlt,
+  comparisonAfterAlt,
   designMoves = DEFAULT_DESIGN_MOVES,
   beforeAfterItems = DEFAULT_BEFORE_AFTER_ITEMS,
   interactiveComparisonContent = DEFAULT_INTERACTIVE_COMPARISON_CONTENT,
   useSharedComparisonCard = false,
-}: DetailedProcessSectionProps = {}) {
+  showBeforeAfterChecklists = true,
+}: DetailedProcessSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [underlineAnimated, setUnderlineAnimated] = useState(false)
   const [hasUserScrolled, setHasUserScrolled] = useState(false)
-  const [accordionFocusVisible, setAccordionFocusVisible] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const expandedContentRef = useRef<HTMLDivElement>(null)
 
@@ -357,7 +367,7 @@ export function DetailedProcessSection({
           className="relative"
           style={{
             marginTop: "var(--space-05)",
-            marginBottom: "var(--space-08)",
+            marginBottom: "var(--space-09)",
           }}
         >
           <div
@@ -394,54 +404,50 @@ export function DetailedProcessSection({
 
         {/* Accordion Toggle Button */}
         <div
-          className="flex justify-center"
           data-reveal
           data-reveal-delay="140"
-          style={{ marginBottom: isExpanded ? "var(--space-06)" : "0" }}
+          style={{
+            marginBottom: isExpanded ? "var(--space-06)" : "0",
+            maxWidth: "var(--layout-content-max)",
+          }}
         >
           <button
             id="detailed-process-toggle"
+            type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            onFocus={(event) =>
-              setAccordionFocusVisible(event.currentTarget.matches(":focus-visible"))
-            }
-            onBlur={() => setAccordionFocusVisible(false)}
-            onKeyDown={() => setAccordionFocusVisible(true)}
-            onPointerDown={() => setAccordionFocusVisible(false)}
             aria-expanded={isExpanded}
             aria-controls="detailed-process-expanded-content"
-            className="flex items-center gap-[var(--space-03)] font-ui cursor-pointer rounded-[var(--radius-03)] focus-ring-standard outline-none text-[var(--color-text-primary)] hover:bg-[var(--color-bg-surface-subtle)] active:bg-[var(--color-neutral-100)] active:scale-[0.98]"
+            className={cn(
+              "group inline-flex cursor-pointer items-center gap-[var(--space-03)] rounded-[var(--radius-03)] border border-solid border-[var(--color-neutral-300)] font-ui font-medium text-[var(--color-text-primary)] shadow-[var(--elevation-01)] outline-none transition-fast motion-reduce:transition-none",
+              "hover:-translate-y-[var(--stroke-01)] hover:shadow-[var(--elevation-02)] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-[var(--elevation-01)]",
+              "active:translate-y-0 active:scale-[0.98] active:shadow-[var(--elevation-01)]",
+              "focus-visible:ring-2 focus-visible:ring-[var(--color-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] focus-visible:outline-none",
+              isExpanded
+                ? "bg-[var(--color-neutral-100)] hover:bg-[var(--color-neutral-200)] active:bg-[var(--color-neutral-200)]"
+                : "bg-[var(--color-bg-surface)] hover:bg-[var(--color-neutral-100)] active:bg-[var(--color-neutral-200)]"
+            )}
             style={{
               fontSize: "var(--text-body-sm)",
-              fontWeight: 500,
+              letterSpacing: "var(--tracking-wide)",
               height: "var(--button-height-md)",
               padding: "0 var(--button-pad-x-md)",
-              backgroundColor: isExpanded
-                ? "var(--color-neutral-100)"
-                : "var(--color-bg-surface)",
-              border: isExpanded
-                ? "var(--stroke-01) solid var(--color-border-default)"
-                : "var(--stroke-01) solid var(--color-border-subtle)",
-              boxShadow: accordionFocusVisible
-                ? "0 0 0 2px color-mix(in srgb, var(--color-neutral-0) 70%, transparent), 0 0 0 4px var(--color-border-focus)"
-                : "var(--elevation-00)",
-              transitionProperty:
-                "background-color, border-color, box-shadow, color, transform",
-              transitionDuration:
-                "var(--motion-duration-03), var(--motion-duration-03), var(--motion-duration-03), var(--motion-duration-03), var(--motion-duration-02)",
-              transitionTimingFunction:
-                "var(--motion-easing-premium), var(--motion-easing-premium), var(--motion-easing-premium), var(--motion-easing-premium), var(--motion-easing-standard)",
             }}
           >
-            <span>
-              {isExpanded ? "Hide Detailed Process" : "View How the System Was Designed"}
-            </span>
+            <span>View How the System Was Designed</span>
             <ChevronDown
+              aria-hidden
+              strokeWidth={2.25}
+              className={cn(
+                "shrink-0 text-[var(--color-icon-primary)] transition-transform motion-reduce:transition-none motion-reduce:group-hover:translate-y-0",
+                isExpanded
+                  ? "rotate-180"
+                  : "group-hover:translate-y-[var(--space-01)]"
+              )}
               style={{
-                width: "var(--icon-md)",
-                height: "var(--icon-md)",
-                transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
-                transition: "transform var(--motion-duration-02) var(--motion-easing-standard)",
+                width: "var(--icon-lg)",
+                height: "var(--icon-lg)",
+                transitionDuration: "var(--motion-duration-02)",
+                transitionTimingFunction: "var(--motion-easing-standard)",
               }}
             />
           </button>
@@ -474,6 +480,7 @@ export function DetailedProcessSection({
             title={whosWhoTitle}
             stakeholders={whosWhoStakeholders}
             imageSrc={whosWhoImageSrc}
+            imageAlt={whosWhoImageAlt}
           />
 
           {/* Process Subsection 3: My Design Moves - Blue Tinted Band */}
@@ -489,7 +496,10 @@ export function DetailedProcessSection({
             interactiveComparisonContent={interactiveComparisonContent}
             comparisonBeforeSrc={comparisonBeforeSrc}
             comparisonAfterSrc={comparisonAfterSrc}
+            comparisonBeforeAlt={comparisonBeforeAlt}
+            comparisonAfterAlt={comparisonAfterAlt}
             useSharedComparisonCard={useSharedComparisonCard}
+            showBeforeAfterChecklists={showBeforeAfterChecklists}
           />
         </div>
       </div>
@@ -507,14 +517,20 @@ function BeforeAfterBand({
   interactiveComparisonContent,
   comparisonBeforeSrc,
   comparisonAfterSrc,
+  comparisonBeforeAlt,
+  comparisonAfterAlt,
   useSharedComparisonCard,
+  showBeforeAfterChecklists,
 }: {
   beforeItems: string[]
   afterItems: string[]
   interactiveComparisonContent: InteractiveComparisonContent
   comparisonBeforeSrc: string
   comparisonAfterSrc: string
+  comparisonBeforeAlt: string
+  comparisonAfterAlt: string
   useSharedComparisonCard: boolean
+  showBeforeAfterChecklists: boolean
 }) {
   return (
     <div
@@ -576,7 +592,9 @@ function BeforeAfterBand({
             backdropFilter: "blur(4px)",
           }}
         >
-          {/* Section Header */}
+          {/* Section Header + checklist panels (optional; omitted when lists appear in System Transformation) */}
+          {showBeforeAfterChecklists ? (
+            <>
           <h3
             className="font-heading clr-text-primary"
             style={{
@@ -868,6 +886,8 @@ function BeforeAfterBand({
               </div>
             </div>
           )}
+            </>
+          ) : null}
 
           {/* Interactive Comparison Section */}
           <div>
@@ -944,6 +964,8 @@ function BeforeAfterBand({
             <InteractiveComparisonSlider
               comparisonBeforeSrc={comparisonBeforeSrc}
               comparisonAfterSrc={comparisonAfterSrc}
+              comparisonBeforeAlt={comparisonBeforeAlt}
+              comparisonAfterAlt={comparisonAfterAlt}
             />
 
               {/* Caption */}
@@ -973,9 +995,13 @@ function BeforeAfterBand({
 function InteractiveComparisonSlider({
   comparisonBeforeSrc,
   comparisonAfterSrc,
+  comparisonBeforeAlt,
+  comparisonAfterAlt,
 }: {
   comparisonBeforeSrc: string
   comparisonAfterSrc: string
+  comparisonBeforeAlt: string
+  comparisonAfterAlt: string
 }) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
@@ -1095,7 +1121,7 @@ function InteractiveComparisonSlider({
       {/* Before Image (Bottom Layer) */}
       <img
         src={comparisonBeforeSrc}
-        alt="Legacy admin-only tool interface"
+        alt={comparisonBeforeAlt}
         className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
         draggable={false}
@@ -1110,7 +1136,7 @@ function InteractiveComparisonSlider({
       >
         <img
           src={comparisonAfterSrc}
-          alt="New shared web interface"
+          alt={comparisonAfterAlt}
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
           draggable={false}
@@ -1775,10 +1801,12 @@ function WhosWhoBand({
   title,
   stakeholders,
   imageSrc,
+  imageAlt,
 }: {
   title: string
   stakeholders: WhosWhoStakeholder[]
   imageSrc: string
+  imageAlt: string
 }) {
   return (
     <div
@@ -1792,22 +1820,9 @@ function WhosWhoBand({
     >
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-[var(--grid-gap-lg)]">
-          {/* Left Column: Image */}
-          <div
-            className="w-full max-w-[320px] sm:max-w-none"
-            style={{
-              borderRadius: "var(--radius-04)",
-              overflow: "hidden",
-              aspectRatio: "4/5",
-              backgroundColor: "var(--color-neutral-100)",
-            }}
-          >
-            <img
-              src={imageSrc}
-              alt="Two colleagues celebrating with a high-five during a collaborative planning session"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+          {/* Left Column: Synthesis UI stakeholder image (shared frame + 4:3 crop) */}
+          <div className="w-full">
+            <CaseStudyWhosWhoImage src={imageSrc} alt={imageAlt} />
           </div>
 
           {/* Right Column: Stakeholder Roles */}

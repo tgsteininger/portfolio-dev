@@ -56,17 +56,16 @@ export default function MediaPlatformCaseStudyPage() {
           backgroundColor="color-mix(in srgb, var(--color-blue-900) 48%, var(--color-neutral-900))"
           introduction={[
             "High-stakes enterprise broadcasts such as CEO town halls and investor presentations require precision, coordination, and reliability under pressure. MediaPlatform's legacy system was technically capable but operationally fragile, optimized for expert users and difficult to manage during live events.",
-            "Producers were forced to navigate complex setup flows, manually adjust layouts in real time, and coordinate across fragmented tools. This introduced friction, increased cognitive load, and created unnecessary risk during critical moments.",
-            "Over the course of the engagement, I led the end-to-end UX transformation of the platform. The approach focused on restructuring the product into a modular, role-based system designed for speed, clarity, and real-time control.",
-            "The result was a more resilient and intuitive production environment that reduced setup time, improved operator confidence, and enabled teams to run high-quality broadcasts with fewer resources.",
+            "Producers navigated complex setup flows, adjusted layouts manually in real time, and coordinated across fragmented tools. This introduced friction, increased cognitive load, and created unnecessary risk during critical moments.",
+            "Over the course of the engagement, I led the end-to-end UX transformation of the platform, restructuring the product into a modular, role-based system designed for speed, clarity, and real-time control. The result was a more resilient production environment that reduced setup time, improved operator confidence, and enabled teams to run high-quality broadcasts with reduced coordination overhead.",
           ]}
-          problemDescription="MediaPlatform lacked a scalable, user-friendly system for managing enterprise webcasts. The platform required deep technical knowledge, relied on manual configuration, and forced teams to coordinate across fragmented workflows. During live events, these limitations increased stress, slowed execution, and introduced avoidable risk."
+          problemDescription="MediaPlatform lacked a scalable, user-friendly system for managing enterprise webcasts. The platform required deep technical knowledge, relied on manual configuration, and required teams to coordinate across fragmented workflows. During live events, these limitations increased stress, slowed execution, and introduced avoidable risk."
           solutionDescription="I redesigned the platform as a modular, role-based production system aligned with real-world broadcasting workflows. The solution reduced setup friction, introduced preconfigured scenes, enabled real-time control, and integrated audience engagement directly into the experience."
           roleDescription="I led UX strategy, interaction design, and workflow modeling across the full product lifecycle. I conducted research across users and live production environments, designed scalable interaction patterns, and partnered closely with engineering and QA to deliver a production-ready system."
-          impactDescription="The redesigned platform enabled a shift from multi-person production teams to streamlined, single-operator workflows, improving efficiency and reducing operational complexity."
+          impactDescription="Across pilots and production releases, teams saw faster preparation, stronger live participation, and fewer in-event support escalations, reflected in the metrics below."
           metrics={[
             { value: "80%", label: "Faster event setup" },
-            { value: "40-60%", label: "Increase in audience engagement" },
+            { value: "40–60%", label: "Increase in audience engagement" },
             { value: "60%", label: "Reduction in support tickets during live events" },
           ]}
         />
@@ -87,33 +86,36 @@ export default function MediaPlatformCaseStudyPage() {
         <DetailedProcessSection
           introText="I redesigned the platform to support real-world production workflows, focusing on reducing friction, improving coordination, and enabling confident decision-making under pressure."
           whosWhoTitle="Who's Who (And What They Needed)"
-          whosWhoImageSrc="/images/case-studies/walgreens/whoswho.webp"
-          comparisonBeforeSrc="/images/case-studies/walgreens/comparisonbefore.webp"
-          comparisonAfterSrc="/images/case-studies/walgreens/comparisonafter.webp"
+          whosWhoImageSrc="/images/case-studies/mediaplatform/whoswho.webp"
+          whosWhoImageAlt="Who's Who stakeholder illustration"
+          comparisonBeforeSrc="/images/case-studies/mediaplatform/comparisonbefore.webp"
+          comparisonAfterSrc="/images/case-studies/mediaplatform/comparisonafter.webp"
+          comparisonBeforeAlt="Interactive comparison — before (MediaPlatform)"
+          comparisonAfterAlt="Interactive comparison — after (MediaPlatform)"
           supportingImages={[
             {
               label: "WORKFLOW ORCHESTRATION",
-              thumbnailSrc: "/images/case-studies/walgreens/workflowdiagram.webp",
-              fullSrc: "/images/case-studies/walgreens/workflowdiagram.webp",
+              thumbnailSrc: "/images/case-studies/mediaplatform/workflowdiagram.webp",
+              fullSrc: "/images/case-studies/mediaplatform/workflowdiagram.webp",
               alt: "Workflow orchestration model for enterprise webcast production",
             },
             {
               label: "ROLE-BASED WORKSPACES",
-              thumbnailSrc: "/images/case-studies/walgreens/accessibledesign.webp",
-              fullSrc: "/images/case-studies/walgreens/accessibledesignfull.webp",
+              thumbnailSrc: "/images/case-studies/mediaplatform/accessibledesign.webp",
+              fullSrc: "/images/case-studies/mediaplatform/accessibledesignfull.webp",
               alt: "Role-based workspace design for producers and presenters",
             },
             {
-              label: "LIVE PRODUCTION CONTROLS",
-              thumbnailSrc: "/images/case-studies/walgreens/sourcedatacomparison.webp",
-              fullSrc: "/images/case-studies/walgreens/sourcedatacomparisonfull.png",
+              label: "SELF-SERVICE CONFIGURATION",
+              thumbnailSrc: "/images/case-studies/mediaplatform/sourcedatacomparison.webp",
+              fullSrc: "/images/case-studies/mediaplatform/sourcedatacomparisonfull.webp",
               alt: "Scene-based control model for live broadcast switching",
             },
           ]}
           whosWhoStakeholders={[
             {
               role: "Corporate Communications Managers",
-              coreJob: "Launch branded events quickly",
+              coreJob: "Launch branded events efficiently",
               painPoint:
                 "Branding and setup required engineering support",
             },
@@ -121,7 +123,7 @@ export default function MediaPlatformCaseStudyPage() {
               role: "Executive Presenters",
               coreJob: "Deliver confidently with minimal complexity",
               painPoint:
-                "Overwhelming interface, lack of preview, latency concerns",
+                "Overwhelming interface, lack of confidence in preview and timing",
             },
             {
               role: "Producers",
@@ -139,9 +141,9 @@ export default function MediaPlatformCaseStudyPage() {
           designMoves={[
             {
               number: "1",
-              title: "Start Fast with Minimal Setup",
+              title: "Identify Workflow Friction Points",
               description:
-                "Reduced barriers to entry by allowing immediate access to the production canvas with progressive configuration.",
+                "Mapped the end-to-end broadcast workflow to surface structural bottlenecks, including mandatory setup steps, fragmented configuration, and delayed access to the production canvas.",
             },
             {
               number: "2",
@@ -151,27 +153,27 @@ export default function MediaPlatformCaseStudyPage() {
             },
             {
               number: "3",
+              title: "Enable Self-Service Branding and Configuration",
+              description:
+                "Equipped teams with tools to handle branding, layouts, and event setup on their own, reducing reliance on engineering and speeding turnaround.",
+            },
+            {
+              number: "4",
               title: "Enable Real-Time Control Through Scene-Based Design",
               description:
                 "Introduced preconfigured scenes and one-click switching to support rapid decisions during live events.",
             },
             {
-              number: "4",
+              number: "5",
               title: "Simplify the Interaction Model",
               description:
                 "Removed technical language and aligned the interface with real-world broadcasting workflows.",
             },
             {
-              number: "5",
-              title: "Integrate Engagement as a Core Feature",
-              description:
-                "Embedded Q&A, polling, and reactions directly into the platform to increase participation.",
-            },
-            {
               number: "6",
-              title: "Enable Self-Service Branding and Configuration",
+              title: "Centralize Planning and Visibility",
               description:
-                "Provided tools for teams to manage branding and layouts without relying on engineering.",
+                "Created an integrated dashboard that surfaces upcoming webcasts, recent activity, and key performance data, replacing disconnected planning tools with a shared system-wide view.",
             },
           ]}
           beforeAfterItems={{
@@ -179,7 +181,7 @@ export default function MediaPlatformCaseStudyPage() {
               "Fragmented tools and manual coordination across workflows",
               "Jargon-heavy onboarding and rigid setup requirements",
               "Shared workspaces with competing controls and responsibilities",
-              "Manual layout manipulation during live events",
+              "Manual layout adjustments during live events",
               "Limited audience engagement and fragmented analytics",
               "Branding and configuration required engineering support",
             ],
@@ -193,40 +195,41 @@ export default function MediaPlatformCaseStudyPage() {
             ],
           }}
           useSharedComparisonCard
+          showBeforeAfterChecklists={false}
           interactiveComparisonContent={{
             title: "Interactive Comparison",
-            beforeTitle: "Fragmented Broadcast Workflow",
-            beforeSubtitle: "Manual coordination across disconnected tools",
-            afterTitle: "Unified Production Workspace",
-            afterSubtitle: "Role-based control with real-time scene switching",
+            beforeTitle: "Mandatory Setup Workflow",
+            beforeSubtitle: "Multi-step event configuration with required inputs before entry",
+            afterTitle: "Centralized Planning Dashboard",
+            afterSubtitle: "Shared visibility into upcoming webcasts, activity, and performance",
             caption:
-              "Legacy broadcast operations required switching between disconnected systems and manual live adjustments. The redesigned platform unifies setup, control, and engagement into a single production workspace.",
+              "The legacy system relied on an event-level entry point, requiring users to initiate workflows through individual setup rather than a shared team context. The redesigned system introduces a centralized dashboard that provides team-level visibility into upcoming webcasts, recent activity, and performance data.",
           }}
           processOverviewSteps={[
             {
-              title: "Workflow Immersion & Contextual Inquiry",
+              title: "Understanding Live Production Realities",
               description:
-                "Observed live production environments and backstage workflows to identify breakdowns during high-pressure scenarios.",
+                "Observed live event environments and backstage workflows to understand how teams coordinate under time pressure and shifting conditions.",
             },
             {
-              title: "Task Decomposition & Flow Restructuring",
+              title: "Designing for Production Flow",
               description:
-                "Rebuilt the experience around modular workflows aligned with setup, live production, and post-event analysis.",
+                "Restructured the platform around the natural rhythm of events—setup, live execution, and post-event wrap—so operators could stay oriented without constant context switching.",
             },
             {
-              title: "Interaction Model Design (Speed & Clarity First)",
+              title: "Interfaces for Real-Time Decision Making",
               description:
-                "Designed for rapid decision-making with minimal cognitive overhead, prioritizing visibility and control.",
+                "Designed interaction patterns that support fast, confident decisions during live broadcasts, prioritizing clarity, timing awareness, and immediate feedback.",
             },
             {
-              title: "Constraint-Aware Prototyping",
+              title: "Validating Within System Constraints",
               description:
-                "Developed Axure prototypes to validate workflows while ensuring feasibility within technical constraints.",
+                "Developed Axure prototypes to test workflows in realistic scenarios while ensuring alignment with technical and performance limitations.",
             },
             {
-              title: "Cross-Functional Collaboration & Iteration",
+              title: "Aligning Across Production Teams",
               description:
-                "Partnered with engineering, QA, and stakeholders to refine interactions and ensure scalable implementation.",
+                "Collaborated with engineering, QA, and stakeholders to refine interactions and ensure the system could support different roles without introducing friction during live events.",
             },
           ]}
         />
@@ -234,12 +237,9 @@ export default function MediaPlatformCaseStudyPage() {
         {/* What I Learned Section */}
         <WhatILearnedSection
           paragraphs={[
-            "Speed is a feature. Reducing friction creates momentum and improves outcomes.",
-            "Design for stress, not ideal use. Live environments amplify every usability flaw.",
-            "Clarity beats flexibility. Too many options slow decision-making under pressure.",
-            "Engagement drives value. Interaction transforms passive viewing into participation.",
-            "Data must tell a story. Dashboards should communicate insight, not raw information.",
-            "Systems thinking scales impact. Modular architectures enable long-term growth and consistency.",
+            "Live production is where interface decisions become operational risk. This project reinforced that speed is earned by reducing hesitation: clearer defaults, stronger preview and timing confidence, and scene-based control so operators could execute without rebuilding layouts mid-event.",
+            "Role separation mattered as much as any single interaction pattern. Producers, presenters, and administrators each needed different guardrails, and the product had to keep engagement and analytics legible enough to use after the broadcast, not only while it was live.",
+            "Engineering dependency was a hidden tax on iteration. Self-service configuration, reusable templates, and a modular architecture helped the organization sustain measured gains (including faster setup, materially higher engagement, and fewer live-event support tickets) without reopening the same bottlenecks for every event.",
           ]}
         />
 

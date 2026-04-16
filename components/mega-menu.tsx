@@ -125,7 +125,7 @@ export function MegaMenu({ id, caseStudies, isOpen, onClose }: MegaMenuProps) {
             gap: "var(--space-02)",
           }}
         >
-          {caseStudies.map((study, index) => (
+          {caseStudies.map((study) => (
             <div key={study.href}>
               <CaseStudyRow study={study} onClose={onClose} />
             </div>
@@ -165,23 +165,32 @@ function CaseStudyRow({
         gap: "var(--space-05)",
       }}
     >
-      {/* Thumbnail */}
-      <div 
-        className="flex-shrink-0 overflow-hidden"
+      {/* Thumbnail: static token veil + slight blur (lighter than Selected Work heroes) */}
+      <div
+        className="relative flex-shrink-0 overflow-hidden"
         style={{
-          width: "100px",
-          height: "72px",
+          width: "var(--space-14)",
+          height: "var(--space-11)",
           borderRadius: "var(--radius-03)",
           border: "var(--stroke-01) solid var(--color-border-subtle)",
           backgroundColor: "var(--color-neutral-100)",
         }}
       >
         <Image
-          src={study.thumbnail || "/placeholder.svg?height=72&width=100"}
+          src={study.thumbnail || "/placeholder.svg?height=56&width=80"}
           alt={study.title}
-          width={100}
-          height={72}
-          className="object-cover w-full h-full"
+          width={80}
+          height={56}
+          className="h-full w-full object-cover [filter:blur(0.25px)]"
+          sizes="80px"
+        />
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            backgroundImage:
+              "linear-gradient(180deg, color-mix(in srgb, var(--color-blue-900) 10%, transparent), color-mix(in srgb, var(--color-neutral-900) 20%, transparent))",
+          }}
+          aria-hidden
         />
       </div>
 

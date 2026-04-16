@@ -445,13 +445,15 @@ export function CaseStudySectionNav() {
               tabIndex={isVisible ? 0 : -1}
               data-active={activeSection === item.id ? "true" : "false"}
               className={cn(
-                "case-study-nav-snap-item case-study-nav-item relative font-ui whitespace-nowrap transition-fast",
+                "case-study-nav-snap-item case-study-nav-item relative font-ui whitespace-nowrap",
                 "py-[var(--space-04)] px-[var(--space-02)] -mx-[var(--space-02)]",
                 "rounded-[var(--radius-02)]",
+                "transition-colors duration-150 ease-out",
+                "hover:bg-cyan-500/10",
                 "focus-ring-standard outline-none",
                 activeSection === item.id
                   ? "clr-text-primary font-medium"
-                  : "clr-text-secondary hover:clr-text-primary font-normal"
+                  : "clr-text-secondary hover:text-cyan-700 font-normal"
               )}
               style={{
                 fontSize: "var(--text-body-sm)",
@@ -562,12 +564,13 @@ export function CaseStudySectionNav() {
                   <button
                     onClick={(e) => handleNavClick(e, item.id)}
                     className={cn(
-                      "flex items-center justify-between w-full text-left font-body transition-fast cursor-pointer",
+                      "flex items-center justify-between w-full text-left font-body cursor-pointer",
+                      "transition-colors duration-150 ease-out",
                       "focus-ring-standard outline-none",
                       "active:scale-[0.99]",
                       activeSection === item.id
-                        ? "clr-text-primary bg-[var(--color-cyan-50)]"
-                        : "clr-text-secondary hover:clr-text-primary hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)]"
+                        ? "clr-text-primary bg-cyan-500/10"
+                        : "clr-text-secondary hover:text-cyan-700 hover:bg-cyan-500/10 active:bg-cyan-500/10"
                     )}
                     style={{
                       fontSize: "var(--text-body-md)",

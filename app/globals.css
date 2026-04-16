@@ -78,6 +78,8 @@
   --radius-03: 0.5rem;    /* 8 */
   --radius-04: 0.75rem;   /* 12 */
   --radius-05: 1rem;      /* 16 */
+  /* Alias: editorial “md” radius for nested surfaces (e.g. Selected Work thumbnails) */
+  --radius-md: var(--radius-04);
   /* Alias for large surfaces (e.g. case study hero image) */
   --radius-lg: var(--radius-05);
   --radius-full: 9999px;
@@ -100,6 +102,8 @@
   --motion-duration-02: 200ms;
   --motion-duration-03: 300ms;
   --motion-duration-04: 400ms;
+  /* Case study sequential reveals (Business Outcomes metrics, etc.) */
+  --motion-duration-reveal: 500ms;
   --motion-duration-05: 600ms;
   --motion-duration-06: 700ms;
   --motion-duration-07: 760ms;
@@ -547,6 +551,14 @@ body {
     }
   }
 
+/* ============================================
+   Case Study — System Transformation (Before/After list bullets)
+   Scoped to section.system-transformation only; does not affect other lists.
+   ============================================ */
+section.system-transformation .system-transformation-list-dot {
+  margin-top: 7px;
+}
+
   
 /* Utility classes */
 @layer utilities {
@@ -946,9 +958,9 @@ body {
   [data-reveal] {
     --reveal-delay: 0ms;
     opacity: 0;
-    transform: translate3d(0, var(--space-04), 0);
+    transform: translate3d(0, var(--motion-distance-02), 0);
     transition-property: opacity, transform, filter;
-    transition-duration: var(--motion-duration-04);
+    transition-duration: var(--motion-duration-reveal);
     transition-timing-function: var(--motion-easing-premium);
     transition-delay: var(--reveal-delay);
     will-change: opacity, transform;

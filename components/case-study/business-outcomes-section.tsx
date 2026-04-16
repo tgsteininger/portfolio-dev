@@ -1,5 +1,10 @@
 import { Container } from "@/components/layout"
 import { CheckCircle2 } from "lucide-react"
+import {
+  caseStudyBoBulletDelay,
+  caseStudyBoFootnoteDelay,
+  caseStudyBoMetricDelay,
+} from "@/lib/case-study-reveal"
 import { CircularMetric } from "@/components/case-study/circular-metric"
 import { ApprovalVelocityMetric } from "@/components/case-study/approval-velocity-metric"
 import { OperationalEfficiencyMetric } from "@/components/case-study/operational-efficiency-metric"
@@ -55,8 +60,8 @@ export function BusinessOutcomesSection() {
               value="90%+"
               primaryText="Platform adoption across target users"
               secondaryText="Strong uptake after rollout"
-              graphic={<CircularMetric progress={0.9} />}
-              revealDelay="80"
+              graphic={<CircularMetric progress={0.9} visualStaggerMs={0} />}
+              revealDelay={caseStudyBoMetricDelay(0)}
             />
 
             {/* Metric Card 2: Approval Velocity */}
@@ -65,8 +70,8 @@ export function BusinessOutcomesSection() {
               value="50–75%"
               primaryText="Faster approval workflows"
               secondaryText="Reduced delays and bottlenecks"
-              graphic={<ApprovalVelocityMetric />}
-              revealDelay="130"
+              graphic={<ApprovalVelocityMetric visualStaggerMs={140} />}
+              revealDelay={caseStudyBoMetricDelay(1)}
             />
 
             {/* Metric Card 3: Operational Efficiency */}
@@ -76,8 +81,8 @@ export function BusinessOutcomesSection() {
               valueSize="small"
               primaryText="Less manual coordination and fewer engineering handoffs"
               secondaryText="Simplified operational flow"
-              graphic={<OperationalEfficiencyMetric />}
-              revealDelay="180"
+              graphic={<OperationalEfficiencyMetric visualStaggerMs={280} />}
+              revealDelay={caseStudyBoMetricDelay(2)}
             />
           </div>
 
@@ -88,19 +93,19 @@ export function BusinessOutcomesSection() {
           >
             <OutcomeBullet
               text="Replaced fragmented spreadsheet and email workflows with a centralized CMS"
-              revealDelay="220"
+              revealDelay={caseStudyBoBulletDelay(0)}
             />
             <OutcomeBullet
               text="Improved consistency across survey creation, translation, and approval"
-              revealDelay="260"
+              revealDelay={caseStudyBoBulletDelay(1)}
             />
             <OutcomeBullet
               text="Enabled more scalable multilingual distribution across global facilities"
-              revealDelay="300"
+              revealDelay={caseStudyBoBulletDelay(2)}
             />
             <OutcomeBullet
               text="Gave leadership clearer visibility into performance trends and operational priorities"
-              revealDelay="340"
+              revealDelay={caseStudyBoBulletDelay(3)}
             />
           </div>
 
@@ -108,7 +113,7 @@ export function BusinessOutcomesSection() {
           <p
             className="font-body"
             data-reveal
-            data-reveal-delay="380"
+            data-reveal-delay={caseStudyBoFootnoteDelay()}
             style={{
               marginTop: "var(--space-07)",
               fontSize: "var(--text-caption)",

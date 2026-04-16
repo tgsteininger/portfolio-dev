@@ -11,7 +11,7 @@ const bottlenecks: Bottleneck[] = [
     number: "01",
     title: "Mandatory Setup Friction",
     description:
-      "Users were blocked by unnecessary required fields before reaching the production canvas, delaying creative work and increasing setup time.",
+      "Users encountered a multi-step event setup process with required inputs before accessing the production environment, delaying the start of production and increasing cognitive load upfront.",
   },
   {
     number: "02",

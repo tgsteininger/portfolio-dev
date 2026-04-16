@@ -51,6 +51,7 @@ export default function CocaColaCaseStudyPage() {
 
         {/* Executive Summary Section */}
         <ExecutiveSummarySection
+          backgroundColor="color-mix(in srgb, var(--color-blue-900) 48%, var(--color-neutral-900))"
           introduction={[
             "Coca-Cola operates a global supply chain with hundreds of bottling facilities, each with its own equipment, workflows, and reporting needs. But the system used to collect benchmarking data across those facilities was far less sophisticated than the operation it supported. Surveys were created in spreadsheets, reviewed through email threads, translated inconsistently, and in some cases printed, mailed, scanned, or faxed back.",
             "What should have been a structured operational process had become a fragile collection of workarounds.",
@@ -77,7 +78,11 @@ export default function CocaColaCaseStudyPage() {
         <StructuralBottlenecksSection />
 
         {/* Detailed Process Section */}
-        <DetailedProcessSection />
+        <DetailedProcessSection
+          whosWhoImageAlt="Who's Who stakeholder illustration"
+          comparisonBeforeAlt="Legacy admin-only tool interface"
+          comparisonAfterAlt="New shared web interface"
+        />
 
         {/* What I Learned Section */}
         <WhatILearnedSection />

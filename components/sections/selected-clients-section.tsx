@@ -83,15 +83,15 @@ const logoImgClass = cn(
 
 function ClientLogoFrame({
   src,
+  name,
   className,
-}: Pick<ClientEntry, "src"> & { className?: string }) {
+}: Pick<ClientEntry, "src" | "name"> & { className?: string }) {
   return (
     <div className={cn(logoWrapperClass, className)}>
       {/* eslint-disable-next-line @next/next/no-img-element -- deliver SVG as vector */}
       <img
         src={src}
-        alt=""
-        role="presentation"
+        alt={`${name} logo`}
         width={180}
         height={40}
         decoding="async"
@@ -119,7 +119,6 @@ function LogoListItem({
 }) {
   return (
     <li
-      aria-label={client.name}
       className={cn(
         "flex min-h-0 overflow-visible",
         gridMode
@@ -136,7 +135,7 @@ function LogoListItem({
             : "min-[1024px]:w-auto justify-center"
         )}
       >
-        <ClientLogoFrame src={client.src} />
+        <ClientLogoFrame src={client.src} name={client.name} />
       </div>
     </li>
   )

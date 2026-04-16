@@ -30,12 +30,11 @@ export function SiteFooter() {
           <div className="flex items-center gap-[var(--space-05)]">
             {/* Avatar */}
             <div 
-              className="flex items-center justify-center flex-shrink-0 font-heading font-semibold clr-text-primary"
+              className="flex items-center justify-center flex-shrink-0 font-heading font-semibold clr-text-primary text-[length:var(--text-body-sm)] lg:text-[length:var(--text-body-lg)]"
               style={{
                 width: "var(--space-11)",
                 height: "var(--space-11)",
                 borderRadius: "var(--radius-full)",
-                fontSize: "var(--text-body-sm)",
                 backgroundColor: "var(--color-neutral-100)",
               }}
             >

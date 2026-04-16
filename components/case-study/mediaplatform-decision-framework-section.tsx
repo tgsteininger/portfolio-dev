@@ -31,7 +31,7 @@ export function MediaPlatformDecisionFrameworkSection() {
       number: "1",
       title: "Prioritize Speed Over Configuration Depth",
       problem:
-        "Users were required to configure too many parameters before accessing the production environment, creating friction and delaying event setup.",
+        "Users were required to configure too many parameters before accessing the production environment, creating friction and delaying setup.",
       decision:
         "Reduce upfront configuration and enable immediate access to the broadcast canvas with quick-start defaults and progressive refinement.",
       impact:
@@ -145,6 +145,18 @@ export function MediaPlatformDecisionFrameworkSection() {
             Each decision was made with awareness of live production risk, system
             limitations, and enterprise expectations.
           </p>
+          <p
+            className="font-body clr-text-secondary"
+            style={{
+              fontSize: "var(--text-body-lg)",
+              lineHeight: 1.6,
+              maxWidth: "var(--layout-content-max)",
+            }}
+          >
+            Early stakeholder sessions revealed a shift in product vision, requiring the platform
+            to support both technical operators and non-technical presenters while
+            balancing control with simplicity.
+          </p>
         </header>
 
         <div
@@ -224,7 +236,7 @@ export function MediaPlatformDecisionFrameworkSection() {
                 textTransform: "uppercase",
                 fontWeight: 600,
                 marginBottom: "var(--space-06)",
-                color: "var(--color-blue-500)",
+                color: "var(--color-blue-600)",
               }}
             >
               Key Design Decisions
@@ -257,7 +269,7 @@ export function MediaPlatformDecisionFrameworkSection() {
                         borderRadius: "var(--radius-full)",
                         backgroundColor:
                           "color-mix(in srgb, var(--color-blue-100) 70%, transparent)",
-                        color: "var(--color-blue-500)",
+                        color: "var(--color-blue-600)",
                         fontSize: "var(--text-caption)",
                         fontWeight: 700,
                         flexShrink: 0,
@@ -304,7 +316,7 @@ export function MediaPlatformDecisionFrameworkSection() {
                         style={{
                           fontSize: "var(--text-body-sm)",
                           lineHeight: 1.6,
-                          color: "var(--color-blue-500)",
+                          color: "var(--color-blue-600)",
                         }}
                       >
                         <span className="font-semibold">Impact:</span> {item.impact}
@@ -385,7 +397,7 @@ export function MediaPlatformDecisionFrameworkSection() {
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
                       style={{
-                        color: "var(--color-blue-500)",
+                        color: "var(--color-blue-600)",
                         marginTop: "2px",
                         flexShrink: 0,
                       }}

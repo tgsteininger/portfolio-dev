@@ -5,10 +5,10 @@
  * Features a clean heading and reflective paragraphs with generous spacing.
  */
 interface WhatILearnedSectionProps {
-  paragraphs?: [string, string, string]
+  paragraphs?: readonly string[]
 }
 
-const DEFAULT_PARAGRAPHS: [string, string, string] = [
+const DEFAULT_PARAGRAPHS: readonly string[] = [
   "This project reinforced that enterprise design is often less about novelty and more about replacing fragile habits with systems people can trust.",
   "The best solution was not the one with the most dramatic interface. It was the one that gave each role a clearer path forward without asking users to completely reinvent how they worked overnight.",
   "It also reminded me that operational complexity tends to hide inside familiar tools. A spreadsheet can look harmless on the surface, but when an entire workflow depends on it, it is often carrying far more risk than anyone wants to admit.",
@@ -16,7 +16,7 @@ const DEFAULT_PARAGRAPHS: [string, string, string] = [
 
 export function WhatILearnedSection({
   paragraphs = DEFAULT_PARAGRAPHS,
-}: WhatILearnedSectionProps = {}) {
+}: WhatILearnedSectionProps) {
   return (
     <section
       id="what-i-learned"
@@ -58,41 +58,20 @@ export function WhatILearnedSection({
             gap: "var(--space-05)",
           }}
         >
-          <p
-            className="font-body clr-text-secondary"
-            data-reveal
-            data-reveal-delay="80"
-            style={{
-              fontSize: "var(--text-body-md)",
-              lineHeight: 1.75,
-            }}
-          >
-            {paragraphs[0]}
-          </p>
-
-          <p
-            className="font-body clr-text-secondary"
-            data-reveal
-            data-reveal-delay="140"
-            style={{
-              fontSize: "var(--text-body-md)",
-              lineHeight: 1.75,
-            }}
-          >
-            {paragraphs[1]}
-          </p>
-
-          <p
-            className="font-body clr-text-secondary"
-            data-reveal
-            data-reveal-delay="200"
-            style={{
-              fontSize: "var(--text-body-md)",
-              lineHeight: 1.75,
-            }}
-          >
-            {paragraphs[2]}
-          </p>
+          {paragraphs.map((paragraph, index) => (
+            <p
+              key={index}
+              className="font-body clr-text-secondary"
+              data-reveal
+              data-reveal-delay={String(80 + index * 60)}
+              style={{
+                fontSize: "var(--text-body-md)",
+                lineHeight: 1.75,
+              }}
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
       </div>
     </section>

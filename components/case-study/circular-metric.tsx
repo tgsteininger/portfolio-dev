@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo } from "react"
+import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface CircularMetricProps {
   size?: number
@@ -8,6 +9,7 @@ interface CircularMetricProps {
   progress?: number
   trackColor?: string
   progressColor?: string
+  visualStaggerMs?: number
 }
 
 export function CircularMetric({
@@ -16,9 +18,9 @@ export function CircularMetric({
   progress = 0.9,
   trackColor = "var(--color-neutral-200)",
   progressColor = "var(--color-blue-500)",
+  visualStaggerMs = 0,
 }: CircularMetricProps) {
-  const svgRef = useRef<SVGSVGElement>(null)
-  const [hasAnimated, setHasAnimated] = useState(false)
+  const { svgRef, hasAnimated } = useMetricSvgReveal(visualStaggerMs)
 
   const clampedProgress = Math.min(1, Math.max(0, progress))
   const radius = useMemo(() => size / 2 - strokeWidth / 2, [size, strokeWidth])
@@ -27,35 +29,6 @@ export function CircularMetric({
     () => circumference * (1 - clampedProgress),
     [circumference, clampedProgress]
   )
-
-  useEffect(() => {
-    if (hasAnimated) return
-    const target = svgRef.current
-    if (!target) return
-
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    if (reducedMotionQuery.matches) {
-      setHasAnimated(true)
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.25) return
-          setHasAnimated(true)
-          observer.unobserve(entry.target)
-        })
-      },
-      {
-        threshold: [0, 0.25, 0.5],
-        rootMargin: "0px 0px -8% 0px",
-      }
-    )
-
-    observer.observe(target)
-    return () => observer.disconnect()
-  }, [hasAnimated])
 
   return (
     <svg

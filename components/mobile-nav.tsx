@@ -46,7 +46,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           {/* Drawer Header */}
           <div className="flex items-center justify-between px-[var(--space-05)] h-[var(--space-11)] border-b clr-border-default">
             <span className="font-heading font-semibold text-[length:var(--text-body-lg)] tracking-tight clr-text-primary">
-              Menu
+              Synthesis UX
             </span>
             <button
               onClick={onClose}
@@ -91,29 +91,45 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
               {/* Case Studies Section */}
               <div>
-                <p 
-                  className="font-ui font-medium text-[length:var(--text-overline)] clr-text-tertiary uppercase tracking-widest"
-                  style={{ 
-                    marginBottom: "var(--space-03)",
+                <p
+                  className="font-ui font-medium text-[length:var(--text-overline)] clr-text-accent uppercase tracking-widest"
+                  style={{
+                    marginBottom: "var(--space-06)",
                   }}
                 >
                   Case Studies
                 </p>
-                <div className="flex flex-col">
+                <div
+                  className="flex flex-col"
+                  style={{ gap: "var(--space-05)" }}
+                >
                   {caseStudies.map((study) => (
                     <Link
                       key={study.href}
                       href={study.href}
                       onClick={onClose}
                       prefetch={false}
-                      className="focus-ring-standard block font-body text-[length:var(--text-body-md)] clr-text-primary rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] outline-none transition-fast"
+                      className="focus-ring-standard block rounded-[var(--radius-02)] hover:bg-[var(--color-blue-50)] active:bg-[var(--color-blue-100)] active:scale-[0.99] outline-none transition-fast"
                       style={{
                         padding: "var(--space-03) var(--space-04)",
                         marginLeft: "calc(var(--space-04) * -1)",
                         marginRight: "calc(var(--space-04) * -1)",
                       }}
                     >
-                      {study.title}
+                      <span
+                        className="flex flex-col font-body"
+                        style={{ gap: "var(--space-02)" }}
+                      >
+                        <span className="text-[length:var(--text-body-md)] clr-text-primary">
+                          {study.title}
+                        </span>
+                        <span
+                          className="text-sm font-normal"
+                          style={{ color: "var(--color-neutral-600)" }}
+                        >
+                          {study.client}
+                        </span>
+                      </span>
                     </Link>
                   ))}
                 </div>

@@ -181,7 +181,7 @@ function PrincipleCard({
             <span
               className="block h-full w-0 max-w-none rounded-full motion-reduce:transition-none group-hover:w-[var(--space-09)]"
               style={{
-                backgroundColor: "var(--color-border-focus)",
+                backgroundColor: "var(--color-cyan-500)",
                 opacity: 1,
                 transitionProperty: "width",
                 ...accentLineHoverTransitionBase,

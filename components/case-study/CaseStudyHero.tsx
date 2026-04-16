@@ -17,13 +17,14 @@ const HERO_METADATA = [
 ] as const
 
 /**
- * Coca-Cola case study hero — transparent over AppBackground (no local surface/panel layers).
+ * Coca-Cola case study hero — transparent over AppBackground; offset blue panels behind the
+ * white image frame match Walgreens / MediaPlatform hero framing.
  */
 export function CaseStudyHero() {
   return (
     <section
       id="overview"
-      className="relative z-[1] w-full bg-transparent"
+      className="relative z-[1] w-full overflow-hidden bg-transparent"
       aria-labelledby="case-study-hero-title"
       style={{
         marginTop: "calc(-1 * var(--space-13))",
@@ -130,37 +131,71 @@ export function CaseStudyHero() {
 
           <div className="col-span-4 flex min-h-0 items-center justify-center md:col-span-6 lg:col-span-7">
             <div
-              className="hero-image-reveal-surface relative w-full max-w-none lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
+              className="relative w-full max-w-none lg:ml-auto lg:mr-0 lg:max-w-[min(100%,46rem)]"
               data-reveal
               data-reveal-delay="140"
-              style={{
-                padding: "var(--space-04)",
-                borderRadius: "var(--radius-04)",
-                backgroundColor: "var(--color-bg-surface)",
-                boxShadow: "var(--elevation-01)",
-              }}
             >
               <div
-                className="w-full overflow-hidden"
+                aria-hidden="true"
+                className="pointer-events-none absolute"
                 style={{
-                  borderRadius: "var(--radius-03)",
-                  backgroundColor: "var(--color-neutral-50)",
+                  top: "clamp(-12px, -1.8vw, -10px)",
+                  left: "clamp(-12px, -2vw, -10px)",
+                  width: "calc(97% + clamp(8px, 1.2vw, 16px))",
+                  height: "calc(97% + clamp(10px, 1.4vw, 18px))",
+                  borderRadius: "var(--radius-04)",
+                  background:
+                    "color-mix(in srgb, var(--color-blue-100) 16%, transparent)",
+                  zIndex: 0,
+                }}
+              />
+
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute"
+                style={{
+                  right: "clamp(-12px, -2vw, -10px)",
+                  bottom: "clamp(-12px, -1.8vw, -10px)",
+                  width: "calc(97% + clamp(8px, 1.2vw, 16px))",
+                  height: "calc(97% + clamp(10px, 1.4vw, 18px))",
+                  borderRadius: "var(--radius-04)",
+                  background:
+                    "color-mix(in srgb, var(--color-blue-500) 7%, transparent)",
+                  zIndex: 1,
+                }}
+              />
+
+              <div
+                className="hero-image-reveal-surface relative z-[2]"
+                style={{
+                  padding: "var(--space-04)",
+                  borderRadius: "var(--radius-04)",
+                  backgroundColor: "var(--color-bg-surface)",
+                  boxShadow: "var(--elevation-01)",
                 }}
               >
-                <Image
-                  src={CASE_STUDY_HERO_IMAGE}
-                  alt="Coca-Cola global supply chain benchmarking CMS on a laptop"
-                  width={1600}
-                  height={920}
-                  className="h-auto w-full object-contain object-center"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                <div
+                  className="w-full overflow-hidden"
                   style={{
-                    display: "block",
-                    transform: "scaleY(1.06)",
-                    transformOrigin: "center center",
+                    borderRadius: "var(--radius-03)",
+                    backgroundColor: "var(--color-neutral-50)",
                   }}
-                  priority
-                />
+                >
+                  <Image
+                    src={CASE_STUDY_HERO_IMAGE}
+                    alt="Coca-Cola global supply chain benchmarking CMS on a laptop"
+                    width={1600}
+                    height={920}
+                    className="h-auto w-full object-contain object-center"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 65vw, min(46rem, 52vw)"
+                    style={{
+                      display: "block",
+                      transform: "scaleY(1.06)",
+                      transformOrigin: "center center",
+                    }}
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>

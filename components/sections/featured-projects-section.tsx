@@ -4,6 +4,7 @@ import { useCallback, useState } from "react"
 import type { FocusEvent, MouseEvent } from "react"
 import { Section, Container, Grid } from "@/components/layout"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowDown, ArrowUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -23,7 +24,6 @@ interface Project {
     label: string
   }[]
   additionalOutcome?: string
-  imageLabel?: string
 }
 
 /**
@@ -41,7 +41,6 @@ const featuredProjects: Project[] = [
       { direction: "down", value: "52%", label: "reduction in content turnaround time" },
     ],
     additionalOutcome: "Centralized visibility across global performance metrics",
-    imageLabel: "Enterprise CMS",
   },
   {
     slug: "walgreens",
@@ -54,7 +53,6 @@ const featuredProjects: Project[] = [
       { direction: "down", value: "20%", label: "faster task completion" },
       { direction: "down", value: "25%", label: "clarification errors" },
     ],
-    imageLabel: "Enterprise System",
   },
   {
     slug: "mediaplatform",
@@ -67,7 +65,6 @@ const featuredProjects: Project[] = [
       { direction: "up", value: "27%", label: "improvement in live production efficiency" },
     ],
     additionalOutcome: "Reduced setup friction during global executive broadcasts",
-    imageLabel: "Enterprise Platform",
   },
 ]
 
@@ -81,6 +78,20 @@ const METRIC_UNDERLINE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)"
 const METRIC_UNDERLINE_DURATION = "570ms"
 
 const SELECTED_WORK_CARD_SELECTOR = "[data-selected-work-card]"
+
+/** Case study hero art for Selected Work thumbnails (same sources as mega menu). */
+const SELECTED_WORK_HERO_IMAGES: Record<Project["slug"], string> = {
+  "coca-cola": "/images/case-studies/coca-cola/coca-cola-hero.webp",
+  walgreens: "/images/case-studies/walgreens/walgreens-hero.webp",
+  mediaplatform: "/images/case-studies/mediaplatform/mediaplatform-hero.webp",
+}
+
+/** Background focal point per hero so key UI/workflow regions read at 3:2 crop. */
+const SELECTED_WORK_HERO_OBJECT_POSITION: Record<Project["slug"], string> = {
+  "coca-cola": "68% 48%",
+  walgreens: "50% 44%",
+  mediaplatform: "50% 36%",
+}
 
 function pointerEnteredAnotherSelectedWorkCard(relatedTarget: EventTarget | null) {
   return (
@@ -236,78 +247,63 @@ function ProjectCard({
           transitionTimingFunction: `${CARD_SURFACE_EASE}, ${CARD_SURFACE_EASE}`,
         }}
       >
-        {/* Hero: full-bleed to card edges; top radii match card (article overflow clips) */}
+        {/* Hero: background art + overlays; top radii match card (article overflow clips) */}
         <div
-          className="relative w-full shrink-0 overflow-hidden"
+          className="selected-work-thumbnail relative w-full shrink-0 overflow-hidden"
           style={{
             aspectRatio: "3 / 2",
-            borderTopLeftRadius: "var(--radius-04)",
-            borderTopRightRadius: "var(--radius-04)",
+            borderTopLeftRadius: "var(--radius-md)",
+            borderTopRightRadius: "var(--radius-md)",
           }}
         >
-          {/* Dark gradient background */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(135deg, var(--color-neutral-800) 0%, var(--color-neutral-900) 100%)`,
-            }}
-          />
-          
-          {/* Image label badge */}
-          {project.imageLabel && (
-            <div 
-              className="absolute clr-text-inverse"
+          {/* Background hero — sits behind overlays; subtle desaturation + light blur for hierarchy */}
+          <div
+            className={cn(
+              "absolute inset-0 z-0 origin-center overflow-hidden transition-transform duration-[var(--motion-duration-02)] ease-[var(--motion-easing-standard)] motion-reduce:transition-none",
+              project.slug === "mediaplatform"
+                ? "scale-[1.06] group-hover:scale-[1.08] group-focus-visible:scale-[1.08] motion-reduce:group-hover:scale-[1.06] motion-reduce:group-focus-visible:scale-[1.06]"
+                : "scale-[1.03] group-hover:scale-[1.05] group-focus-visible:scale-[1.05] motion-reduce:group-hover:scale-[1.03] motion-reduce:group-focus-visible:scale-[1.03]"
+            )}
+          >
+            <Image
+              src={SELECTED_WORK_HERO_IMAGES[project.slug]}
+              alt={`${project.company} ${project.projectTitle}: ${project.shortDescription}`}
+              fill
+              className={cn(
+                "object-cover transition-[filter] duration-[200ms] ease-out motion-reduce:transition-none",
+                "[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0.5px)]",
+                "group-hover:[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0px)] group-focus-visible:[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0px)]",
+                "motion-reduce:[filter:saturate(0.9)_contrast(0.95)_brightness(1)] motion-reduce:group-hover:[filter:saturate(0.9)_contrast(0.95)_brightness(1)] motion-reduce:group-focus-visible:[filter:saturate(0.9)_contrast(0.95)_brightness(1)]"
+              )}
               style={{
-                top: "var(--space-05)",
-                left: "var(--space-05)",
-                fontSize: "var(--text-caption)",
-                fontFamily: "var(--font-ui)",
-                fontWeight: 500,
-                padding: "var(--space-02) var(--space-03)",
-                background: "rgba(255, 255, 255, 0.1)",
-                borderRadius: "var(--radius-02)",
-                backdropFilter: "blur(8px)",
+                objectPosition: SELECTED_WORK_HERO_OBJECT_POSITION[project.slug],
               }}
-            >
-              {project.imageLabel}
-            </div>
-          )}
-          
-          {/* Decorative UI elements in the image */}
-          <div className="absolute inset-0 opacity-20">
-            {/* Abstract UI representation */}
-            <div 
-              className="absolute"
-              style={{
-                top: "30%",
-                right: "var(--space-08)",
-                width: "60%",
-                height: "50%",
-                background: "rgba(255, 255, 255, 0.08)",
-                borderRadius: "var(--radius-03)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-              }}
-            />
-            <div 
-              className="absolute"
-              style={{
-                top: "40%",
-                right: "var(--space-06)",
-                width: "50%",
-                height: "40%",
-                background: "rgba(255, 255, 255, 0.05)",
-                borderRadius: "var(--radius-03)",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-              }}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           </div>
-          
-          {/* Bottom overlay with project info */}
-          <div 
-            className="absolute bottom-0 left-0 right-0"
+
+          {/* Neutral-anchored veil: airy blue-50 top → neutral mid → deep neutral+blue-900 bottom */}
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-[1]",
+              "bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_10%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_35%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
+              "group-hover:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_18%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_30%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
+              "group-focus-visible:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_18%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_30%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
+              "opacity-100 transition-[background-image,opacity] duration-[200ms] ease-out motion-reduce:transition-none"
+            )}
+          />
+
+          {/* Bottom overlay — blue-800 scrim for inverse text; lightens slightly with card hover/focus */}
+          <div
+            className={cn(
+              "absolute bottom-0 left-0 right-0 z-[2]",
+              "bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_76%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_30%,transparent)_52%,transparent_100%)]",
+              "group-hover:bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_68%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_24%,transparent)_52%,transparent_100%)]",
+              "group-focus-visible:bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_68%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_24%,transparent)_52%,transparent_100%)]",
+              "opacity-100 transition-[background-image,opacity] duration-[200ms] ease-out group-hover:opacity-[0.94] group-focus-visible:opacity-[0.94] motion-reduce:transition-none"
+            )}
             style={{
               padding: "var(--space-05)",
-              background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)",
             }}
           >
             <p 

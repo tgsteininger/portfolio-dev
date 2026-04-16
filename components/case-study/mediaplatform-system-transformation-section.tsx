@@ -9,6 +9,7 @@ interface BulletPoint {
 
 interface PanelData {
   label: string
+  labelColor: "neutral" | "accent"
   imageSrc: string
   imageAlt: string
   bullets: BulletPoint[]
@@ -18,7 +19,7 @@ const beforeBullets: BulletPoint[] = [
   { text: "Fragmented tools and manual coordination across workflows" },
   { text: "Jargon-heavy onboarding and rigid setup requirements" },
   { text: "Shared workspaces with competing controls and responsibilities" },
-  { text: "Manual layout manipulation during live events" },
+  { text: "Manual layout adjustments during live events" },
   { text: "Limited audience engagement and fragmented analytics" },
   { text: "Branding and configuration required engineering support" },
 ]
@@ -42,11 +43,10 @@ function BulletItem({
   return (
     <div className="flex items-start" style={{ gap: "var(--space-04)" }}>
       <div
-        className="flex-shrink-0 rounded-full"
+        className="system-transformation-list-dot flex-shrink-0 rounded-full"
         style={{
           width: "var(--space-03)",
           height: "var(--space-03)",
-          marginTop: "2px",
           backgroundColor:
             variant === "accent"
               ? "var(--color-blue-500)"
@@ -84,7 +84,7 @@ function ComparisonPanel({
 
   return (
     <div
-      className="relative"
+      className="relative flex min-h-0 min-w-0 flex-col md:flex-1"
       data-reveal
       data-reveal-delay={revealDelay}
       style={{
@@ -107,7 +107,7 @@ function ComparisonPanel({
       />
 
       <div
-        className="relative flex flex-col"
+        className="relative flex h-full min-h-0 flex-col"
         style={{
           zIndex: 1,
           backgroundColor: "var(--color-bg-surface)",
@@ -151,6 +151,7 @@ function ComparisonPanel({
               alt={data.imageAlt}
               fill
               className="object-cover"
+              style={isAfter ? undefined : { objectPosition: "30% 50%" }}
               sizes="(max-width: 768px) 100vw, 50vw"
               loading="lazy"
             />
@@ -174,22 +175,24 @@ function ComparisonPanel({
 export function MediaPlatformSystemTransformationSection() {
   const beforePanel: PanelData = {
     label: "Before",
-    imageSrc: "/images/case-studies/walgreens/before.png",
-    imageAlt: "Fragmented enterprise broadcasting workflow across disconnected tools",
+    labelColor: "neutral",
+    imageSrc: "/images/case-studies/mediaplatform/mediaplatform-before.webp",
+    imageAlt: "Legacy enterprise broadcast workflow across disconnected tools",
     bullets: beforeBullets,
   }
 
   const afterPanel: PanelData = {
     label: "After",
-    imageSrc: "/images/case-studies/walgreens/after.png",
-    imageAlt: "Role-based broadcasting workflow with unified live production controls",
+    labelColor: "accent",
+    imageSrc: "/images/case-studies/mediaplatform/mediaplatform-after.webp",
+    imageAlt: "Unified production workspace with role-based live controls",
     bullets: afterBullets,
   }
 
   return (
     <section
       id="system-transformation"
-      className="relative"
+      className="relative system-transformation"
       style={{
         paddingTop: "var(--space-14)",
         paddingBottom: "var(--space-14)",
@@ -262,7 +265,9 @@ export function MediaPlatformSystemTransformationSection() {
               boxShadow: "var(--elevation-00)",
             }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--grid-gap-lg)]">
+            <div
+              className="flex flex-col items-stretch gap-[var(--grid-gap-lg)] md:flex-row"
+            >
               <ComparisonPanel
                 data={beforePanel}
                 variant="before"

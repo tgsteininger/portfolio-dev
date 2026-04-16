@@ -221,7 +221,7 @@ export function DecisionFrameworkSection() {
                 textTransform: "uppercase",
                 fontWeight: 600,
                 marginBottom: "var(--space-06)",
-                color: "var(--color-blue-500)",
+                color: "var(--color-blue-600)",
               }}
             >
               Key Design Decisions
@@ -254,7 +254,7 @@ export function DecisionFrameworkSection() {
                         borderRadius: "var(--radius-full)",
                         backgroundColor:
                           "color-mix(in srgb, var(--color-blue-100) 70%, transparent)",
-                        color: "var(--color-blue-500)",
+                        color: "var(--color-blue-600)",
                         fontSize: "var(--text-caption)",
                         fontWeight: 700,
                         flexShrink: 0,
@@ -301,7 +301,7 @@ export function DecisionFrameworkSection() {
                         style={{
                           fontSize: "var(--text-body-sm)",
                           lineHeight: 1.6,
-                          color: "var(--color-blue-500)",
+                          color: "var(--color-blue-600)",
                         }}
                       >
                         <span className="font-semibold">Impact:</span> {item.impact}
@@ -382,7 +382,7 @@ export function DecisionFrameworkSection() {
                       xmlns="http://www.w3.org/2000/svg"
                       aria-hidden="true"
                       style={{
-                        color: "var(--color-blue-500)",
+                        color: "var(--color-blue-600)",
                         marginTop: "2px",
                         flexShrink: 0,
                       }}

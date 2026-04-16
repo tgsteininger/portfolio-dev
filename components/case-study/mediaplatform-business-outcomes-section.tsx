@@ -1,5 +1,10 @@
 import { Container } from "@/components/layout"
 import { CheckCircle2 } from "lucide-react"
+import {
+  caseStudyBoBulletDelay,
+  caseStudyBoFootnoteDelay,
+  caseStudyBoMetricDelay,
+} from "@/lib/case-study-reveal"
 import { MediaPlatformMetricOne } from "@/components/case-study/mediaplatform-metric-one"
 import { MediaPlatformMetricTwo } from "@/components/case-study/mediaplatform-metric-two"
 import { MediaPlatformMetricThree } from "@/components/case-study/mediaplatform-metric-three"
@@ -46,18 +51,18 @@ export function MediaPlatformBusinessOutcomesSection() {
               valueSize="small"
               primaryText="Minimal inputs required to initiate projects"
               secondaryText="Faster transition from setup to execution"
-              graphic={<MediaPlatformMetricOne />}
-              revealDelay="80"
+              graphic={<MediaPlatformMetricOne visualStaggerMs={0} />}
+              revealDelay={caseStudyBoMetricDelay(0)}
             />
 
             <MetricCard
-              label="WORKFLOW VELOCITY"
-              value="50-75% faster setup"
+              label="PRODUCTION VELOCITY"
+              value="Faster live production control"
               valueSize="small"
-              primaryText="Reduced delays during event preparation"
-              secondaryText="Improved speed across production stages"
-              graphic={<MediaPlatformMetricTwo />}
-              revealDelay="130"
+              primaryText="Reduced delay during scene switching and layout updates"
+              secondaryText="Improved responsiveness during real-time workflows"
+              graphic={<MediaPlatformMetricTwo visualStaggerMs={140} />}
+              revealDelay={caseStudyBoMetricDelay(1)}
             />
 
             <MetricCard
@@ -66,8 +71,8 @@ export function MediaPlatformBusinessOutcomesSection() {
               valueSize="small"
               primaryText="Designed for desktop, tablet, and mobile workflows"
               secondaryText="Expanded usability across user types"
-              graphic={<MediaPlatformMetricThree />}
-              revealDelay="180"
+              graphic={<MediaPlatformMetricThree visualStaggerMs={280} />}
+              revealDelay={caseStudyBoMetricDelay(2)}
             />
           </div>
 
@@ -77,19 +82,19 @@ export function MediaPlatformBusinessOutcomesSection() {
           >
             <OutcomeBullet
               text="Reduced dependency on engineering through self-service configuration"
-              revealDelay="220"
+              revealDelay={caseStudyBoBulletDelay(0)}
             />
             <OutcomeBullet
-              text="Enabled single-operator production workflows"
-              revealDelay="260"
+              text="Enabled streamlined production workflows across roles"
+              revealDelay={caseStudyBoBulletDelay(1)}
             />
             <OutcomeBullet
               text="Improved consistency across event setup, execution, and analytics"
-              revealDelay="300"
+              revealDelay={caseStudyBoBulletDelay(2)}
             />
             <OutcomeBullet
               text="Established a scalable system for enterprise broadcasting"
-              revealDelay="340"
+              revealDelay={caseStudyBoBulletDelay(3)}
             />
           </div>
         </div>
@@ -134,7 +139,7 @@ function MetricCard({
         transitionTimingFunction: "var(--motion-easing-premium)",
       }}
     >
-      <div className="flex flex-col" style={{ flex: 1 }}>
+      <div className="flex flex-col" style={{ flex: 1, gap: "var(--space-04)" }}>
         <span
           className="font-ui"
           style={{
@@ -143,51 +148,50 @@ function MetricCard({
             color: "var(--color-text-tertiary)",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            marginBottom: "var(--space-04)",
           }}
         >
           {label}
         </span>
 
-        <span
-          className="font-heading"
-          style={{
-            fontSize:
-              valueSize === "large"
-                ? "var(--text-display-lg)"
-                : "var(--text-heading-02)",
-            fontWeight: 600,
-            color: "var(--color-text-primary)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
-            marginBottom: "var(--space-05)",
-          }}
-        >
-          {value}
-        </span>
+        <div className="flex flex-col" style={{ gap: "var(--space-02)" }}>
+          <span
+            className="font-heading"
+            style={{
+              fontSize:
+                valueSize === "large"
+                  ? "var(--text-display-lg)"
+                  : "var(--text-heading-02)",
+              fontWeight: 600,
+              color: "var(--color-text-primary)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {value}
+          </span>
 
-        <p
-          className="font-body"
-          style={{
-            fontSize: "var(--text-body-sm)",
-            color: "var(--color-text-secondary)",
-            lineHeight: 1.5,
-            marginBottom: "var(--space-02)",
-          }}
-        >
-          {primaryText}
-        </p>
+          <p
+            className="font-body"
+            style={{
+              fontSize: "var(--text-body-sm)",
+              color: "var(--color-text-secondary)",
+              lineHeight: 1.5,
+            }}
+          >
+            {primaryText}
+          </p>
 
-        <p
-          className="font-body"
-          style={{
-            fontSize: "var(--text-caption)",
-            color: "var(--color-text-tertiary)",
-            lineHeight: 1.4,
-          }}
-        >
-          {secondaryText}
-        </p>
+          <p
+            className="font-body"
+            style={{
+              fontSize: "var(--text-caption)",
+              color: "var(--color-text-tertiary)",
+              lineHeight: 1.4,
+            }}
+          >
+            {secondaryText}
+          </p>
+        </div>
       </div>
 
       <div
