@@ -1,29 +1,13 @@
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
-import {
-  HeroSection,
-  FeaturedProjectsSection,
-  SelectedClientsSection,
-  ApproachSection,
-  StatsSection,
-  AboutSection,
-  CTASection,
-} from "@/components/sections"
+import { headers } from 'next/headers'
 
-export default function Home() {
-  return (
-    <>
-      <SiteHeader />
-      <main className="flex-1">
-        <HeroSection />
-        <FeaturedProjectsSection />
-        <SelectedClientsSection />
-        <ApproachSection />
-        <StatsSection />
-        <AboutSection />
-        <CTASection />
-      </main>
-      <SiteFooter />
-    </>
-  )
+import { DomainLandingView } from '@/components/rootdomain/DomainLandingView'
+import { PortfolioHomeView } from '@/components/portfolio/PortfolioHomeView'
+import { isDomainLandingHost } from '@/lib/domain-landing-hosts'
+
+export default async function Home() {
+  const host = (await headers()).get('host')
+  if (isDomainLandingHost(host)) {
+    return <DomainLandingView />
+  }
+  return <PortfolioHomeView />
 }
