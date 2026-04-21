@@ -2,12 +2,6 @@ import { z } from "zod"
 
 /**
  * Rasden inquiry email (Resend)
- *
- * - RASDEN_INQUIRY_FROM_EMAIL must use a domain you have verified in the Resend
- *   dashboard (Resend will reject unverified senders). This is independent of where
- *   mail is delivered.
- * - RASDEN_INQUIRY_TO_EMAIL may be any reachable inbox (including Gmail); Resend
- *   delivers to the address you configure—no special casing required for Gmail.
  */
 
 export type RasdenInquiryLead = {
@@ -42,11 +36,6 @@ function truncateForLog(text: string, max = 800): string {
   return t.length <= max ? t : `${t.slice(0, max)}…`
 }
 
-/**
- * Sends a verified Rasden inquiry via the Resend HTTP API.
- * Requires RESEND_API_KEY, RASDEN_INQUIRY_TO_EMAIL, and RASDEN_INQUIRY_FROM_EMAIL
- * (all validated; no hardcoded fallbacks).
- */
 export async function sendRasdenInquiryEmail(
   lead: RasdenInquiryLead
 ): Promise<{ ok: true } | { ok: false }> {
@@ -61,7 +50,7 @@ export async function sendRasdenInquiryEmail(
 
   if (!fromRaw) {
     console.error(
-      "[rasden/inquiries] RASDEN_INQUIRY_FROM_EMAIL is missing or empty. Set a sender that uses your Resend-verified domain (no default is applied)."
+      "[rasden/inquiries] RASDEN_INQUIRY_FROM_EMAIL is missing or empty."
     )
     return { ok: false }
   }
@@ -69,7 +58,7 @@ export async function sendRasdenInquiryEmail(
   const fromParsed = envEmailSchema.safeParse(fromRaw)
   if (!fromParsed.success) {
     console.error(
-      "[rasden/inquiries] RASDEN_INQUIRY_FROM_EMAIL is not a valid email address. It must match a verified domain in Resend.",
+      "[rasden/inquiries] Invalid FROM email:",
       truncateForLog(fromRaw, 120)
     )
     return { ok: false }
@@ -78,7 +67,7 @@ export async function sendRasdenInquiryEmail(
 
   if (!toRaw) {
     console.error(
-      "[rasden/inquiries] RASDEN_INQUIRY_TO_EMAIL is missing or empty; cannot send email."
+      "[rasden/inquiries] RASDEN_INQUIRY_TO_EMAIL is missing or empty."
     )
     return { ok: false }
   }
@@ -86,7 +75,7 @@ export async function sendRasdenInquiryEmail(
   const toParsed = envEmailSchema.safeParse(toRaw)
   if (!toParsed.success) {
     console.error(
-      "[rasden/inquiries] RASDEN_INQUIRY_TO_EMAIL is not a valid email address.",
+      "[rasden/inquiries] Invalid TO email:",
       truncateForLog(toRaw, 120)
     )
     return { ok: false }
@@ -125,6 +114,7 @@ export async function sendRasdenInquiryEmail(
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        "User-Agent": "rasden-site/1.0", // ✅ ADDED
       },
       body: JSON.stringify(payload),
       cache: "no-store",
@@ -134,15 +124,13 @@ export async function sendRasdenInquiryEmail(
       let detail = ""
       try {
         detail = await res.text()
-      } catch {
-        /* noop */
-      }
+      } catch {}
       console.error(
         "[rasden/inquiries] Resend rejected the request.",
         "HTTP",
         res.status,
         res.statusText + ".",
-        "Body (truncated):",
+        "Body:",
         truncateForLog(detail, 800)
       )
       return { ok: false }
@@ -152,21 +140,18 @@ export async function sendRasdenInquiryEmail(
       const body = (await res.json()) as ResendSendResponse
       if (!body?.id) {
         console.warn(
-          "[rasden/inquiries] Resend returned 200 but response omitted id; body:",
+          "[rasden/inquiries] Resend returned 200 but no id:",
           truncateForLog(JSON.stringify(body), 400)
         )
       }
     } catch (e) {
-      console.error(
-        "[rasden/inquiries] Resend success response could not be parsed as JSON; treating as failure.",
-        e
-      )
+      console.error("[rasden/inquiries] Failed to parse Resend response:", e)
       return { ok: false }
     }
 
     return { ok: true }
   } catch (e) {
-    console.error("[rasden/inquiries] Resend network or runtime error:", e)
+    console.error("[rasden/inquiries] Network/runtime error:", e)
     return { ok: false }
   }
 }
