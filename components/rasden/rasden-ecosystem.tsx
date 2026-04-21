@@ -103,8 +103,9 @@ export function RasdenEcosystem() {
                     src={imageSrc}
                     alt={imageAlt}
                     fill
+                    draggable={false}
                     sizes="(max-width: 1023px) 100vw, 50vw"
-                    className="object-cover object-center"
+                    className="nonDraggableImage object-cover object-center"
                   />
                 </div>
               </div>

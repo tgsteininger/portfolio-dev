@@ -41,7 +41,7 @@ export default function RasdenLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="flex min-h-screen flex-col clr-bg-page clr-text-primary">
+    <div id="top" className="flex min-h-screen flex-col clr-bg-page clr-text-primary">
       <RasdenHeader />
       <main className="flex-1">{children}</main>
       <RasdenFooter />

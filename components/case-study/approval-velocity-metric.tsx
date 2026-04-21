@@ -4,14 +4,10 @@ import { useMemo } from "react"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface ApprovalVelocityMetricProps {
-  width?: number
-  height?: number
   visualStaggerMs?: number
 }
 
 export function ApprovalVelocityMetric({
-  width = 72,
-  height = 72,
   visualStaggerMs = 0,
 }: ApprovalVelocityMetricProps) {
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
@@ -29,12 +25,12 @@ export function ApprovalVelocityMetric({
   return (
     <svg
       ref={svgRef}
-      width={width}
-      height={height}
       viewBox="0 0 90 90"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      className="block h-auto w-full max-h-full max-w-full object-contain"
+      preserveAspectRatio="xMidYMid meet"
     >
       <path d="M2.8125 87.1875H87.1875" stroke="#E9EDF5" strokeWidth="0.28125" />
 

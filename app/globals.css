@@ -459,6 +459,12 @@ body {
   background: color-mix(in srgb, var(--color-border-focus) 18%, white);
 }
 
+/* Rasden / hero panels: block accidental image drag; keep <Image> semantics (not CSS backgrounds). */
+.nonDraggableImage {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {

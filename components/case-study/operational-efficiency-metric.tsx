@@ -1,19 +1,20 @@
 "use client"
 
+import { useId } from "react"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface OperationalEfficiencyMetricProps {
-  width?: number
-  height?: number
   visualStaggerMs?: number
 }
 
+/** viewBox padded so left-side paths (previously x ≈ -5.5) stay inside the box — matches #1/#2 containment */
+const OE_VIEWBOX = "-6 0 128 90"
+
 export function OperationalEfficiencyMetric({
-  width = 80,
-  height = 60,
   visualStaggerMs = 0,
 }: OperationalEfficiencyMetricProps) {
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
+  const clipPathId = `oe-metric-${useId().replace(/:/g, "")}`
 
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
   const transitionOrNone = (value: string) => (prefersReducedMotion ? "none" : value)
@@ -21,21 +22,19 @@ export function OperationalEfficiencyMetric({
   return (
     <svg
       ref={svgRef}
-      width={width}
-      height={height}
-      viewBox="0 0 120 90"
+      viewBox={OE_VIEWBOX}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      className="block h-auto w-full max-h-full max-w-full object-contain"
+      preserveAspectRatio="xMidYMid meet"
     >
-      <g clipPath="url(#clip0_11371_7110)">
+      <g clipPath={`url(#${clipPathId})`}>
         <g
           style={{
             opacity: hasAnimated ? 0.3 : 0,
-            transform: hasAnimated ? "translateX(0)" : "translateX(-4px)",
-            transformOrigin: "left center",
-            transition: transitionOrNone(`opacity 420ms ${ease} 0ms, transform 420ms ${ease} 0ms`),
-            willChange: "opacity, transform",
+            transition: transitionOrNone(`opacity 420ms ${ease} 0ms`),
+            willChange: "opacity",
           }}
         >
           <path d="M15.417 21.3364C17.193 21.3364 18.6328 19.8966 18.6328 18.1206C18.6328 16.3446 17.193 14.9048 15.417 14.9048C13.641 14.9048 12.2012 16.3446 12.2012 18.1206C12.2012 19.8966 13.641 21.3364 15.417 21.3364Z" fill="white" stroke="#415262" strokeWidth="0.46875" />
@@ -228,8 +227,8 @@ export function OperationalEfficiencyMetric({
         />
       </g>
       <defs>
-        <clipPath id="clip0_11371_7110">
-          <rect width="120" height="90" fill="white" />
+        <clipPath id={clipPathId}>
+          <rect x="-6" y="0" width="128" height="90" fill="white" />
         </clipPath>
       </defs>
     </svg>

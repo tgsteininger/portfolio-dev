@@ -3,14 +3,10 @@
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface WalgreensMetricThreeProps {
-  width?: number
-  height?: number
   visualStaggerMs?: number
 }
 
 export function WalgreensMetricThree({
-  width = 84,
-  height = 72,
   visualStaggerMs = 0,
 }: WalgreensMetricThreeProps) {
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
@@ -23,12 +19,12 @@ export function WalgreensMetricThree({
   return (
     <svg
       ref={svgRef}
-      width={width}
-      height={height}
       viewBox="0 0 108 92"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      className="block h-full w-full min-h-0 min-w-0 max-h-full max-w-full object-contain"
+      preserveAspectRatio="xMidYMid meet"
     >
       <g
         style={{

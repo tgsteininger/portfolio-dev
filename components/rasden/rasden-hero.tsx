@@ -106,9 +106,10 @@ export function RasdenHero() {
                   alt="Foundational system image representing the shared structure behind Rasden."
                   fill
                   priority
+                  draggable={false}
                   sizes="(max-width: 639px) 100vw, 50vw"
                   className={cn(
-                    "object-cover object-center",
+                    "nonDraggableImage object-cover object-center",
                     "max-[39.9375rem]:transition-[filter] max-[39.9375rem]:[transition-duration:var(--motion-duration-02)] max-[39.9375rem]:[transition-timing-function:var(--motion-easing-standard)]",
                     "motion-reduce:transition-none",
                     "max-[39.9375rem]:group-hover:contrast-[1.02]"

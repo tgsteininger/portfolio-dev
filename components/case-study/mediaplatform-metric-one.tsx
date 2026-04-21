@@ -27,40 +27,31 @@ export function MediaPlatformMetricOne({ visualStaggerMs = 0 }: MediaPlatformMet
   })
 
   return (
-    <div
-      style={{
-        width: "80px",
-        height: "80px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+    <svg
+      ref={svgRef}
+      viewBox="0 0 80 80"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="block h-full w-full max-h-full max-w-full min-h-0 min-w-0 object-contain"
+      preserveAspectRatio="xMidYMid meet"
     >
-      <svg
-        ref={svgRef}
-        width={80}
-        height={80}
-        viewBox="0 0 80 80"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient
-            id={`${gradId}-paint`}
-            x1="47"
-            y1="38.5"
-            x2="60"
-            y2="38.5"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#D1D1D1" />
-            <stop offset="1" stopColor="#1970C8" />
-          </linearGradient>
-        </defs>
+      <defs>
+        <linearGradient
+          id={`${gradId}-paint`}
+          x1="47"
+          y1="38.5"
+          x2="60"
+          y2="38.5"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#D1D1D1" />
+          <stop offset="1" stopColor="#1970C8" />
+        </linearGradient>
+      </defs>
 
-        {/* 1–4: horizontal inputs (left to right stagger) */}
-        <path
+      {/* 1–4: horizontal inputs (left to right stagger) */}
+      <path
           pathLength={1}
           d="M10 21H29"
           stroke="#D1D1D1"
@@ -213,6 +204,5 @@ export function MediaPlatformMetricOne({ visualStaggerMs = 0 }: MediaPlatformMet
           style={dash(420, 760)}
         />
       </svg>
-    </div>
   )
 }

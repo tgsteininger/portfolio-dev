@@ -33,12 +33,12 @@ export function CircularMetric({
   return (
     <svg
       ref={svgRef}
-      width={size}
-      height={size}
       viewBox={`0 0 ${size} ${size}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      className="block h-auto w-full max-h-full max-w-full object-contain"
+      preserveAspectRatio="xMidYMid meet"
     >
       <circle
         cx={size / 2}

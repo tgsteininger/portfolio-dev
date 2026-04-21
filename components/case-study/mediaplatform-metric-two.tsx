@@ -28,23 +28,14 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
       : `transform ${durationMs}ms ${ease} ${delayMs}ms, fill ${Math.round(durationMs * 0.55)}ms ${ease} ${fillDelayMs}ms, stroke ${Math.round(durationMs * 0.55)}ms ${ease} ${fillDelayMs}ms`
 
   return (
-    <div
-      style={{
-        width: "80px",
-        height: "80px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
       <svg
         ref={svgRef}
-        width={80}
-        height={80}
         viewBox="0 0 80 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
+        className="block h-full w-full min-h-0 min-w-0 max-h-full max-w-full object-contain"
+        preserveAspectRatio="xMidYMid meet"
       >
         <path
           d="M24 16V64"
@@ -131,6 +122,5 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
           />
         </g>
       </svg>
-    </div>
   )
 }

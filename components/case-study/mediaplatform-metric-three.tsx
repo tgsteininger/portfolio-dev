@@ -27,23 +27,14 @@ export function MediaPlatformMetricThree({ visualStaggerMs = 0 }: MediaPlatformM
   })
 
   return (
-    <div
-      style={{
-        width: "80px",
-        height: "80px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
       <svg
         ref={svgRef}
-        width={80}
-        height={80}
         viewBox="0 0 80 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
+        className="block h-full w-full min-h-0 min-w-0 max-h-full max-w-full object-contain"
+        preserveAspectRatio="xMidYMid meet"
       >
         {/* DOM order matches static metric3.svg (stacking / final pixel parity) */}
         <path
@@ -101,6 +92,5 @@ export function MediaPlatformMetricThree({ visualStaggerMs = 0 }: MediaPlatformM
           style={dash(320, 600)}
         />
       </svg>
-    </div>
   )
 }
