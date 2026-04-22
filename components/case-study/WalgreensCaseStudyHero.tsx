@@ -14,7 +14,7 @@ const HERO_METADATA = [
     label: "SCOPE",
     value: "Interaction design, workflow modeling, usability validation",
   },
-  { label: "PLATFORM", value: "Multi-application pharmacy ecosystem" },
+  { label: "PLATFORM", value: "Multi-application pharmacy ecosystem · Figma (Workflow Design, Prototyping)" },
   { label: "KEY OUTCOME", value: "~200% workflow efficiency improvement" },
 ] as const
 

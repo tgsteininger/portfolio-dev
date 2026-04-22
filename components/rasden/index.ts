@@ -1,3 +1,4 @@
+export { RasdenApproach } from "./rasden-approach"
 export { RasdenEcosystem } from "./rasden-ecosystem"
 export { RasdenFooter } from "./rasden-footer"
 export { RasdenGovernance } from "./rasden-governance"

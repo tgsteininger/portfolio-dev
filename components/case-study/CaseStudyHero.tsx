@@ -12,7 +12,7 @@ const HERO_METADATA = [
     label: "SCOPE",
     value: "Workflow design, role-based UX, prototyping, usability validation",
   },
-  { label: "PLATFORM", value: "PowerApps enterprise CMS" },
+  { label: "PLATFORM", value: "PowerApps (Enterprise CMS) · Figma (Design Systems, Prototyping)" },
   { label: "KEY OUTCOME", value: "Scalable, centralized workflow" },
 ] as const
 

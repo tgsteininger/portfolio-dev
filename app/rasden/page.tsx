@@ -1,4 +1,5 @@
 import {
+  RasdenApproach,
   RasdenEcosystem,
   RasdenGovernance,
   RasdenHero,
@@ -11,6 +12,7 @@ export default function RasdenPage() {
   return (
     <>
       <RasdenHero />
+      <RasdenApproach />
       <RasdenPhilosophy />
       <RasdenStructure />
       <RasdenEcosystem />
