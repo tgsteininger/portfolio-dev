@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils"
 import { rasdenRedCtaSurfaceClass } from "./rasden-cta-classes"
 
 const NAV: { id: string; label: string }[] = [
+  { id: "approach", label: "Approach" },
   { id: "philosophy", label: "Philosophy" },
   { id: "structure", label: "Structure" },
   { id: "ecosystem", label: "Ecosystem" },
   { id: "governance", label: "Governance" },
-  { id: "inquiries", label: "Inquiries" },
 ]
 
 const SECTION_IDS = NAV.map((n) => n.id)
@@ -161,7 +161,7 @@ export function RasdenHeader() {
                 <span
                   aria-hidden
                   className={cn(
-                    "pointer-events-none absolute inset-x-0 bottom-0 origin-left rounded-none bg-[var(--color-red-800)]",
+                    "pointer-events-none absolute -inset-x-[0.12em] bottom-0 origin-left rounded-none bg-[var(--color-red-800)]",
                     "motion-safe:transition-[transform,opacity] motion-safe:duration-[220ms] motion-safe:[transition-timing-function:var(--motion-easing-standard)] motion-reduce:transition-none",
                     isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
                   )}

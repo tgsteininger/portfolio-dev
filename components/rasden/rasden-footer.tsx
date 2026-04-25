@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 
 const linkClass = cn(
   "focus-ring-standard font-ui font-medium uppercase tracking-[0.1em] outline-none transition-fast",
-  "whitespace-nowrap text-[length:var(--text-body-sm)] text-[var(--color-neutral-600)]",
+  "whitespace-nowrap text-[length:var(--text-body-sm)] text-[var(--color-neutral-700)]",
   "hover:text-[var(--color-neutral-900)] focus-visible:underline"
 )
 
@@ -31,7 +31,7 @@ export function RasdenFooter() {
                   marginLeft: "var(--space-04)",
                 }}
               >
-                © 2026
+                © 2025
               </span>
             </p>
           </div>

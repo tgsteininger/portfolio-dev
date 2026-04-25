@@ -61,11 +61,11 @@ export function RasdenHero() {
               </h1>
 
               <p
-                className="font-body clr-text-tertiary"
+                className="w-full min-w-0 text-balance text-pretty font-body clr-text-secondary"
                 style={{
                   fontSize: "var(--text-heading-04)",
                   lineHeight: 1.45,
-                  maxWidth: "var(--layout-reading-max)",
+                  maxWidth: "var(--layout-narrow-max)",
                 }}
               >
                 A system for developing and evolving ventures over time.

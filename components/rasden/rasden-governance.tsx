@@ -19,7 +19,7 @@ export function RasdenGovernance() {
           <div
             className={cn(
               "flex flex-row items-center gap-x-[var(--space-04)] self-start",
-              "md:col-span-5"
+              "md:col-span-4"
             )}
           >
             <span
@@ -32,7 +32,7 @@ export function RasdenGovernance() {
               }}
             />
             <span
-              className="font-ui font-normal uppercase tracking-[0.12em] text-pretty"
+              className="font-ui font-medium uppercase tracking-[0.08em] text-pretty"
               style={{
                 fontSize: "var(--text-label-md)",
                 color: "var(--color-red-800)",
@@ -42,7 +42,7 @@ export function RasdenGovernance() {
             </span>
           </div>
 
-          <div className="flex min-w-0 flex-col md:col-span-7">
+          <div className="flex min-w-0 flex-col md:col-span-8">
             <h2
               className={cn(
                 "font-heading font-medium tracking-tight clr-text-primary text-pretty min-[40rem]:font-semibold",

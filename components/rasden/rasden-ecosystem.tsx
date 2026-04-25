@@ -32,7 +32,7 @@ export function RasdenEcosystem() {
     >
       <Container>
         <p
-          className="font-ui font-normal uppercase tracking-[0.12em] text-pretty"
+          className="font-ui font-medium uppercase tracking-[0.08em] text-pretty"
           style={{
             fontSize: "var(--text-label-md)",
             color: "var(--color-red-800)",
@@ -61,11 +61,11 @@ export function RasdenEcosystem() {
             "p-[var(--space-08)] min-[40rem]:p-[var(--space-12)] lg:p-[var(--space-14)]"
           )}
         >
-          <div
+            <div
             className={cn(
               "grid min-w-0 grid-cols-1 gap-y-[var(--space-10)]",
               "md:grid-cols-2 md:items-stretch md:gap-x-0 md:gap-y-0",
-              "md:divide-x md:divide-[var(--color-neutral-200)]/60"
+              "md:divide-x md:divide-[var(--color-neutral-200)]/40"
             )}
           >
             {initiatives.map(({ title, description, imageSrc, imageAlt }, i) => (
@@ -73,8 +73,8 @@ export function RasdenEcosystem() {
                 key={title}
                 className={cn(
                   "flex min-w-0 flex-col",
-                  i === 0 && "md:pr-[var(--space-08)]",
-                  i === 1 && "md:pl-[var(--space-08)]"
+                  i === 0 && "md:pr-[var(--space-10)]",
+                  i === 1 && "md:pl-[var(--space-10)]"
                 )}
               >
                 <h3

@@ -126,7 +126,7 @@ export function RasdenInquiries() {
         >
           <div className="flex min-w-0 flex-col text-left">
             <h2
-              className="font-heading font-semibold uppercase tracking-tight text-pretty"
+              className="font-heading font-bold uppercase tracking-tight text-pretty"
               style={{
                 fontSize: "var(--text-heading-02)",
                 lineHeight: 1.15,
@@ -141,7 +141,7 @@ export function RasdenInquiries() {
               style={{
                 fontSize: "var(--text-body-lg)",
                 lineHeight: "var(--leading-relaxed)",
-                color: "var(--color-blue-grey-300)",
+                color: "var(--color-blue-grey-200)",
                 marginBottom: "var(--space-06)",
                 maxWidth: "var(--layout-reading-max)",
               }}

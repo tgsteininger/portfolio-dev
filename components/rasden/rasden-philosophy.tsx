@@ -33,7 +33,7 @@ export function RasdenPhilosophy() {
               }}
             />
             <span
-              className="font-ui font-medium uppercase tracking-[0.01em] clr-text-primary text-pretty"
+              className="font-ui font-medium uppercase tracking-normal clr-text-primary text-pretty"
               style={{ fontSize: "var(--text-heading-03)" }}
             >
               Philosophy
@@ -43,7 +43,7 @@ export function RasdenPhilosophy() {
           <div className="flex min-w-0 max-w-[var(--layout-reading-max)] flex-col">
             <p
               className={cn(
-                "font-body font-normal clr-text-primary text-pretty",
+                "font-body font-normal tracking-[-0.01em] clr-text-primary text-pretty",
                 "text-[length:var(--text-heading-03)] leading-[1.35]",
                 "md:text-[length:var(--text-heading-02)] md:leading-[1.32]",
                 "lg:text-[length:calc((var(--text-heading-01)+var(--text-heading-02))/2)] lg:leading-[1.3]"
@@ -56,7 +56,7 @@ export function RasdenPhilosophy() {
               className="font-ui font-medium uppercase tracking-[0.1em] clr-text-tertiary text-pretty"
               style={{
                 fontSize: "var(--text-label-sm)",
-                marginBottom: "var(--space-03)",
+                marginBottom: "var(--space-02)",
               }}
             >
               Foundation
