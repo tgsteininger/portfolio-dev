@@ -16,8 +16,8 @@ export function CircularMetric({
   size = 64,
   strokeWidth = 4,
   progress = 0.9,
-  trackColor = "var(--color-neutral-200)",
-  progressColor = "var(--color-blue-500)",
+  trackColor = "var(--metric-icon-muted)",
+  progressColor = "var(--metric-icon-active)",
   visualStaggerMs = 0,
 }: CircularMetricProps) {
   const { svgRef, hasAnimated } = useMetricSvgReveal(visualStaggerMs)

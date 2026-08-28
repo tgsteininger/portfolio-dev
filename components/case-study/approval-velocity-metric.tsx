@@ -1,11 +1,18 @@
 "use client"
 
+import type { CSSProperties } from "react"
 import { useMemo } from "react"
+
+import { METRIC_ICON, METRIC_ICON_EASE, metricIconStroke } from "@/lib/metric-icon"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface ApprovalVelocityMetricProps {
   visualStaggerMs?: number
 }
+
+/** Restored geometry from pre-simplification pass; stroke styling matched to MediaPlatform. */
+const SW = metricIconStroke(90)
+const NSE = "non-scaling-stroke" as const
 
 export function ApprovalVelocityMetric({
   visualStaggerMs = 0,
@@ -21,6 +28,7 @@ export function ApprovalVelocityMetric({
   }, [trendEnd.x, trendEnd.y, trendStart.x, trendStart.y])
 
   const guideLength = 24.1875
+  const ease = METRIC_ICON_EASE
 
   return (
     <svg
@@ -31,22 +39,34 @@ export function ApprovalVelocityMetric({
       aria-hidden="true"
       className="block h-auto w-full max-h-full max-w-full object-contain"
       preserveAspectRatio="xMidYMid meet"
+      style={
+        {
+          ["--metric-icon-stroke" as string]: SW,
+        } as CSSProperties
+      }
     >
-      <path d="M2.8125 87.1875H87.1875" stroke="#E9EDF5" strokeWidth="0.28125" />
+      <path
+        d="M2.8125 87.1875H87.1875"
+        className="metric-icon-muted"
+        stroke={METRIC_ICON.muted}
+        strokeWidth={SW}
+        strokeLinecap="round"
+        vectorEffect={NSE}
+      />
 
       <rect
         x="5.0625"
         y="63.2812"
         width="14.625"
         height="23.9063"
-        fill="#C9D9F4"
+        fill={METRIC_ICON.muted}
         style={{
           transformBox: "fill-box",
           transformOrigin: "center bottom",
           transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
           transition: prefersReducedMotion
             ? "none"
-            : "transform 560ms cubic-bezier(0.22, 1, 0.36, 1) 0ms",
+            : `transform 560ms ${ease} 0ms`,
           willChange: "transform",
         }}
       />
@@ -55,14 +75,14 @@ export function ApprovalVelocityMetric({
         y="46.6875"
         width="14.625"
         height="40.5"
-        fill="#B9CBEC"
+        fill={METRIC_ICON.mid}
         style={{
           transformBox: "fill-box",
           transformOrigin: "center bottom",
           transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
           transition: prefersReducedMotion
             ? "none"
-            : "transform 560ms cubic-bezier(0.22, 1, 0.36, 1) 120ms",
+            : `transform 560ms ${ease} 120ms`,
           willChange: "transform",
         }}
       />
@@ -71,14 +91,14 @@ export function ApprovalVelocityMetric({
         y="27.5625"
         width="14.625"
         height="59.625"
-        fill="#8FB2E5"
+        fill="#6EADED"
         style={{
           transformBox: "fill-box",
           transformOrigin: "center bottom",
           transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
           transition: prefersReducedMotion
             ? "none"
-            : "transform 560ms cubic-bezier(0.22, 1, 0.36, 1) 240ms",
+            : `transform 560ms ${ease} 240ms`,
           willChange: "transform",
         }}
       />
@@ -87,64 +107,73 @@ export function ApprovalVelocityMetric({
         y="10.6875"
         width="14.625"
         height="76.5"
-        fill="#3B82F6"
+        fill={METRIC_ICON.active}
         style={{
           transformBox: "fill-box",
           transformOrigin: "center bottom",
           transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
           transition: prefersReducedMotion
             ? "none"
-            : "transform 620ms cubic-bezier(0.22, 1, 0.36, 1) 360ms",
+            : `transform 620ms ${ease} 360ms`,
           willChange: "transform",
         }}
       />
 
       <path
         d="M12.375 63V87.1875"
-        stroke="#9DB9EA"
-        strokeWidth="0.421875"
-        strokeDasharray="1.41 1.41"
+        className="metric-icon-draw-path"
+        stroke={METRIC_ICON.active}
+        strokeWidth={SW}
+        strokeLinecap="round"
+        vectorEffect={NSE}
         style={{
           strokeDasharray: `${guideLength}`,
           strokeDashoffset: hasAnimated ? 0 : guideLength,
           transition: prefersReducedMotion
             ? "none"
-            : "stroke-dashoffset 520ms cubic-bezier(0.22, 1, 0.36, 1) 140ms",
+            : `stroke-dashoffset 520ms ${ease} 140ms`,
           willChange: "stroke-dashoffset",
         }}
       />
       <path
         d="M12.6562 63.2812V63L59.9062 25.3125"
-        stroke="#9DB9EA"
-        strokeWidth="0.421875"
-        strokeDasharray="1 1"
+        className="metric-icon-draw-path"
+        stroke={METRIC_ICON.active}
+        strokeWidth={SW}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect={NSE}
         style={{
           strokeDasharray: `${trendLength}`,
           strokeDashoffset: hasAnimated ? 0 : trendLength,
           transition: prefersReducedMotion
             ? "none"
-            : "stroke-dashoffset 620ms cubic-bezier(0.22, 1, 0.36, 1) 520ms",
+            : `stroke-dashoffset 620ms ${ease} 520ms`,
           willChange: "stroke-dashoffset",
         }}
       />
       <path
         d="M59.9062 25.3125L57.375 25.5938"
-        stroke="#9DB9EA"
-        strokeWidth="0.421875"
+        className="metric-icon-active"
+        stroke={METRIC_ICON.active}
+        strokeWidth={SW}
         strokeLinecap="round"
+        vectorEffect={NSE}
         style={{
           opacity: hasAnimated ? 1 : 0,
-          transition: prefersReducedMotion ? "none" : "opacity 260ms ease 980ms",
+          transition: prefersReducedMotion ? "none" : `opacity 260ms ${ease} 980ms`,
         }}
       />
       <path
         d="M59.9062 25.3125L59.0625 27.8438"
-        stroke="#9DB9EA"
-        strokeWidth="0.421875"
+        className="metric-icon-active"
+        stroke={METRIC_ICON.active}
+        strokeWidth={SW}
         strokeLinecap="round"
+        vectorEffect={NSE}
         style={{
           opacity: hasAnimated ? 1 : 0,
-          transition: prefersReducedMotion ? "none" : "opacity 260ms ease 980ms",
+          transition: prefersReducedMotion ? "none" : `opacity 260ms ${ease} 980ms`,
         }}
       />
     </svg>
