@@ -1,23 +1,23 @@
 "use client"
 
-import type { CSSProperties } from "react"
-import { useMemo } from "react"
-
-import { METRIC_ICON, METRIC_ICON_EASE, metricIconStroke } from "@/lib/metric-icon"
+import { useId, useMemo } from "react"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface ApprovalVelocityMetricProps {
   visualStaggerMs?: number
 }
 
-/** Restored geometry from pre-simplification pass; stroke styling matched to MediaPlatform. */
-const SW = metricIconStroke(90)
-const NSE = "non-scaling-stroke" as const
-
+/**
+ * Coca-Cola Business Outcomes — Approval Velocity.
+ * Inline SVG matches `public/images/case-studies/coca-cola/metric2.svg`.
+ */
 export function ApprovalVelocityMetric({
   visualStaggerMs = 0,
 }: ApprovalVelocityMetricProps) {
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
+  const uid = useId().replace(/:/g, "")
+  const clipId = `av-clip-${uid}`
+  const maskId = `av-mask-${uid}`
 
   const trendStart = useMemo(() => ({ x: 12.6562, y: 63 }), [])
   const trendEnd = useMemo(() => ({ x: 59.9062, y: 25.3125 }), [])
@@ -28,7 +28,17 @@ export function ApprovalVelocityMetric({
   }, [trendEnd.x, trendEnd.y, trendStart.x, trendStart.y])
 
   const guideLength = 24.1875
-  const ease = METRIC_ICON_EASE
+  const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
+
+  const barReveal = (delayMs: number, durationMs = 560) => ({
+    transformBox: "fill-box" as const,
+    transformOrigin: "center bottom",
+    transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
+    transition: prefersReducedMotion
+      ? "none"
+      : `transform ${durationMs}ms ${ease} ${delayMs}ms`,
+    willChange: "transform",
+  })
 
   return (
     <svg
@@ -39,143 +49,117 @@ export function ApprovalVelocityMetric({
       aria-hidden="true"
       className="block h-auto w-full max-h-full max-w-full object-contain"
       preserveAspectRatio="xMidYMid meet"
-      style={
-        {
-          ["--metric-icon-stroke" as string]: SW,
-        } as CSSProperties
-      }
     >
-      <path
-        d="M2.8125 87.1875H87.1875"
-        className="metric-icon-muted"
-        stroke={METRIC_ICON.muted}
-        strokeWidth={SW}
-        strokeLinecap="round"
-        vectorEffect={NSE}
-      />
-
-      <rect
-        x="5.0625"
-        y="63.2812"
-        width="14.625"
-        height="23.9063"
-        fill={METRIC_ICON.muted}
-        style={{
-          transformBox: "fill-box",
-          transformOrigin: "center bottom",
-          transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
-          transition: prefersReducedMotion
-            ? "none"
-            : `transform 560ms ${ease} 0ms`,
-          willChange: "transform",
-        }}
-      />
-      <rect
-        x="28.6875"
-        y="46.6875"
-        width="14.625"
-        height="40.5"
-        fill={METRIC_ICON.mid}
-        style={{
-          transformBox: "fill-box",
-          transformOrigin: "center bottom",
-          transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
-          transition: prefersReducedMotion
-            ? "none"
-            : `transform 560ms ${ease} 120ms`,
-          willChange: "transform",
-        }}
-      />
-      <rect
-        x="52.3125"
-        y="27.5625"
-        width="14.625"
-        height="59.625"
-        fill="#6EADED"
-        style={{
-          transformBox: "fill-box",
-          transformOrigin: "center bottom",
-          transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
-          transition: prefersReducedMotion
-            ? "none"
-            : `transform 560ms ${ease} 240ms`,
-          willChange: "transform",
-        }}
-      />
-      <rect
-        x="75.9375"
-        y="10.6875"
-        width="14.625"
-        height="76.5"
-        fill={METRIC_ICON.active}
-        style={{
-          transformBox: "fill-box",
-          transformOrigin: "center bottom",
-          transform: hasAnimated ? "scaleY(1)" : "scaleY(0)",
-          transition: prefersReducedMotion
-            ? "none"
-            : `transform 620ms ${ease} 360ms`,
-          willChange: "transform",
-        }}
-      />
-
-      <path
-        d="M12.375 63V87.1875"
-        className="metric-icon-draw-path"
-        stroke={METRIC_ICON.active}
-        strokeWidth={SW}
-        strokeLinecap="round"
-        vectorEffect={NSE}
-        style={{
-          strokeDasharray: `${guideLength}`,
-          strokeDashoffset: hasAnimated ? 0 : guideLength,
-          transition: prefersReducedMotion
-            ? "none"
-            : `stroke-dashoffset 520ms ${ease} 140ms`,
-          willChange: "stroke-dashoffset",
-        }}
-      />
-      <path
-        d="M12.6562 63.2812V63L59.9062 25.3125"
-        className="metric-icon-draw-path"
-        stroke={METRIC_ICON.active}
-        strokeWidth={SW}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect={NSE}
-        style={{
-          strokeDasharray: `${trendLength}`,
-          strokeDashoffset: hasAnimated ? 0 : trendLength,
-          transition: prefersReducedMotion
-            ? "none"
-            : `stroke-dashoffset 620ms ${ease} 520ms`,
-          willChange: "stroke-dashoffset",
-        }}
-      />
-      <path
-        d="M59.9062 25.3125L57.375 25.5938"
-        className="metric-icon-active"
-        stroke={METRIC_ICON.active}
-        strokeWidth={SW}
-        strokeLinecap="round"
-        vectorEffect={NSE}
-        style={{
-          opacity: hasAnimated ? 1 : 0,
-          transition: prefersReducedMotion ? "none" : `opacity 260ms ${ease} 980ms`,
-        }}
-      />
-      <path
-        d="M59.9062 25.3125L59.0625 27.8438"
-        className="metric-icon-active"
-        stroke={METRIC_ICON.active}
-        strokeWidth={SW}
-        strokeLinecap="round"
-        vectorEffect={NSE}
-        style={{
-          opacity: hasAnimated ? 1 : 0,
-          transition: prefersReducedMotion ? "none" : `opacity 260ms ${ease} 980ms`,
-        }}
-      />
+      <g clipPath={`url(#${clipId})`}>
+        <mask
+          id={maskId}
+          style={{ maskType: "luminance" }}
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="90"
+          height="90"
+        >
+          <path d="M90 0H0V90H90V0Z" fill="white" />
+        </mask>
+        <g mask={`url(#${maskId})`}>
+          <path
+            d="M2.8125 87.1875H87.1875"
+            fill="none"
+            stroke="#E9EDF5"
+            strokeWidth="0.28125"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d="M19.6875 63.2812H5.0625V87.1875H19.6875V63.2812Z"
+            fill="#C9D9F4"
+            style={barReveal(0)}
+          />
+          <path
+            d="M43.3125 46.6875H28.6875V87.1875H43.3125V46.6875Z"
+            fill="#B9CBEC"
+            style={barReveal(120)}
+          />
+          <path
+            d="M66.9375 27.5625H52.3125V87.1875H66.9375V27.5625Z"
+            fill="#8FB2E5"
+            style={barReveal(240)}
+          />
+          <path
+            d="M90.5625 10.6875H75.9375V87.1875H90.5625V10.6875Z"
+            fill="#3B82F6"
+            style={barReveal(360, 620)}
+          />
+          <path
+            d="M12.375 63V87.1875"
+            fill="none"
+            stroke="#9DB9EA"
+            strokeWidth="0.421875"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+            strokeDasharray="1.41 1.41"
+            style={{
+              strokeDasharray: `${guideLength}`,
+              strokeDashoffset: hasAnimated ? 0 : guideLength,
+              transition: prefersReducedMotion
+                ? "none"
+                : `stroke-dashoffset 520ms ${ease} 140ms`,
+              willChange: "stroke-dashoffset",
+            }}
+          />
+          <path
+            d="M12.6562 63.2812V63L59.9062 25.3125"
+            fill="none"
+            stroke="#9DB9EA"
+            strokeWidth="0.421875"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+            style={{
+              strokeDasharray: `${trendLength}`,
+              strokeDashoffset: hasAnimated ? 0 : trendLength,
+              transition: prefersReducedMotion
+                ? "none"
+                : `stroke-dashoffset 620ms ${ease} 520ms`,
+              willChange: "stroke-dashoffset",
+            }}
+          />
+          <path
+            d="M59.9062 25.3125L57.375 25.5938"
+            fill="none"
+            stroke="#9DB9EA"
+            strokeWidth="0.421875"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+            style={{
+              opacity: hasAnimated ? 1 : 0,
+              transition: prefersReducedMotion ? "none" : `opacity 260ms ease 980ms`,
+            }}
+          />
+          <path
+            d="M59.9062 25.3125L59.0625 27.8438"
+            fill="none"
+            stroke="#9DB9EA"
+            strokeWidth="0.421875"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+            style={{
+              opacity: hasAnimated ? 1 : 0,
+              transition: prefersReducedMotion ? "none" : `opacity 260ms ease 980ms`,
+            }}
+          />
+        </g>
+      </g>
+      <defs>
+        <clipPath id={clipId}>
+          <rect width="90" height="90" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   )
 }
