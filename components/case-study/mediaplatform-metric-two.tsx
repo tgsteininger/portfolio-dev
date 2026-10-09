@@ -1,5 +1,6 @@
 "use client"
 
+import { METRIC_ICON, METRIC_ICON_EASE } from "@/lib/metric-icon"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface MediaPlatformMetricTwoProps {
@@ -16,7 +17,8 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
 
   const settled = hasAnimated || prefersReducedMotion
-  const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
+  const ease = METRIC_ICON_EASE
+  const sw = METRIC_ICON.strokeAt80
   const tfm = (durationMs: number, delayMs: number) =>
     prefersReducedMotion
       ? "none"
@@ -39,27 +41,28 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
       >
         <path
           d="M24 16V64"
-          stroke="#D1D1D1"
-          strokeWidth="2"
+          className="metric-icon-muted"
+          stroke={METRIC_ICON.muted}
+          strokeWidth={sw}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M40 16V64"
-          stroke="#D1D1D1"
-          strokeWidth="2"
+          className="metric-icon-muted"
+          stroke={METRIC_ICON.muted}
+          strokeWidth={sw}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M56 16V64"
-          stroke="#B3B3B3"
-          strokeWidth="2"
+          stroke={METRIC_ICON.mid}
+          strokeWidth={sw}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
 
-        {/* Slider 1: starts higher, settles to bottom neutral (static y=54) */}
         <g
           style={{
             transform: settled ? "translateY(0px)" : "translateY(-26px)",
@@ -75,12 +78,12 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
             height={6}
             rx={2}
             fill="white"
-            stroke="#808080"
-            strokeWidth={2}
+            className="metric-icon-base"
+            stroke={METRIC_ICON.base}
+            strokeWidth={sw}
           />
         </g>
 
-        {/* Slider 3 (right): last — rises into blue “on” state (paint order matches static SVG) */}
         <g
           style={{
             transform: settled ? "translateY(0px)" : "translateY(34px)",
@@ -95,13 +98,12 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
             width={8}
             height={6}
             rx={2}
-            fill={settled ? "#1970C8" : "white"}
-            stroke={settled ? "#1970C8" : "#808080"}
-            strokeWidth={2}
+            fill={settled ? METRIC_ICON.active : "white"}
+            stroke={settled ? METRIC_ICON.active : METRIC_ICON.base}
+            strokeWidth={sw}
           />
         </g>
 
-        {/* Slider 2 (center): second — lowers after left */}
         <g
           style={{
             transform: settled ? "translateY(0px)" : "translateY(-24px)",
@@ -117,8 +119,9 @@ export function MediaPlatformMetricTwo({ visualStaggerMs = 0 }: MediaPlatformMet
             height={6}
             rx={2}
             fill="white"
-            stroke="#808080"
-            strokeWidth={2}
+            className="metric-icon-base"
+            stroke={METRIC_ICON.base}
+            strokeWidth={sw}
           />
         </g>
       </svg>

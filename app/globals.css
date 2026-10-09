@@ -159,6 +159,13 @@
   --color-blue-800: #002952;
   --color-blue-900: #001F3D;
 
+  /* Business Outcomes metric icons (MediaPlatform source of truth) */
+  --metric-icon-muted: #D1D1D1;
+  --metric-icon-mid: #B3B3B3;
+  --metric-icon-base: #808080;
+  --metric-icon-active: #1970C8;
+  --metric-icon-stroke: 2;
+
   --color-cyan-50: #F0FFFD;
   --color-cyan-100: #D6FFFA;
   --color-cyan-200: #B1F1E9;
@@ -672,6 +679,33 @@ section.system-transformation .system-transformation-list-dot {
 
   .clr-text-blue-grey {
     color: var(--color-text-blue-grey) !important;
+  }
+
+  /* Business Outcomes metric icon strokes (MediaPlatform visual system) */
+  .metric-icon-base,
+  .metric-icon-muted,
+  .metric-icon-active,
+  .metric-icon-draw-path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: var(--metric-icon-stroke);
+  }
+
+  .metric-icon-base {
+    stroke: var(--metric-icon-base);
+  }
+
+  .metric-icon-muted {
+    stroke: var(--metric-icon-muted);
+  }
+
+  .metric-icon-active {
+    stroke: var(--metric-icon-active);
+  }
+
+  .metric-icon-draw-path {
+    stroke: var(--metric-icon-active);
   }
 
   /* Hover state variants for text colors */
