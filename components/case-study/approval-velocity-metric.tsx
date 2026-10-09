@@ -1,6 +1,6 @@
 "use client"
 
-import { useId, useMemo } from "react"
+import { useId } from "react"
 import { useMetricSvgReveal } from "@/lib/use-metric-svg-reveal"
 
 interface ApprovalVelocityMetricProps {
@@ -9,7 +9,7 @@ interface ApprovalVelocityMetricProps {
 
 /**
  * Coca-Cola Business Outcomes — Approval Velocity.
- * Inline SVG matches `public/images/case-studies/coca-cola/metric2.svg`.
+ * Matches attached metric2 asset (90×90 bar chart + dashed trend arrow).
  */
 export function ApprovalVelocityMetric({
   visualStaggerMs = 0,
@@ -17,18 +17,9 @@ export function ApprovalVelocityMetric({
   const { svgRef, hasAnimated, prefersReducedMotion } = useMetricSvgReveal(visualStaggerMs)
   const uid = useId().replace(/:/g, "")
   const clipId = `av-clip-${uid}`
-  const maskId = `av-mask-${uid}`
 
-  const trendStart = useMemo(() => ({ x: 12.6562, y: 63 }), [])
-  const trendEnd = useMemo(() => ({ x: 59.9062, y: 25.3125 }), [])
-  const trendLength = useMemo(() => {
-    const dx = trendEnd.x - trendStart.x
-    const dy = trendEnd.y - trendStart.y
-    return Math.sqrt(dx * dx + dy * dy)
-  }, [trendEnd.x, trendEnd.y, trendStart.x, trendStart.y])
-
-  const guideLength = 24.1875
   const ease = "cubic-bezier(0.22, 1, 0.36, 1)"
+  const transitionOrNone = (value: string) => (prefersReducedMotion ? "none" : value)
 
   const barReveal = (delayMs: number, durationMs = 560) => ({
     transformBox: "fill-box" as const,
@@ -51,107 +42,90 @@ export function ApprovalVelocityMetric({
       preserveAspectRatio="xMidYMid meet"
     >
       <g clipPath={`url(#${clipId})`}>
-        <mask
-          id={maskId}
-          style={{ maskType: "luminance" }}
-          maskUnits="userSpaceOnUse"
-          x="0"
-          y="0"
-          width="90"
-          height="90"
+        {/* Baseline */}
+        <path
+          d="M2.8125 87.1875H87.1875"
+          fill="none"
+          stroke="#E9EDF5"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+
+        {/* Bars — geometry from metric2.svg; rounded tops to match asset */}
+        <rect
+          x="5.0625"
+          y="63.2812"
+          width="14.625"
+          height="23.9063"
+          rx="1.5"
+          fill="#C9D9F4"
+          style={barReveal(0)}
+        />
+        <rect
+          x="28.6875"
+          y="46.6875"
+          width="14.625"
+          height="40.5"
+          rx="1.5"
+          fill="#B9CBEC"
+          style={barReveal(120)}
+        />
+        <rect
+          x="52.3125"
+          y="27.5625"
+          width="14.625"
+          height="59.625"
+          rx="1.5"
+          fill="#8FB2E5"
+          style={barReveal(240)}
+        />
+        <rect
+          x="75.9375"
+          y="10.6875"
+          width="14.625"
+          height="76.5"
+          rx="1.5"
+          fill="#3B82F6"
+          style={barReveal(360, 620)}
+        />
+
+        {/* Trend shaft + head as one group so they stay connected */}
+        <g
+          style={{
+            opacity: hasAnimated ? 1 : 0,
+            transition: transitionOrNone(`opacity 600ms ${ease} 280ms`),
+          }}
         >
-          <path d="M90 0H0V90H90V0Z" fill="white" />
-        </mask>
-        <g mask={`url(#${maskId})`}>
-          <path
-            d="M2.8125 87.1875H87.1875"
-            fill="none"
-            stroke="#E9EDF5"
-            strokeWidth="0.28125"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-          />
-          <path
-            d="M19.6875 63.2812H5.0625V87.1875H19.6875V63.2812Z"
-            fill="#C9D9F4"
-            style={barReveal(0)}
-          />
-          <path
-            d="M43.3125 46.6875H28.6875V87.1875H43.3125V46.6875Z"
-            fill="#B9CBEC"
-            style={barReveal(120)}
-          />
-          <path
-            d="M66.9375 27.5625H52.3125V87.1875H66.9375V27.5625Z"
-            fill="#8FB2E5"
-            style={barReveal(240)}
-          />
-          <path
-            d="M90.5625 10.6875H75.9375V87.1875H90.5625V10.6875Z"
-            fill="#3B82F6"
-            style={barReveal(360, 620)}
-          />
           <path
             d="M12.375 63V87.1875"
             fill="none"
             stroke="#9DB9EA"
-            strokeWidth="0.421875"
+            strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            strokeDasharray="1.41 1.41"
-            style={{
-              strokeDasharray: `${guideLength}`,
-              strokeDashoffset: hasAnimated ? 0 : guideLength,
-              transition: prefersReducedMotion
-                ? "none"
-                : `stroke-dashoffset 520ms ${ease} 140ms`,
-              willChange: "stroke-dashoffset",
-            }}
+            strokeDasharray="3 3"
           />
           <path
             d="M12.6562 63.2812V63L59.9062 25.3125"
             fill="none"
             stroke="#9DB9EA"
-            strokeWidth="0.421875"
+            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            style={{
-              strokeDasharray: `${trendLength}`,
-              strokeDashoffset: hasAnimated ? 0 : trendLength,
-              transition: prefersReducedMotion
-                ? "none"
-                : `stroke-dashoffset 620ms ${ease} 520ms`,
-              willChange: "stroke-dashoffset",
-            }}
+            strokeDasharray="3 3"
           />
           <path
             d="M59.9062 25.3125L57.375 25.5938"
             fill="none"
             stroke="#9DB9EA"
-            strokeWidth="0.421875"
+            strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            style={{
-              opacity: hasAnimated ? 1 : 0,
-              transition: prefersReducedMotion ? "none" : `opacity 260ms ease 980ms`,
-            }}
           />
           <path
             d="M59.9062 25.3125L59.0625 27.8438"
             fill="none"
             stroke="#9DB9EA"
-            strokeWidth="0.421875"
+            strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            style={{
-              opacity: hasAnimated ? 1 : 0,
-              transition: prefersReducedMotion ? "none" : `opacity 260ms ease 980ms`,
-            }}
           />
         </g>
       </g>
