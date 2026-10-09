@@ -31,7 +31,7 @@ export function RasdenFooter() {
                   marginLeft: "var(--space-04)",
                 }}
               >
-                © 2025
+                © {new Date().getFullYear()}
               </span>
             </p>
           </div>
