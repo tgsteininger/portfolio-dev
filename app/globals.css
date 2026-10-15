@@ -1266,6 +1266,90 @@ section.system-transformation .system-transformation-list-dot {
     box-shadow: none;
   }
 
+  /* Localized navy contrast behind the title plaque only */
+  .selected-work-caption-veil {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 22%;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-blue-800) 48%, var(--color-blue-grey-800)) 0%,
+      color-mix(in srgb, var(--color-blue-800) 20%, transparent) 36%,
+      transparent 70%
+    );
+  }
+
+  .selected-work-caption {
+    position: absolute;
+    z-index: 2;
+    left: var(--space-05);
+    bottom: var(--space-05);
+    max-width: 88%;
+  }
+
+  .selected-work-caption-panel {
+    width: max-content;
+    max-width: 100%;
+    padding-block: var(--space-02);
+    padding-inline: var(--space-03);
+    border: var(--stroke-01) solid color-mix(in srgb, var(--color-border-subtle) 65%, transparent);
+    border-radius: var(--radius-02);
+    background: color-mix(in srgb, var(--color-bg-surface) 78%, transparent);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .selected-work-image-caption {
+    margin: 0;
+    padding-top: var(--space-03);
+    padding-bottom: 0;
+    padding-inline: var(--space-06);
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-weight: 400;
+    line-height: var(--leading-snug);
+    color: var(--color-text-tertiary);
+  }
+
+  @media (min-width: 40rem) {
+    .selected-work-caption {
+      max-width: 62%;
+    }
+
+    .selected-work-thumbnail[data-project="coca-cola"] .selected-work-caption {
+      max-width: 70%;
+    }
+
+    .selected-work-thumbnail[data-project="walgreens"] .selected-work-caption {
+      max-width: 56%;
+    }
+
+    .selected-work-thumbnail[data-project="mediaplatform"] .selected-work-caption {
+      max-width: 58%;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .selected-work-caption {
+      max-width: 58%;
+    }
+
+    .selected-work-thumbnail[data-project="coca-cola"] .selected-work-caption {
+      max-width: 66%;
+    }
+
+    .selected-work-thumbnail[data-project="walgreens"] .selected-work-caption {
+      max-width: 52%;
+    }
+
+    .selected-work-thumbnail[data-project="mediaplatform"] .selected-work-caption {
+      max-width: 54%;
+    }
+  }
+
   /* Mobile touch states */
   @media (hover: none) {
     .touch-highlight:active {

@@ -17,6 +17,7 @@ interface Project {
   projectTitle: string
   projectSubtitle: string
   shortDescription: string
+  summary: string
   tags: string[]
   metrics: {
     direction: "up" | "down"
@@ -36,6 +37,8 @@ const featuredProjects: Project[] = [
     projectTitle: "Global Supply Chain Governance",
     projectSubtitle: "Workflow Transformation",
     shortDescription: "Enterprise CMS for Global Manufacturing",
+    summary:
+      "Enterprise Survey & Benchmarking CMS for global bottling operations. Replaced fragmented Excel and manual publishing workflows with modular content architecture and role-based governance.",
     tags: ["Supply Chain Systems", "Enterprise CMS", "AI-Assisted Localization"],
     metrics: [
       { direction: "down", value: "52%", label: "reduction in content turnaround time" },
@@ -48,6 +51,8 @@ const featuredProjects: Project[] = [
     projectTitle: "Pharmacy Data Review Workflow",
     projectSubtitle: "Pharmacy System",
     shortDescription: "Workflow Optimization & Role-Based UX",
+    summary:
+      "Modernized high-volume prescription verification workflows with keyboard-first navigation, inline exception handling, and contextual data comparison.",
     tags: ["Healthcare UX", "Clinical Workflow", "Design System Expansion"],
     metrics: [
       { direction: "down", value: "20%", label: "faster task completion" },
@@ -60,6 +65,8 @@ const featuredProjects: Project[] = [
     projectTitle: "Enterprise Broadcast Collaboration",
     projectSubtitle: "Enterprise Platform",
     shortDescription: "Workflow Optimization & UX Modernization",
+    summary:
+      "Re-architected a legacy webcasting system into a modular broadcast platform with role-based backstage control, multi-camera support, and real-time engagement tooling.",
     tags: ["Enterprise SaaS", "Real-Time Systems", "Modular UX Architecture"],
     metrics: [
       { direction: "up", value: "27%", label: "improvement in live production efficiency" },
@@ -247,16 +254,16 @@ function ProjectCard({
           transitionTimingFunction: `${CARD_SURFACE_EASE}, ${CARD_SURFACE_EASE}`,
         }}
       >
-        {/* Hero: background art + overlays; top radii match card (article overflow clips) */}
+        {/* Hero: feature image + compact title plaque; top radii match card */}
         <div
           className="selected-work-thumbnail relative w-full shrink-0 overflow-hidden"
+          data-project={project.slug}
           style={{
             aspectRatio: "3 / 2",
             borderTopLeftRadius: "var(--radius-md)",
             borderTopRightRadius: "var(--radius-md)",
           }}
         >
-          {/* Background hero — sits behind overlays; subtle desaturation + light blur for hierarchy */}
           <div
             className={cn(
               "absolute inset-0 z-0 origin-center overflow-hidden transition-transform duration-[var(--motion-duration-02)] ease-[var(--motion-easing-standard)] motion-reduce:transition-none",
@@ -269,12 +276,7 @@ function ProjectCard({
               src={SELECTED_WORK_HERO_IMAGES[project.slug]}
               alt={`${project.company} ${project.projectTitle}: ${project.shortDescription}`}
               fill
-              className={cn(
-                "object-cover transition-[filter] duration-[200ms] ease-out motion-reduce:transition-none",
-                "[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0.5px)]",
-                "group-hover:[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0px)] group-focus-visible:[filter:saturate(0.82)_contrast(0.9)_brightness(1.03)_blur(0px)]",
-                "motion-reduce:[filter:saturate(0.9)_contrast(0.95)_brightness(1)] motion-reduce:group-hover:[filter:saturate(0.9)_contrast(0.95)_brightness(1)] motion-reduce:group-focus-visible:[filter:saturate(0.9)_contrast(0.95)_brightness(1)]"
-              )}
+              className="object-cover"
               style={{
                 objectPosition: SELECTED_WORK_HERO_OBJECT_POSITION[project.slug],
               }}
@@ -282,70 +284,48 @@ function ProjectCard({
             />
           </div>
 
-          {/* Neutral-anchored veil: airy blue-50 top → neutral mid → deep neutral+blue-900 bottom */}
-          <div
-            className={cn(
-              "pointer-events-none absolute inset-0 z-[1]",
-              "bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_10%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_35%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
-              "group-hover:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_18%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_30%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
-              "group-focus-visible:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-blue-50)_18%,transparent)_0%,color-mix(in_srgb,var(--color-neutral-900)_30%,transparent)_45%,color-mix(in_srgb,var(--color-neutral-900)_70%,var(--color-blue-900))_100%)]",
-              "opacity-100 transition-[background-image,opacity] duration-[200ms] ease-out motion-reduce:transition-none"
-            )}
-          />
+          <div className="selected-work-caption-veil pointer-events-none" aria-hidden />
 
-          {/* Bottom overlay — blue-800 scrim for inverse text; lightens slightly with card hover/focus */}
-          <div
-            className={cn(
-              "absolute bottom-0 left-0 right-0 z-[2]",
-              "bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_76%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_30%,transparent)_52%,transparent_100%)]",
-              "group-hover:bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_68%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_24%,transparent)_52%,transparent_100%)]",
-              "group-focus-visible:bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-blue-800)_68%,transparent)_0%,color-mix(in_srgb,var(--color-blue-800)_24%,transparent)_52%,transparent_100%)]",
-              "opacity-100 transition-[background-image,opacity] duration-[200ms] ease-out group-hover:opacity-[0.94] group-focus-visible:opacity-[0.94] motion-reduce:transition-none"
-            )}
-            style={{
-              padding: "var(--space-05)",
-            }}
-          >
-            <p 
-              className="clr-text-inverse"
-              style={{
-                fontSize: "var(--text-body-md)",
-                fontFamily: "var(--font-heading)",
-                fontWeight: 600,
-              }}
-            >
-              {project.company}
-            </p>
-            <p 
-              className="clr-text-inverse"
-              style={{
-                fontSize: "var(--text-body-sm)",
-                fontFamily: "var(--font-heading)",
-                fontWeight: 500,
-                opacity: 0.9,
-              }}
-            >
-              {project.projectSubtitle}
-            </p>
-            <p 
-              className="clr-text-inverse"
-              style={{
-                fontSize: "var(--text-caption)",
-                fontFamily: "var(--font-body)",
-                opacity: 0.7,
-                marginTop: "var(--space-01)",
-              }}
-            >
-              {project.shortDescription}
-            </p>
+          <div className="selected-work-caption pointer-events-none">
+            <div className="selected-work-caption-panel">
+              <p
+                className="clr-text-primary"
+                style={{
+                  fontSize: "var(--text-body-md)",
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 600,
+                  margin: 0,
+                  lineHeight: "var(--leading-tight)",
+                }}
+              >
+                {project.company}
+              </p>
+              <p
+                className="clr-text-secondary"
+                style={{
+                  fontSize: "var(--text-body-sm)",
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 500,
+                  margin: 0,
+                  lineHeight: "var(--leading-tight)",
+                }}
+              >
+                {project.projectSubtitle}
+              </p>
+            </div>
           </div>
         </div>
+
+        <p className="selected-work-image-caption">
+          {project.shortDescription}
+        </p>
 
         <div
           className="flex min-h-0 flex-1 flex-col"
           style={{
             paddingInline: "var(--space-06)",
-            paddingBlock: "var(--space-06)",
+            paddingTop: "var(--space-04)",
+            paddingBottom: "var(--space-06)",
           }}
         >
         {/* Tags */}
@@ -415,9 +395,7 @@ function ProjectCard({
             marginBottom: 0,
           }}
         >
-          Enterprise Survey & Benchmarking CMS for global bottling operations. 
-          Replaced fragmented Excel and manual publishing workflows with modular 
-          content architecture and role-based governance.
+          {project.summary}
         </p>
 
         {/* Metric block: anchored toward card bottom; underline + metrics stay grouped */}
