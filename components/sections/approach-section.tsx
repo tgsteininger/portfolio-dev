@@ -111,7 +111,8 @@ function IconWrapper({
         width: "var(--space-11)",
         height: "var(--space-11)",
         borderRadius: "var(--radius-04)",
-        backgroundColor: "var(--color-blue-50)",
+        background:
+          "linear-gradient(to right, var(--color-blue-50), var(--color-cyan-50))",
       }}
     >
       <Icon

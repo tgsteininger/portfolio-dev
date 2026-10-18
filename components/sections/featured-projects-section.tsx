@@ -36,10 +36,10 @@ const featuredProjects: Project[] = [
     company: "Coca-Cola",
     projectTitle: "Global Supply Chain Governance",
     projectSubtitle: "Workflow Transformation",
-    shortDescription: "Enterprise CMS for Global Manufacturing",
+    shortDescription: "Global manufacturing content operations",
     summary:
-      "Enterprise Survey & Benchmarking CMS for global bottling operations. Replaced fragmented Excel and manual publishing workflows with modular content architecture and role-based governance.",
-    tags: ["Supply Chain Systems", "Enterprise CMS", "AI-Assisted Localization"],
+      "Replaced fragmented Excel and manual publishing processes with modular content architecture and role-based governance.",
+    tags: ["Supply Chain", "Governance", "Localization"],
     metrics: [
       { direction: "down", value: "52%", label: "reduction in content turnaround time" },
     ],
@@ -50,10 +50,10 @@ const featuredProjects: Project[] = [
     company: "Walgreens",
     projectTitle: "Pharmacy Data Review Workflow",
     projectSubtitle: "Pharmacy System",
-    shortDescription: "Workflow Optimization & Role-Based UX",
+    shortDescription: "High-volume prescription review",
     summary:
-      "Modernized high-volume prescription verification workflows with keyboard-first navigation, inline exception handling, and contextual data comparison.",
-    tags: ["Healthcare UX", "Clinical Workflow", "Design System Expansion"],
+      "Modernized prescription verification with keyboard-first navigation, inline exception handling, and contextual data comparison.",
+    tags: ["Healthcare", "Role-Based", "Design System"],
     metrics: [
       { direction: "down", value: "20%", label: "faster task completion" },
       { direction: "down", value: "25%", label: "clarification errors" },
@@ -64,10 +64,10 @@ const featuredProjects: Project[] = [
     company: "MediaPlatform",
     projectTitle: "Enterprise Broadcast Collaboration",
     projectSubtitle: "Enterprise Platform",
-    shortDescription: "Workflow Optimization & UX Modernization",
+    shortDescription: "Live enterprise broadcasting",
     summary:
-      "Re-architected a legacy webcasting system into a modular broadcast platform with role-based backstage control, multi-camera support, and real-time engagement tooling.",
-    tags: ["Enterprise SaaS", "Real-Time Systems", "Modular UX Architecture"],
+      "Re-architected a legacy webcasting product around role-based backstage control, multi-camera production, and real-time engagement.",
+    tags: ["Real-Time", "Modular UX", "Multi-Device"],
     metrics: [
       { direction: "up", value: "27%", label: "improvement in live production efficiency" },
     ],
@@ -228,13 +228,13 @@ function ProjectCard({
         onCardBlur(e)
       }}
       className={cn(
-        "group selected-work-card-link transition-fast ease-[var(--motion-easing-decelerate)] block h-full min-h-0 outline-none rounded-[var(--radius-04)] active:scale-[0.99]",
+        "group selected-work-card-link transition-fast ease-[var(--motion-easing-decelerate)] flex h-full min-h-0 flex-col outline-none rounded-[var(--radius-04)] active:scale-[0.99]",
         isEmphasized && "relative z-[1]"
       )}
     >
       <article
         className={cn(
-          "flex h-full min-h-0 flex-col overflow-hidden rounded-[var(--radius-04)]",
+          "flex h-full min-h-0 flex-1 flex-col overflow-hidden rounded-[var(--radius-04)]",
           "border border-[var(--color-border-subtle)] bg-[var(--color-bg-surface)]",
           "will-change-transform motion-reduce:will-change-auto"
         )}
@@ -331,7 +331,7 @@ function ProjectCard({
         {/* Tags */}
         <div
           className="flex flex-wrap gap-[var(--space-03)]"
-          style={{ marginBottom: "var(--space-06)" }}
+          style={{ marginBottom: "var(--space-05)" }}
         >
           {project.tags.map((tag) => (
             <span
@@ -344,11 +344,11 @@ function ProjectCard({
                 fontFamily: "var(--font-ui)",
                 fontWeight: 500,
                 lineHeight: "var(--leading-tight)",
-                paddingBlock: "var(--space-02)",
+                paddingBlock: "var(--space-01)",
                 paddingInline: "var(--space-04)",
-                minHeight: "calc(1lh + var(--space-02) + var(--space-02))",
+                minHeight: "calc(1lh + var(--space-01) + var(--space-01))",
                 color: "var(--color-blue-grey-500)",
-                backgroundColor: "var(--color-neutral-100)",
+                backgroundColor: "var(--color-neutral-50)",
                 borderRadius: "var(--radius-02)",
               }}
             >
@@ -357,6 +357,7 @@ function ProjectCard({
           ))}
         </div>
 
+        <div className="flex min-h-0 w-full flex-1 flex-col">
         {/* Project Title */}
         <h3
           className="font-heading clr-text-primary group-hover:clr-text-accent group-focus-visible:clr-text-accent motion-reduce:transition-none"
@@ -364,7 +365,7 @@ function ProjectCard({
             fontSize: "var(--text-heading-04)",
             fontWeight: 600,
             letterSpacing: "-0.01em",
-            marginBottom: "var(--space-01)",
+            marginBottom: "var(--space-06)",
             transitionProperty: "color",
             transitionDuration: CARD_SURFACE_TRANSFORM_DURATION,
             transitionTimingFunction: CARD_SURFACE_EASE,
@@ -372,18 +373,6 @@ function ProjectCard({
         >
           {project.projectTitle}
         </h3>
-
-        {/* Company Name */}
-        <p 
-          className="clr-text-tertiary"
-          style={{
-            fontSize: "var(--text-body-sm)",
-            fontFamily: "var(--font-body)",
-            marginBottom: "var(--space-06)",
-          }}
-        >
-          {project.company}
-        </p>
 
         {/* Description */}
         <p 
@@ -397,10 +386,11 @@ function ProjectCard({
         >
           {project.summary}
         </p>
+        </div>
 
-        {/* Metric block: anchored toward card bottom; underline + metrics stay grouped */}
+        {/* Metric block: anchored to the bottom of the card body */}
         <div
-          className="mt-auto flex w-full min-w-0 flex-col"
+          className="mt-auto flex w-full shrink-0 flex-col"
           style={{ paddingTop: "var(--space-07)" }}
         >
           {/* Metric underline: neutral track + fill expands on hover or link focus-visible (not default resting emphasis alone) */}
@@ -425,10 +415,14 @@ function ProjectCard({
             </div>
           </div>
 
-          {/* Metrics */}
+          {/* Metrics: shared min-height so the cyan rule sits at one offset from the card bottom */}
           <div
             className="flex flex-col"
-            style={{ gap: "var(--space-03)" }}
+            style={{
+              gap: "var(--space-03)",
+              minHeight:
+                "calc((var(--text-body-sm) * var(--leading-normal) * 4) + var(--space-03))",
+            }}
           >
             {project.metrics.map((metric, index) => (
               <div

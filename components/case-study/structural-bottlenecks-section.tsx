@@ -79,7 +79,8 @@ function BottleneckItem({
         style={{
           width: "var(--space-09)",
           height: "var(--space-08)",
-          backgroundColor: "var(--color-blue-50)",
+          background:
+            "linear-gradient(to right, var(--color-blue-50), var(--color-cyan-50))",
           borderRadius: "var(--radius-02)",
           fontSize: "var(--text-label-sm)",
           fontWeight: 600,

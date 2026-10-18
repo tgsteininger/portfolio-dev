@@ -1273,12 +1273,16 @@ section.system-transformation .system-transformation-list-dot {
     right: 0;
     bottom: 0;
     z-index: 1;
-    height: 22%;
+    height: 18%;
     background: linear-gradient(
       to top,
-      color-mix(in srgb, var(--color-blue-800) 48%, var(--color-blue-grey-800)) 0%,
-      color-mix(in srgb, var(--color-blue-800) 20%, transparent) 36%,
-      transparent 70%
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--color-blue-800) 48%, var(--color-blue-grey-800)) 85%,
+        transparent
+      ) 0%,
+      color-mix(in srgb, var(--color-blue-800) 17%, transparent) 28%,
+      transparent 55%
     );
   }
 
@@ -1293,13 +1297,17 @@ section.system-transformation .system-transformation-list-dot {
   .selected-work-caption-panel {
     width: max-content;
     max-width: 100%;
-    padding-block: var(--space-02);
+    padding-block: var(--space-01);
     padding-inline: var(--space-03);
     border: var(--stroke-01) solid color-mix(in srgb, var(--color-border-subtle) 65%, transparent);
     border-radius: var(--radius-02);
-    background: color-mix(in srgb, var(--color-bg-surface) 78%, transparent);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-bg-surface) 90%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg-surface) 65%, transparent) 100%
+    );
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
   }
 
   .selected-work-image-caption {
