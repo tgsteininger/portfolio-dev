@@ -36,6 +36,8 @@ export function SiteFooter() {
                 height: "var(--space-11)",
                 borderRadius: "var(--radius-full)",
                 backgroundColor: "var(--color-neutral-100)",
+                letterSpacing: "0.08em",
+                textIndent: "0.08em",
               }}
             >
               TS
@@ -58,7 +60,7 @@ export function SiteFooter() {
                   fontSize: "var(--text-body-sm)",
                 }}
               >
-                Senior UX Designer focused on complex, data-driven products
+                Senior product designer specializing in complex enterprise systems and high-stakes workflows.
               </p>
             </div>
           </div>

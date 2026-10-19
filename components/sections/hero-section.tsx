@@ -23,10 +23,10 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({
-  eyebrow = "Enterprise Product UX",
-  headlineMain = "Complex systems don't fail from lack of features. They fail from lack of structure",
-  headlineContinuation = "in how people, data, and decisions connect.",
-  description = "I architect enterprise systems that bring clarity, alignment, and operational intelligence to high-stakes workflows.",
+  eyebrow = "Senior Product Designer",
+  headlineMain = "Designing clarity into complex enterprise systems.",
+  headlineContinuation,
+  description = "I connect people, data, and workflows to make high-stakes products easier to understand, operate, and scale.",
   ctaLabel = "Explore Work",
   ctaHref = "#featured-projects",
 }: HeroSectionProps) {
@@ -101,21 +101,23 @@ export function HeroSection({
               {headlineMain}
             </h1>
 
-            {/* Headline Continuation */}
-            <p
-              className={cn(
-                "font-heading clr-text-secondary reveal-slide is-visible"
-              )}
-              style={{
-                fontSize: "clamp(var(--text-heading-04), 2.5vw, var(--text-heading-02))",
-                lineHeight: 1.3,
-                marginTop: "var(--space-05)",
-                maxWidth: "var(--layout-reading-max)",
-                transitionDelay: "100ms",
-              }}
-            >
-              {headlineContinuation}
-            </p>
+            {/* Optional Headline Continuation */}
+            {headlineContinuation && (
+              <p
+                className={cn(
+                  "font-heading clr-text-secondary reveal-slide is-visible"
+                )}
+                style={{
+                  fontSize: "clamp(var(--text-heading-04), 2.5vw, var(--text-heading-02))",
+                  lineHeight: 1.3,
+                  marginTop: "var(--space-05)",
+                  maxWidth: "var(--layout-reading-max)",
+                  transitionDelay: "100ms",
+                }}
+              >
+                {headlineContinuation}
+              </p>
+            )}
 
             {/* Accent Divider */}
             <div

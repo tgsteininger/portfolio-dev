@@ -11,15 +11,53 @@
   outline: none;
 }
 
+.caseRowThumbnail {
+  transition:
+    border-color var(--motion-duration-02) var(--motion-easing-standard),
+    box-shadow var(--motion-duration-02) var(--motion-easing-standard);
+}
+
+.caseRowThumbnailImage {
+  filter: saturate(0.98) contrast(1.04);
+  transform: scale(1);
+  transition:
+    filter var(--motion-duration-03) var(--motion-easing-decelerate),
+    transform var(--motion-duration-03) var(--motion-easing-decelerate);
+}
+
+.caseRowThumbnailVeil {
+  opacity: 0.7;
+  transition: opacity var(--motion-duration-02) var(--motion-easing-standard);
+}
+
+.caseRow:hover .caseRowThumbnail,
+.caseRow:focus-visible .caseRowThumbnail {
+  border-color: var(--color-blue-200);
+  box-shadow: var(--elevation-01);
+}
+
+.caseRow:hover .caseRowThumbnailImage,
+.caseRow:focus-visible .caseRowThumbnailImage {
+  filter: saturate(1.02) contrast(1.08);
+  transform: scale(1.025);
+}
+
+.caseRow:hover .caseRowThumbnailVeil,
+.caseRow:focus-visible .caseRowThumbnailVeil {
+  opacity: 0.25;
+}
+
 .caseRowArrow {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  position: absolute;
+  right: var(--space-04);
+  bottom: var(--space-04);
+  width: 16px;
+  height: 16px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: translateX(-4px);
+  transform: translate(-2px, -2px);
   transition:
     opacity var(--motion-duration-02) var(--motion-easing-standard),
     transform var(--motion-duration-02) var(--motion-easing-standard);
@@ -29,4 +67,17 @@
 .caseRow:focus-visible .caseRowArrow {
   opacity: 1;
   transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caseRowThumbnail,
+  .caseRowThumbnailImage,
+  .caseRowThumbnailVeil {
+    transition: none;
+  }
+
+  .caseRow:hover .caseRowThumbnailImage,
+  .caseRow:focus-visible .caseRowThumbnailImage {
+    transform: none;
+  }
 }

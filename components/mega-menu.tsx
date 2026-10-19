@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
+import { ArrowDownRight } from "@carbon/icons-react"
 import { cn } from "@/lib/utils"
 import type { CaseStudyItem } from "@/lib/navigation"
 
@@ -153,9 +154,9 @@ function CaseStudyRow({
       prefetch={false}
       className={cn(
         styles.caseRow,
-        "group flex items-center rounded-[var(--radius-03)]",
-        "hover:bg-[var(--color-blue-50)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.06)] hover:-translate-y-0.5",
-        "focus-visible:bg-[var(--color-blue-50)] focus-visible:shadow-[0_6px_16px_rgba(0,0,0,0.06)] focus-visible:-translate-y-0.5",
+        "group relative flex items-center rounded-[var(--radius-03)]",
+        "hover:bg-[var(--color-blue-50)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.045)] hover:-translate-y-px",
+        "focus-visible:bg-[var(--color-blue-50)] focus-visible:shadow-[0_4px_12px_rgba(0,0,0,0.045)] focus-visible:-translate-y-px",
         "active:translate-y-0 active:scale-[0.995] active:bg-[var(--color-blue-100)]",
         "outline-none",
         "transition-fast"
@@ -165,9 +166,12 @@ function CaseStudyRow({
         gap: "var(--space-05)",
       }}
     >
-      {/* Thumbnail: static token veil + slight blur (lighter than Selected Work heroes) */}
+      {/* Thumbnail: restrained veil with subtle clarity feedback on row hover/focus */}
       <div
-        className="relative flex-shrink-0 overflow-hidden"
+        className={cn(
+          styles.caseRowThumbnail,
+          "relative flex-shrink-0 overflow-hidden"
+        )}
         style={{
           width: "var(--space-14)",
           height: "var(--space-11)",
@@ -181,21 +185,27 @@ function CaseStudyRow({
           alt={study.title}
           width={80}
           height={56}
-          className="h-full w-full object-cover [filter:blur(0.25px)]"
+          className={cn(styles.caseRowThumbnailImage, "h-full w-full object-cover")}
           sizes="80px"
         />
         <div
-          className="pointer-events-none absolute inset-0 z-[1]"
+          className={cn(
+            styles.caseRowThumbnailVeil,
+            "pointer-events-none absolute inset-0 z-[1]"
+          )}
           style={{
             backgroundImage:
-              "linear-gradient(180deg, color-mix(in srgb, var(--color-blue-900) 10%, transparent), color-mix(in srgb, var(--color-neutral-900) 20%, transparent))",
+              "linear-gradient(180deg, color-mix(in srgb, var(--color-blue-900) 4%, transparent), color-mix(in srgb, var(--color-neutral-900) 8%, transparent))",
           }}
           aria-hidden
         />
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0 flex flex-col justify-center">
+      <div
+        className="flex-1 min-w-0 flex flex-col justify-center"
+        style={{ paddingRight: "var(--space-07)" }}
+      >
         {/* Title row with metric */}
         <div className="flex items-baseline justify-between gap-[var(--space-04)]">
           <h4 
@@ -247,7 +257,7 @@ function CaseStudyRow({
         </p>
       </div>
 
-      {/* Right arrow: hidden until row hover/focus (see mega-menu.module.css) */}
+      {/* Bottom-right Carbon affordance: hidden until row hover/focus */}
       <span
         className={styles.caseRowArrow}
         style={{
@@ -255,19 +265,7 @@ function CaseStudyRow({
         }}
         aria-hidden="true"
       >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M5 12h14" />
-          <path d="M13 6l6 6-6 6" />
-        </svg>
+        <ArrowDownRight size={16} />
       </span>
     </Link>
   )

@@ -63,7 +63,7 @@ export function AboutSection() {
               {/* CTA Link — inline, left-aligned vs centered CTASection below */}
               <div style={{ marginTop: "var(--space-03)" }}>
                 <Link
-                  href="/case-studies/coca-cola"
+                  href="#featured-projects"
                   className="group focus-ring-standard inline-flex items-center clr-text-accent font-ui transition-fast rounded-[var(--radius-02)] outline-none hover:underline underline-offset-4"
                   style={{
                     fontSize: "var(--text-body-md)",
@@ -73,7 +73,7 @@ export function AboutSection() {
                     margin: "calc(var(--space-02) * -1) calc(var(--space-03) * -1)",
                   }}
                 >
-                  <span>View Case Study</span>
+                  <span>Explore Case Studies</span>
                   <ChevronRight
                     className="arrow-shift-right"
                     style={{

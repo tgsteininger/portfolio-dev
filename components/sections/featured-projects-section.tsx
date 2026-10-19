@@ -56,7 +56,7 @@ const featuredProjects: Project[] = [
     tags: ["Healthcare", "Role-Based", "Design System"],
     metrics: [
       { direction: "down", value: "20%", label: "faster task completion" },
-      { direction: "down", value: "25%", label: "clarification errors" },
+      { direction: "down", value: "25%", label: "fewer clarification errors" },
     ],
   },
   {
