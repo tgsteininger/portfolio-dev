@@ -1,5 +1,6 @@
 "use client"
 
+import { Launch } from "@carbon/icons-react"
 import Link from "next/link"
 import { openContactEmail } from "@/lib/contact-mailto"
 import { scrollToSection } from "@/lib/scroll-to-section"
@@ -61,6 +62,23 @@ export function SiteFooter() {
                 }}
               >
                 Senior product designer specializing in complex enterprise systems and high-stakes workflows.
+              </p>
+              <p
+                className="mt-[var(--space-03)] font-body text-[var(--color-neutral-400)]"
+                style={{
+                  fontSize: "var(--text-caption)",
+                }}
+              >
+                Made with{" "}
+                <a
+                  href="https://www.figma.com/design/v7KkZn4CvvXPubp4vVJKzB/Synthesis-UI?node-id=15008-95"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring-standard inline-flex items-center gap-[var(--space-02)] clr-text-accent font-medium transition-fast hover:underline underline-offset-4 outline-none rounded-[var(--radius-02)]"
+                >
+                  Synthesis UI
+                  <Launch size={16} aria-hidden="true" />
+                </a>
               </p>
             </div>
           </div>
