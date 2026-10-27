@@ -71,7 +71,7 @@ export function SiteFooter() {
               >
                 Made with{" "}
                 <a
-                  href="https://www.figma.com/design/v7KkZn4CvvXPubp4vVJKzB/Synthesis-UI?node-id=0-1"
+                  href="https://www.figma.com/design/v7KkZn4CvvXPubp4vVJKzB/Synthesis-UI"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="focus-ring-standard inline-flex items-center gap-[var(--space-02)] clr-text-accent font-medium transition-fast hover:underline underline-offset-4 outline-none rounded-[var(--radius-02)]"
